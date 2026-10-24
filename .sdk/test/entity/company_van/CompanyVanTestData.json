@@ -1,0 +1,93 @@
+{
+  "existing": {
+    "company_van": {
+      "COMPANY_VAN00": {
+        "associated_companies": 150,
+        "calculated_by": "s97",
+        "company_profits": 152,
+        "disclaimer": "s99",
+        "income_tax_rate": "s9a",
+        "input": {},
+        "months_available": 156,
+        "page_url": "s9d",
+        "price_paid": 158,
+        "private_fuel": false,
+        "result": {},
+        "share_url": "sa1",
+        "tax_year": "sa2",
+        "tool": "sa3",
+        "zero_emission": true,
+        "id": "COMPANY_VAN00"
+      },
+      "COMPANY_VAN01": {
+        "associated_companies": 300,
+        "calculated_by": "s12d",
+        "company_profits": 302,
+        "disclaimer": "s12f",
+        "income_tax_rate": "s130",
+        "input": {},
+        "months_available": 306,
+        "page_url": "s133",
+        "price_paid": 308,
+        "private_fuel": false,
+        "result": {},
+        "share_url": "s137",
+        "tax_year": "s138",
+        "tool": "s139",
+        "zero_emission": true,
+        "id": "COMPANY_VAN01"
+      },
+      "COMPANY_VAN02": {
+        "associated_companies": 450,
+        "calculated_by": "s1c3",
+        "company_profits": 452,
+        "disclaimer": "s1c5",
+        "income_tax_rate": "s1c6",
+        "input": {},
+        "months_available": 456,
+        "page_url": "s1c9",
+        "price_paid": 458,
+        "private_fuel": false,
+        "result": {},
+        "share_url": "s1cd",
+        "tax_year": "s1ce",
+        "tool": "s1cf",
+        "zero_emission": true,
+        "id": "COMPANY_VAN02"
+      }
+    }
+  },
+  "new": {
+    "company_van": {
+      "company_van_ref01": {
+        "associated_companies": 600,
+        "calculated_by": "s259",
+        "company_profits": 602,
+        "disclaimer": "s25b",
+        "income_tax_rate": "s25c",
+        "input": {},
+        "months_available": 606,
+        "page_url": "s25f",
+        "price_paid": 608,
+        "private_fuel": false,
+        "result": {},
+        "share_url": "s263",
+        "tax_year": "s264",
+        "tool": "s265",
+        "zero_emission": true
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/company-van": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/company-van": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

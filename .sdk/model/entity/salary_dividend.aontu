@@ -1,0 +1,263 @@
+# Entity: salary_dividend
+
+main: kit: entity: salary_dividend: {
+
+  alias: field: {}
+
+  fields: {
+    associated_companies: {
+      h: "Associated Companies"
+      n: "associated_companies"
+      r: false
+      sh: "Number of associated companies (companies under common control) that share the £50,000 and £250,000 Corporation Tax limits."
+      t: "`$INTEGER`"
+    }
+    calculated_by: {
+      h: "Calculated By"
+      n: "calculated_by"
+      r: true
+      t: "`$STRING`"
+    }
+    company_profit: {
+      h: "Company Profit"
+      n: "company_profit"
+      r: true
+      sh: "The company's profit for the year before paying the director any salary, after all its other costs, in pounds."
+      t: "`$NUMBER`"
+    }
+    director_only_employee: {
+      h: "Director Only Employee"
+      n: "director_only_employee"
+      r: false
+      sh: "true if the director is the company's only employee paid over £5,000 a year (the usual one-person company): the company then can't claim the Employment Allowance."
+      t: "`$BOOLEAN`"
+    }
+    disclaimer: {
+      h: "Disclaimer"
+      n: "disclaimer"
+      r: true
+      t: "`$STRING`"
+    }
+    input: {
+      h: "Input"
+      n: "input"
+      r: true
+      sh: "The input as the tool read it (dates YYYY-MM-DD, money in pounds)."
+      t: "`$OBJECT`"
+    }
+    other_income: {
+      h: "Other Income"
+      n: "other_income"
+      r: false
+      sh: "The director's other taxable income for the tax year from outside this company, such as another job, a pension or rental profit, in pounds."
+      t: "`$NUMBER`"
+    }
+    page_url: {
+      fo: "uri"
+      h: "Page Url"
+      n: "page_url"
+      r: true
+      t: "`$STRING`"
+    }
+    result: {
+      h: "Result"
+      n: "result"
+      r: true
+      t: "`$OBJECT`"
+    }
+    salary: {
+      h: "Salary"
+      n: "salary"
+      r: false
+      sh: "Optional: a salary you want to compare with the standard options, in pounds a year."
+      t: "`$NUMBER`"
+    }
+    scottish_taxpayer: {
+      h: "Scottish Taxpayer"
+      n: "scottish_taxpayer"
+      r: false
+      sh: "true if the person pays Scottish Income Tax (their main home is in Scotland): salary, trading profit and other income use the Scottish bands."
+      t: "`$BOOLEAN`"
+    }
+    share_url: {
+      fo: "uri"
+      h: "Share Url"
+      n: "share_url"
+      r: true
+      sh: "A link to this result on taxley.co.uk."
+      t: "`$STRING`"
+    }
+    tax_year: {
+      h: "Tax Year"
+      n: "tax_year"
+      r: false
+      sh: "UK tax year, \"2025-26\" or \"2026-27\" (6 April to 5 April)."
+      t: "`$STRING`"
+    }
+    tool: {
+      h: "Tool"
+      n: "tool"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "salary_dividend"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "associated_companies"
+            "company_profit"
+            "director_only_employee"
+            "other_income"
+            "salary"
+            "scottish_taxpayer"
+            "tax_year"
+          ]
+          co: {
+            id: "POST /api/v1/tools/salary-dividends"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/v1/tools/salary-dividends"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "salary-dividends"
+            }
+          ]
+          t: {
+            req: {
+              associated_companies: "`reqdata.associated_company`"
+              company_profit: "`reqdata.company_profit`"
+              director_only_employee: "`reqdata.director_only_employee`"
+              other_income: "`reqdata.other_income`"
+              salary: "`reqdata.salary`"
+              scottish_taxpayer: "`reqdata.scottish_taxpayer`"
+              tax_year: "`reqdata.tax_year`"
+            }
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/tools/salary-dividends"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 0
+                k: "query"
+                n: "associated_company"
+                or: "associated_companies"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 60000
+                k: "query"
+                n: "company_profit"
+                or: "company_profit"
+                r: true
+                t: "`$NUMBER`"
+              }
+              {
+                ex: true
+                k: "query"
+                n: "director_only_employee"
+                or: "director_only_employee"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+              {
+                k: "query"
+                n: "other_income"
+                or: "other_income"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "salary"
+                or: "salary"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                ex: false
+                k: "query"
+                n: "scottish_taxpayer"
+                or: "scottish_taxpayer"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+              {
+                ex: "2026-27"
+                k: "query"
+                n: "tax_year"
+                or: "tax_year"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/tools/salary-dividends"
+          q: {
+            exist: [
+              "company_profit"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "salary-dividends"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -1,0 +1,36 @@
+# BasicDividendReserveFlow
+
+main: kit: flow: BasicDividendReserveFlow:
+{
+  entity: "dividend_reserve",
+  kind: "basic",
+  name: "BasicDividendReserveFlow",
+  step: [
+    {
+      i: {
+        ref: "dividend_reserve_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "dividend_reserve_ref01",
+        srcdatavar: "dividend_reserve_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-dividend_reserve_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicDividendReserveFlow"
+}

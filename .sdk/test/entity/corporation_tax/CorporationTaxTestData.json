@@ -1,0 +1,85 @@
+{
+  "existing": {
+    "corporation_tax": {
+      "CORPORATION_TAX00": {
+        "associated_companies": 130,
+        "calculated_by": "s83",
+        "close_investment_holding": true,
+        "disclaimer": "s85",
+        "exempt_distributions": 134,
+        "input": {},
+        "page_url": "s88",
+        "period_end": "s89",
+        "period_start": "s8a",
+        "result": {},
+        "share_url": "s8c",
+        "taxable_profits": 141,
+        "tool": "s8e",
+        "id": "CORPORATION_TAX00"
+      },
+      "CORPORATION_TAX01": {
+        "associated_companies": 260,
+        "calculated_by": "s105",
+        "close_investment_holding": true,
+        "disclaimer": "s107",
+        "exempt_distributions": 264,
+        "input": {},
+        "page_url": "s10a",
+        "period_end": "s10b",
+        "period_start": "s10c",
+        "result": {},
+        "share_url": "s10e",
+        "taxable_profits": 271,
+        "tool": "s110",
+        "id": "CORPORATION_TAX01"
+      },
+      "CORPORATION_TAX02": {
+        "associated_companies": 390,
+        "calculated_by": "s187",
+        "close_investment_holding": true,
+        "disclaimer": "s189",
+        "exempt_distributions": 394,
+        "input": {},
+        "page_url": "s18c",
+        "period_end": "s18d",
+        "period_start": "s18e",
+        "result": {},
+        "share_url": "s190",
+        "taxable_profits": 401,
+        "tool": "s192",
+        "id": "CORPORATION_TAX02"
+      }
+    }
+  },
+  "new": {
+    "corporation_tax": {
+      "corporation_tax_ref01": {
+        "associated_companies": 520,
+        "calculated_by": "s209",
+        "close_investment_holding": true,
+        "disclaimer": "s20b",
+        "exempt_distributions": 524,
+        "input": {},
+        "page_url": "s20e",
+        "period_end": "s20f",
+        "period_start": "s210",
+        "result": {},
+        "share_url": "s212",
+        "taxable_profits": 531,
+        "tool": "s214"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/corporation-tax": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/corporation-tax": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

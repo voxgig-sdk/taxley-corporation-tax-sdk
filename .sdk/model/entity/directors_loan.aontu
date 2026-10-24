@@ -1,0 +1,327 @@
+# Entity: directors_loan
+
+main: kit: entity: directors_loan: {
+
+  alias: field: {}
+
+  fields: {
+    benefit_closing_balance: {
+      h: "Benefit Closing Balance"
+      n: "benefit_closing_balance"
+      r: false
+      sh: "Maximum loan balance on 5 April at the end of the selected tax year, or when the loan ended, in pounds."
+      t: "`$NUMBER`"
+    }
+    benefit_interest_paid: {
+      h: "Benefit Interest Paid"
+      n: "benefit_interest_paid"
+      r: false
+      sh: "Interest the director was required to pay and actually paid for the selected tax year, in pounds."
+      t: "`$NUMBER`"
+    }
+    benefit_maximum_balance: {
+      h: "Benefit Maximum Balance"
+      n: "benefit_maximum_balance"
+      r: false
+      sh: "Highest total beneficial-loan balance at any time in the tax year, in pounds, used for the £10,000 exemption."
+      t: "`$NUMBER`"
+    }
+    benefit_opening_balance: {
+      h: "Benefit Opening Balance"
+      n: "benefit_opening_balance"
+      r: false
+      sh: "Maximum loan balance on 5 April before the selected tax year, or when the loan began, in pounds."
+      t: "`$NUMBER`"
+    }
+    benefit_tax_year: {
+      h: "Benefit Tax Year"
+      n: "benefit_tax_year"
+      r: false
+      sh: "Optional UK tax year for the beneficial-loan calculation: 2025-26 or 2026-27."
+      t: "`$STRING`"
+    }
+    benefit_whole_months: {
+      h: "Benefit Whole Months"
+      n: "benefit_whole_months"
+      r: false
+      sh: "Whole months the loan was outstanding in the selected tax year, from 1 to 12."
+      t: "`$INTEGER`"
+    }
+    calculated_by: {
+      h: "Calculated By"
+      n: "calculated_by"
+      r: true
+      t: "`$STRING`"
+    }
+    disclaimer: {
+      h: "Disclaimer"
+      n: "disclaimer"
+      r: true
+      t: "`$STRING`"
+    }
+    input: {
+      h: "Input"
+      n: "input"
+      r: true
+      sh: "The input as the tool read it (dates YYYY-MM-DD, money in pounds)."
+      t: "`$OBJECT`"
+    }
+    loan_made_on: {
+      fo: "date"
+      h: "Loan Made On"
+      n: "loan_made_on"
+      r: false
+      sh: "Date the loan was made, YYYY-MM-DD, within the accounting period."
+      t: "`$STRING`"
+    }
+    marginal_income_tax_rate: {
+      h: "Marginal Income Tax Rate"
+      n: "marginal_income_tax_rate"
+      r: false
+      sh: "Director’s marginal Income Tax rate as a percentage, used only to estimate personal tax on the benefit."
+      t: "`$NUMBER`"
+    }
+    outstanding: {
+      h: "Outstanding"
+      n: "outstanding"
+      r: true
+      sh: "Loan balance the director or other participator owed the company at the period end, in pounds."
+      t: "`$NUMBER`"
+    }
+    page_url: {
+      fo: "uri"
+      h: "Page Url"
+      n: "page_url"
+      r: true
+      t: "`$STRING`"
+    }
+    period_end: {
+      fo: "date"
+      h: "Period End"
+      n: "period_end"
+      r: true
+      sh: "Last day of the company's Corporation Tax accounting period, YYYY-MM-DD."
+      t: "`$STRING`"
+    }
+    repaid_within_9_months: {
+      h: "Repaid Within 9 Months"
+      n: "repaid_within_9_months"
+      r: false
+      sh: "Part of that balance repaid, released or written off after the period end and within 9 months of it (before the s.455 tax is due), in pounds."
+      t: "`$NUMBER`"
+    }
+    result: {
+      h: "Result"
+      n: "result"
+      r: true
+      t: "`$OBJECT`"
+    }
+    share_url: {
+      fo: "uri"
+      h: "Share Url"
+      n: "share_url"
+      r: true
+      sh: "A link to this result on taxley.co.uk."
+      t: "`$STRING`"
+    }
+    tool: {
+      h: "Tool"
+      n: "tool"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "directors_loan"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "benefit_closing_balance"
+            "benefit_interest_paid"
+            "benefit_maximum_balance"
+            "benefit_opening_balance"
+            "benefit_tax_year"
+            "benefit_whole_months"
+            "loan_made_on"
+            "marginal_income_tax_rate"
+            "outstanding"
+            "period_end"
+            "repaid_within_9_months"
+          ]
+          co: {
+            id: "POST /api/v1/tools/directors-loan"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/v1/tools/directors-loan"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "directors-loan"
+            }
+          ]
+          t: {
+            req: {
+              benefit_closing_balance: "`reqdata.benefit_closing_balance`"
+              benefit_interest_paid: "`reqdata.benefit_interest_paid`"
+              benefit_maximum_balance: "`reqdata.benefit_maximum_balance`"
+              benefit_opening_balance: "`reqdata.benefit_opening_balance`"
+              benefit_tax_year: "`reqdata.benefit_tax_year`"
+              benefit_whole_months: "`reqdata.benefit_whole_month`"
+              loan_made_on: "`reqdata.loan_made_on`"
+              marginal_income_tax_rate: "`reqdata.marginal_income_tax_rate`"
+              outstanding: "`reqdata.outstanding`"
+              period_end: "`reqdata.period_end`"
+              repaid_within_9_months: "`reqdata.repaid_within_9_month`"
+            }
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/tools/directors-loan"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "benefit_closing_balance"
+                or: "benefit_closing_balance"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "benefit_interest_paid"
+                or: "benefit_interest_paid"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "benefit_maximum_balance"
+                or: "benefit_maximum_balance"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "benefit_opening_balance"
+                or: "benefit_opening_balance"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "benefit_tax_year"
+                or: "benefit_tax_year"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "benefit_whole_month"
+                or: "benefit_whole_months"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "loan_made_on"
+                or: "loan_made_on"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "marginal_income_tax_rate"
+                or: "marginal_income_tax_rate"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                ex: 25000
+                k: "query"
+                n: "outstanding"
+                or: "outstanding"
+                r: true
+                t: "`$NUMBER`"
+              }
+              {
+                ex: "2026-03-31"
+                k: "query"
+                n: "period_end"
+                or: "period_end"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "repaid_within_9_month"
+                or: "repaid_within_9_months"
+                r: false
+                t: "`$NUMBER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/tools/directors-loan"
+          q: {
+            exist: [
+              "outstanding"
+              "period_end"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "directors-loan"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

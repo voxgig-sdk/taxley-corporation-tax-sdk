@@ -1,0 +1,36 @@
+# BasicSoleTraderVsLimitedFlow
+
+main: kit: flow: BasicSoleTraderVsLimitedFlow:
+{
+  entity: "sole_trader_vs_limited",
+  kind: "basic",
+  name: "BasicSoleTraderVsLimitedFlow",
+  step: [
+    {
+      i: {
+        ref: "sole_trader_vs_limited_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "sole_trader_vs_limited_ref01",
+        srcdatavar: "sole_trader_vs_limited_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-sole_trader_vs_limited_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicSoleTraderVsLimitedFlow"
+}

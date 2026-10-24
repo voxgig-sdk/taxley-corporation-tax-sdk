@@ -1,0 +1,77 @@
+{
+  "existing": {
+    "dividend_reserve": {
+      "DIVIDEND_RESERVE00": {
+        "calculated_by": "s6e",
+        "disclaimer": "s6f",
+        "dividends_already_paid": 112,
+        "input": {},
+        "page_url": "s72",
+        "profit_after_tax": 115,
+        "proposed_dividend": 116,
+        "result": {},
+        "retained_profits_brought_forward": 118,
+        "share_url": "s77",
+        "tool": "s78",
+        "id": "DIVIDEND_RESERVE00"
+      },
+      "DIVIDEND_RESERVE01": {
+        "calculated_by": "sdc",
+        "disclaimer": "sdd",
+        "dividends_already_paid": 222,
+        "input": {},
+        "page_url": "se0",
+        "profit_after_tax": 225,
+        "proposed_dividend": 226,
+        "result": {},
+        "retained_profits_brought_forward": 228,
+        "share_url": "se5",
+        "tool": "se6",
+        "id": "DIVIDEND_RESERVE01"
+      },
+      "DIVIDEND_RESERVE02": {
+        "calculated_by": "s14a",
+        "disclaimer": "s14b",
+        "dividends_already_paid": 332,
+        "input": {},
+        "page_url": "s14e",
+        "profit_after_tax": 335,
+        "proposed_dividend": 336,
+        "result": {},
+        "retained_profits_brought_forward": 338,
+        "share_url": "s153",
+        "tool": "s154",
+        "id": "DIVIDEND_RESERVE02"
+      }
+    }
+  },
+  "new": {
+    "dividend_reserve": {
+      "dividend_reserve_ref01": {
+        "calculated_by": "s1b8",
+        "disclaimer": "s1b9",
+        "dividends_already_paid": 442,
+        "input": {},
+        "page_url": "s1bc",
+        "profit_after_tax": 445,
+        "proposed_dividend": 446,
+        "result": {},
+        "retained_profits_brought_forward": 448,
+        "share_url": "s1c1",
+        "tool": "s1c2"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/dividend-reserves": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/dividend-reserves": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "existing": {
+    "capital_allowance": {
+      "CAPITAL_ALLOWANCE00": {
+        "aia_shared": 220,
+        "calculated_by": "sdd",
+        "disclaimer": "sde",
+        "full_expensed_disposals": 223,
+        "input": {},
+        "main_pool_brought_forward": 225,
+        "main_pool_disposals": 226,
+        "new_main_plant": 227,
+        "new_special_rate": 228,
+        "other_cars_high_co2": 229,
+        "other_cars_low_co2": 230,
+        "page_url": "se7",
+        "period_end": "se8",
+        "period_start": "se9",
+        "result": {},
+        "share_url": "seb",
+        "special_pool_brought_forward": 236,
+        "spend_date": "sed",
+        "tool": "see",
+        "used_main_plant": 239,
+        "used_special_rate": 240,
+        "zero_emission_cars": 241,
+        "id": "CAPITAL_ALLOWANCE00"
+      },
+      "CAPITAL_ALLOWANCE01": {
+        "aia_shared": 440,
+        "calculated_by": "s1b9",
+        "disclaimer": "s1ba",
+        "full_expensed_disposals": 443,
+        "input": {},
+        "main_pool_brought_forward": 445,
+        "main_pool_disposals": 446,
+        "new_main_plant": 447,
+        "new_special_rate": 448,
+        "other_cars_high_co2": 449,
+        "other_cars_low_co2": 450,
+        "page_url": "s1c3",
+        "period_end": "s1c4",
+        "period_start": "s1c5",
+        "result": {},
+        "share_url": "s1c7",
+        "special_pool_brought_forward": 456,
+        "spend_date": "s1c9",
+        "tool": "s1ca",
+        "used_main_plant": 459,
+        "used_special_rate": 460,
+        "zero_emission_cars": 461,
+        "id": "CAPITAL_ALLOWANCE01"
+      },
+      "CAPITAL_ALLOWANCE02": {
+        "aia_shared": 660,
+        "calculated_by": "s295",
+        "disclaimer": "s296",
+        "full_expensed_disposals": 663,
+        "input": {},
+        "main_pool_brought_forward": 665,
+        "main_pool_disposals": 666,
+        "new_main_plant": 667,
+        "new_special_rate": 668,
+        "other_cars_high_co2": 669,
+        "other_cars_low_co2": 670,
+        "page_url": "s29f",
+        "period_end": "s2a0",
+        "period_start": "s2a1",
+        "result": {},
+        "share_url": "s2a3",
+        "special_pool_brought_forward": 676,
+        "spend_date": "s2a5",
+        "tool": "s2a6",
+        "used_main_plant": 679,
+        "used_special_rate": 680,
+        "zero_emission_cars": 681,
+        "id": "CAPITAL_ALLOWANCE02"
+      }
+    }
+  },
+  "new": {
+    "capital_allowance": {
+      "capital_allowance_ref01": {
+        "aia_shared": 880,
+        "calculated_by": "s371",
+        "disclaimer": "s372",
+        "full_expensed_disposals": 883,
+        "input": {},
+        "main_pool_brought_forward": 885,
+        "main_pool_disposals": 886,
+        "new_main_plant": 887,
+        "new_special_rate": 888,
+        "other_cars_high_co2": 889,
+        "other_cars_low_co2": 890,
+        "page_url": "s37b",
+        "period_end": "s37c",
+        "period_start": "s37d",
+        "result": {},
+        "share_url": "s37f",
+        "special_pool_brought_forward": 896,
+        "spend_date": "s381",
+        "tool": "s382",
+        "used_main_plant": 899,
+        "used_special_rate": 900,
+        "zero_emission_cars": 901
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/capital-allowances": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/capital-allowances": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

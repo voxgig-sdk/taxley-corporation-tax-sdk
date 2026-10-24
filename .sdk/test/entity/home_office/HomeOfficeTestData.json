@@ -1,0 +1,77 @@
+{
+  "existing": {
+    "home_office": {
+      "HOME_OFFICE00": {
+        "actual_additional_costs": 110,
+        "calculated_by": "s6f",
+        "disclaimer": "s70",
+        "frequency": "s71",
+        "input": {},
+        "page_url": "s73",
+        "periods": 116,
+        "result": {},
+        "share_url": "s76",
+        "tax_year": "s77",
+        "tool": "s78",
+        "id": "HOME_OFFICE00"
+      },
+      "HOME_OFFICE01": {
+        "actual_additional_costs": 220,
+        "calculated_by": "sdd",
+        "disclaimer": "sde",
+        "frequency": "sdf",
+        "input": {},
+        "page_url": "se1",
+        "periods": 226,
+        "result": {},
+        "share_url": "se4",
+        "tax_year": "se5",
+        "tool": "se6",
+        "id": "HOME_OFFICE01"
+      },
+      "HOME_OFFICE02": {
+        "actual_additional_costs": 330,
+        "calculated_by": "s14b",
+        "disclaimer": "s14c",
+        "frequency": "s14d",
+        "input": {},
+        "page_url": "s14f",
+        "periods": 336,
+        "result": {},
+        "share_url": "s152",
+        "tax_year": "s153",
+        "tool": "s154",
+        "id": "HOME_OFFICE02"
+      }
+    }
+  },
+  "new": {
+    "home_office": {
+      "home_office_ref01": {
+        "actual_additional_costs": 440,
+        "calculated_by": "s1b9",
+        "disclaimer": "s1ba",
+        "frequency": "s1bb",
+        "input": {},
+        "page_url": "s1bd",
+        "periods": 446,
+        "result": {},
+        "share_url": "s1c0",
+        "tax_year": "s1c1",
+        "tool": "s1c2"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/home-office": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/home-office": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "existing": {
+    "company_size": {
+      "COMPANY_SIZE00": {
+        "balance_sheet_total": 170,
+        "calculated_by": "sab",
+        "disclaimer": "sac",
+        "employees": 173,
+        "first_year": true,
+        "input": {},
+        "page_url": "sb0",
+        "period_end": "sb1",
+        "period_start": "sb2",
+        "prev_balance_sheet_total": 179,
+        "prev_employees": 180,
+        "prev_size": "sb5",
+        "prev_turnover": 182,
+        "result": {},
+        "share_url": "sb8",
+        "tool": "sb9",
+        "turnover": 186,
+        "id": "COMPANY_SIZE00"
+      },
+      "COMPANY_SIZE01": {
+        "balance_sheet_total": 340,
+        "calculated_by": "s155",
+        "disclaimer": "s156",
+        "employees": 343,
+        "first_year": true,
+        "input": {},
+        "page_url": "s15a",
+        "period_end": "s15b",
+        "period_start": "s15c",
+        "prev_balance_sheet_total": 349,
+        "prev_employees": 350,
+        "prev_size": "s15f",
+        "prev_turnover": 352,
+        "result": {},
+        "share_url": "s162",
+        "tool": "s163",
+        "turnover": 356,
+        "id": "COMPANY_SIZE01"
+      },
+      "COMPANY_SIZE02": {
+        "balance_sheet_total": 510,
+        "calculated_by": "s1ff",
+        "disclaimer": "s200",
+        "employees": 513,
+        "first_year": true,
+        "input": {},
+        "page_url": "s204",
+        "period_end": "s205",
+        "period_start": "s206",
+        "prev_balance_sheet_total": 519,
+        "prev_employees": 520,
+        "prev_size": "s209",
+        "prev_turnover": 522,
+        "result": {},
+        "share_url": "s20c",
+        "tool": "s20d",
+        "turnover": 526,
+        "id": "COMPANY_SIZE02"
+      }
+    }
+  },
+  "new": {
+    "company_size": {
+      "company_size_ref01": {
+        "balance_sheet_total": 680,
+        "calculated_by": "s2a9",
+        "disclaimer": "s2aa",
+        "employees": 683,
+        "first_year": true,
+        "input": {},
+        "page_url": "s2ae",
+        "period_end": "s2af",
+        "period_start": "s2b0",
+        "prev_balance_sheet_total": 689,
+        "prev_employees": 690,
+        "prev_size": "s2b3",
+        "prev_turnover": 692,
+        "result": {},
+        "share_url": "s2b6",
+        "tool": "s2b7",
+        "turnover": 696
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/company-size": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/company-size": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

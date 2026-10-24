@@ -1,0 +1,36 @@
+# BasicSalaryDividendFlow
+
+main: kit: flow: BasicSalaryDividendFlow:
+{
+  entity: "salary_dividend",
+  kind: "basic",
+  name: "BasicSalaryDividendFlow",
+  step: [
+    {
+      i: {
+        ref: "salary_dividend_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "salary_dividend_ref01",
+        srcdatavar: "salary_dividend_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-salary_dividend_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicSalaryDividendFlow"
+}

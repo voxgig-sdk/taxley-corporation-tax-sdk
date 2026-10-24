@@ -1,0 +1,72 @@
+<?php
+declare(strict_types=1);
+
+// TaxleyCorporationTax SDK utility registration
+
+require_once __DIR__ . '/../core/UtilityType.php';
+require_once __DIR__ . '/Clean.php';
+require_once __DIR__ . '/Done.php';
+require_once __DIR__ . '/MakeError.php';
+require_once __DIR__ . '/FeatureAdd.php';
+require_once __DIR__ . '/FeatureHook.php';
+require_once __DIR__ . '/FeatureInit.php';
+require_once __DIR__ . '/Fetcher.php';
+require_once __DIR__ . '/MakeFetchDef.php';
+require_once __DIR__ . '/MakeContext.php';
+require_once __DIR__ . '/MakeOptions.php';
+require_once __DIR__ . '/MakeRequest.php';
+require_once __DIR__ . '/MakeResponse.php';
+require_once __DIR__ . '/MakeResult.php';
+require_once __DIR__ . '/MakePoint.php';
+require_once __DIR__ . '/MakeSpec.php';
+require_once __DIR__ . '/MakeUrl.php';
+require_once __DIR__ . '/Param.php';
+require_once __DIR__ . '/PrepareAuth.php';
+require_once __DIR__ . '/PrepareBody.php';
+require_once __DIR__ . '/Graphql.php';
+require_once __DIR__ . '/PrepareHeaders.php';
+require_once __DIR__ . '/PrepareMethod.php';
+require_once __DIR__ . '/PrepareParams.php';
+require_once __DIR__ . '/PreparePath.php';
+require_once __DIR__ . '/PrepareQuery.php';
+require_once __DIR__ . '/ResultBasic.php';
+require_once __DIR__ . '/ResultBody.php';
+require_once __DIR__ . '/ResultHeaders.php';
+require_once __DIR__ . '/TransformRequest.php';
+require_once __DIR__ . '/TransformResponse.php';
+
+TaxleyCorporationTaxUtility::setRegistrar(function (TaxleyCorporationTaxUtility $u): void {
+    $u->clean = [TaxleyCorporationTaxClean::class, 'call'];
+    $u->clean_add = [TaxleyCorporationTaxClean::class, 'add'];
+    $u->clean_explain = [TaxleyCorporationTaxDone::class, 'clean_explain'];
+    $u->done = [TaxleyCorporationTaxDone::class, 'call'];
+    $u->make_error = [TaxleyCorporationTaxMakeError::class, 'call'];
+    $u->feature_add = [TaxleyCorporationTaxFeatureAdd::class, 'call'];
+    $u->feature_hook = [TaxleyCorporationTaxFeatureHook::class, 'call'];
+    $u->feature_init = [TaxleyCorporationTaxFeatureInit::class, 'call'];
+    $u->fetcher = [TaxleyCorporationTaxFetcher::class, 'call'];
+    $u->make_fetch_def = [TaxleyCorporationTaxMakeFetchDef::class, 'call'];
+    $u->make_context = [TaxleyCorporationTaxMakeContext::class, 'call'];
+    $u->make_options = [TaxleyCorporationTaxMakeOptions::class, 'call'];
+    $u->make_request = [TaxleyCorporationTaxMakeRequest::class, 'call'];
+    $u->make_response = [TaxleyCorporationTaxMakeResponse::class, 'call'];
+    $u->make_result = [TaxleyCorporationTaxMakeResult::class, 'call'];
+    $u->make_point = [TaxleyCorporationTaxMakePoint::class, 'call'];
+    $u->make_spec = [TaxleyCorporationTaxMakeSpec::class, 'call'];
+    $u->make_url = [TaxleyCorporationTaxMakeUrl::class, 'call'];
+    $u->param = [TaxleyCorporationTaxParam::class, 'call'];
+    $u->prepare_auth = [TaxleyCorporationTaxPrepareAuth::class, 'call'];
+    $u->prepare_body = [TaxleyCorporationTaxPrepareBody::class, 'call'];
+    $u->prepare_headers = [TaxleyCorporationTaxPrepareHeaders::class, 'call'];
+    $u->prepare_method = [TaxleyCorporationTaxPrepareMethod::class, 'call'];
+    $u->prepare_params = [TaxleyCorporationTaxPrepareParams::class, 'call'];
+    $u->prepare_path = [TaxleyCorporationTaxPreparePath::class, 'call'];
+    $u->prepare_query = [TaxleyCorporationTaxPrepareQuery::class, 'call'];
+    $u->graphql_body = [TaxleyCorporationTaxGraphql::class, 'body'];
+    $u->graphql_errors = [TaxleyCorporationTaxGraphql::class, 'errors'];
+    $u->result_basic = [TaxleyCorporationTaxResultBasic::class, 'call'];
+    $u->result_body = [TaxleyCorporationTaxResultBody::class, 'call'];
+    $u->result_headers = [TaxleyCorporationTaxResultHeaders::class, 'call'];
+    $u->transform_request = [TaxleyCorporationTaxTransformRequest::class, 'call'];
+    $u->transform_response = [TaxleyCorporationTaxTransformResponse::class, 'call'];
+});

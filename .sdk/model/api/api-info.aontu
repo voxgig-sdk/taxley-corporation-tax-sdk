@@ -1,0 +1,25 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      auth: false
+      contact: {
+        name: "Taxley"
+        url: "https://taxley.co.uk/developers"
+      }
+      description: "Free calculators for UK limited companies: the same results as the tool pages on taxley.co.uk. No key needed; please link to the share_url when you use a result. General guidance from Taxley's free calculator, based on the rules published on GOV.UK. It is not tax advice; check your own figures before you file or pay."
+      servers: [
+        {
+          url: "https://taxley.co.uk"
+        }
+      ]
+      summary: "Free calculators for UK limited companies: the same results as the tool pages on taxley.co.uk."
+      title: "Taxley free UK Corporation Tax tools"
+      version: "1.0.0"
+      website: "https://taxley.co.uk/developers"
+    }
+  }
+}
+

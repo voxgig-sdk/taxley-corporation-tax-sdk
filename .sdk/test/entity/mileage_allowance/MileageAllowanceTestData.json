@@ -1,0 +1,77 @@
+{
+  "existing": {
+    "mileage_allowance": {
+      "MILEAGE_ALLOWANCE00": {
+        "business_miles": 110,
+        "calculated_by": "s6f",
+        "disclaimer": "s70",
+        "employer_payment": 113,
+        "input": {},
+        "page_url": "s73",
+        "result": {},
+        "share_url": "s75",
+        "tax_year": "s76",
+        "tool": "s77",
+        "vehicle": "s78",
+        "id": "MILEAGE_ALLOWANCE00"
+      },
+      "MILEAGE_ALLOWANCE01": {
+        "business_miles": 220,
+        "calculated_by": "sdd",
+        "disclaimer": "sde",
+        "employer_payment": 223,
+        "input": {},
+        "page_url": "se1",
+        "result": {},
+        "share_url": "se3",
+        "tax_year": "se4",
+        "tool": "se5",
+        "vehicle": "se6",
+        "id": "MILEAGE_ALLOWANCE01"
+      },
+      "MILEAGE_ALLOWANCE02": {
+        "business_miles": 330,
+        "calculated_by": "s14b",
+        "disclaimer": "s14c",
+        "employer_payment": 333,
+        "input": {},
+        "page_url": "s14f",
+        "result": {},
+        "share_url": "s151",
+        "tax_year": "s152",
+        "tool": "s153",
+        "vehicle": "s154",
+        "id": "MILEAGE_ALLOWANCE02"
+      }
+    }
+  },
+  "new": {
+    "mileage_allowance": {
+      "mileage_allowance_ref01": {
+        "business_miles": 440,
+        "calculated_by": "s1b9",
+        "disclaimer": "s1ba",
+        "employer_payment": 443,
+        "input": {},
+        "page_url": "s1bd",
+        "result": {},
+        "share_url": "s1bf",
+        "tax_year": "s1c0",
+        "tool": "s1c1",
+        "vehicle": "s1c2"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/mileage-allowance": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/mileage-allowance": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

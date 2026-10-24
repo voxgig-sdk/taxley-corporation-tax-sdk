@@ -1,0 +1,36 @@
+# BasicMileageAllowanceFlow
+
+main: kit: flow: BasicMileageAllowanceFlow:
+{
+  entity: "mileage_allowance",
+  kind: "basic",
+  name: "BasicMileageAllowanceFlow",
+  step: [
+    {
+      i: {
+        ref: "mileage_allowance_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "mileage_allowance_ref01",
+        srcdatavar: "mileage_allowance_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-mileage_allowance_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicMileageAllowanceFlow"
+}

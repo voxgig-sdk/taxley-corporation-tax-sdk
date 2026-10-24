@@ -1,0 +1,129 @@
+{
+  "existing": {
+    "company_car": {
+      "COMPANY_CAR00": {
+        "acquisition": "sf0",
+        "annual_lease_cost": 241,
+        "associated_companies": 242,
+        "calculated_by": "sf3",
+        "capital_contribution": 244,
+        "co2_gkm": 245,
+        "company_profits": 246,
+        "disclaimer": "sf7",
+        "electric_range_miles": 248,
+        "fuel_type": "sf9",
+        "income_tax_rate": "sfa",
+        "input": {},
+        "lease_started": "sfc",
+        "list_price": 253,
+        "months_available": 254,
+        "new_car": false,
+        "page_url": "s100",
+        "phev_easement": false,
+        "price_paid": 258,
+        "private_fuel": false,
+        "result": {},
+        "share_url": "s105",
+        "tax_year": "s106",
+        "tool": "s107",
+        "id": "COMPANY_CAR00"
+      },
+      "COMPANY_CAR01": {
+        "acquisition": "s1e0",
+        "annual_lease_cost": 481,
+        "associated_companies": 482,
+        "calculated_by": "s1e3",
+        "capital_contribution": 484,
+        "co2_gkm": 485,
+        "company_profits": 486,
+        "disclaimer": "s1e7",
+        "electric_range_miles": 488,
+        "fuel_type": "s1e9",
+        "income_tax_rate": "s1ea",
+        "input": {},
+        "lease_started": "s1ec",
+        "list_price": 493,
+        "months_available": 494,
+        "new_car": false,
+        "page_url": "s1f0",
+        "phev_easement": false,
+        "price_paid": 498,
+        "private_fuel": false,
+        "result": {},
+        "share_url": "s1f5",
+        "tax_year": "s1f6",
+        "tool": "s1f7",
+        "id": "COMPANY_CAR01"
+      },
+      "COMPANY_CAR02": {
+        "acquisition": "s2d0",
+        "annual_lease_cost": 721,
+        "associated_companies": 722,
+        "calculated_by": "s2d3",
+        "capital_contribution": 724,
+        "co2_gkm": 725,
+        "company_profits": 726,
+        "disclaimer": "s2d7",
+        "electric_range_miles": 728,
+        "fuel_type": "s2d9",
+        "income_tax_rate": "s2da",
+        "input": {},
+        "lease_started": "s2dc",
+        "list_price": 733,
+        "months_available": 734,
+        "new_car": false,
+        "page_url": "s2e0",
+        "phev_easement": false,
+        "price_paid": 738,
+        "private_fuel": false,
+        "result": {},
+        "share_url": "s2e5",
+        "tax_year": "s2e6",
+        "tool": "s2e7",
+        "id": "COMPANY_CAR02"
+      }
+    }
+  },
+  "new": {
+    "company_car": {
+      "company_car_ref01": {
+        "acquisition": "s3c0",
+        "annual_lease_cost": 961,
+        "associated_companies": 962,
+        "calculated_by": "s3c3",
+        "capital_contribution": 964,
+        "co2_gkm": 965,
+        "company_profits": 966,
+        "disclaimer": "s3c7",
+        "electric_range_miles": 968,
+        "fuel_type": "s3c9",
+        "income_tax_rate": "s3ca",
+        "input": {},
+        "lease_started": "s3cc",
+        "list_price": 973,
+        "months_available": 974,
+        "new_car": false,
+        "page_url": "s3d0",
+        "phev_easement": false,
+        "price_paid": 978,
+        "private_fuel": false,
+        "result": {},
+        "share_url": "s3d5",
+        "tax_year": "s3d6",
+        "tool": "s3d7"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/company-car": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/company-car": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

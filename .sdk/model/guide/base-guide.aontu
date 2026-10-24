@@ -1,0 +1,261 @@
+# Generated from the API definition and overwritten on every build: do not
+# edit this file. Put customizations in the guide entry file, which includes
+# this one and overrides its defaults:
+#   guide.aontu
+
+guide: {
+  metrics: count: entity: 18
+  metrics: count: path: 18
+  metrics: count: method: 35
+
+  entity: capital_allowance: {
+    path: "/api/v1/tools/capital-allowances": {
+      op: create: method: *POST
+      op: create: transform: req: "aia_shared": *("`reqdata.aia_shared`")|top
+      op: create: transform: req: "full_expensed_disposals": *("`reqdata.full_expensed_disposal`")|top
+      op: create: transform: req: "main_pool_brought_forward": *("`reqdata.main_pool_brought_forward`")|top
+      op: create: transform: req: "main_pool_disposals": *("`reqdata.main_pool_disposal`")|top
+      op: create: transform: req: "new_main_plant": *("`reqdata.new_main_plant`")|top
+      op: create: transform: req: "new_special_rate": *("`reqdata.new_special_rate`")|top
+      op: create: transform: req: "other_cars_high_co2": *("`reqdata.other_cars_high_co2`")|top
+      op: create: transform: req: "other_cars_low_co2": *("`reqdata.other_cars_low_co2`")|top
+      op: create: transform: req: "period_end": *("`reqdata.period_end`")|top
+      op: create: transform: req: "period_start": *("`reqdata.period_start`")|top
+      op: create: transform: req: "special_pool_brought_forward": *("`reqdata.special_pool_brought_forward`")|top
+      op: create: transform: req: "spend_date": *("`reqdata.spend_date`")|top
+      op: create: transform: req: "used_main_plant": *("`reqdata.used_main_plant`")|top
+      op: create: transform: req: "used_special_rate": *("`reqdata.used_special_rate`")|top
+      op: create: transform: req: "zero_emission_cars": *("`reqdata.zero_emission_car`")|top
+      op: load: method: *GET
+    }
+  }
+
+  entity: chargeable_gain: {
+    path: "/api/v1/tools/chargeable-gains": {
+      op: create: method: *POST
+      op: create: transform: req: "acquisition_cost": *("`reqdata.acquisition_cost`")|top
+      op: create: transform: req: "acquisition_costs": *("`reqdata.acquisition_cost`")|top
+      op: create: transform: req: "acquisition_date": *("`reqdata.acquisition_date`")|top
+      op: create: transform: req: "asset_type": *("`reqdata.asset_type`")|top
+      op: create: transform: req: "disposal_costs": *("`reqdata.disposal_cost`")|top
+      op: create: transform: req: "disposal_date": *("`reqdata.disposal_date`")|top
+      op: create: transform: req: "enhancement_cost": *("`reqdata.enhancement_cost`")|top
+      op: create: transform: req: "enhancement_date": *("`reqdata.enhancement_date`")|top
+      op: create: transform: req: "proceeds": *("`reqdata.proceed`")|top
+      op: create: transform: req: "sba_claimed": *("`reqdata.sba_claimed`")|top
+      op: load: method: *GET
+    }
+  }
+
+  entity: company_car: {
+    path: "/api/v1/tools/company-car": {
+      op: create: method: *POST
+      op: create: transform: req: "acquisition": *("`reqdata.acquisition`")|top
+      op: create: transform: req: "annual_lease_cost": *("`reqdata.annual_lease_cost`")|top
+      op: create: transform: req: "associated_companies": *("`reqdata.associated_company`")|top
+      op: create: transform: req: "capital_contribution": *("`reqdata.capital_contribution`")|top
+      op: create: transform: req: "co2_gkm": *("`reqdata.co2_gkm`")|top
+      op: create: transform: req: "company_profits": *("`reqdata.company_profit`")|top
+      op: create: transform: req: "electric_range_miles": *("`reqdata.electric_range_mile`")|top
+      op: create: transform: req: "fuel_type": *("`reqdata.fuel_type`")|top
+      op: create: transform: req: "income_tax_rate": *("`reqdata.income_tax_rate`")|top
+      op: create: transform: req: "lease_started": *("`reqdata.lease_started`")|top
+      op: create: transform: req: "list_price": *("`reqdata.list_price`")|top
+      op: create: transform: req: "months_available": *("`reqdata.months_available`")|top
+      op: create: transform: req: "new_car": *("`reqdata.new_car`")|top
+      op: create: transform: req: "phev_easement": *("`reqdata.phev_easement`")|top
+      op: create: transform: req: "price_paid": *("`reqdata.price_paid`")|top
+      op: create: transform: req: "private_fuel": *("`reqdata.private_fuel`")|top
+      op: create: transform: req: "tax_year": *("`reqdata.tax_year`")|top
+      op: load: method: *GET
+    }
+  }
+
+  entity: company_size: {
+    path: "/api/v1/tools/company-size": {
+      op: create: method: *POST
+      op: create: transform: req: "balance_sheet_total": *("`reqdata.balance_sheet_total`")|top
+      op: create: transform: req: "employees": *("`reqdata.employee`")|top
+      op: create: transform: req: "first_year": *("`reqdata.first_year`")|top
+      op: create: transform: req: "period_end": *("`reqdata.period_end`")|top
+      op: create: transform: req: "period_start": *("`reqdata.period_start`")|top
+      op: create: transform: req: "prev_balance_sheet_total": *("`reqdata.prev_balance_sheet_total`")|top
+      op: create: transform: req: "prev_employees": *("`reqdata.prev_employee`")|top
+      op: create: transform: req: "prev_size": *("`reqdata.prev_size`")|top
+      op: create: transform: req: "prev_turnover": *("`reqdata.prev_turnover`")|top
+      op: create: transform: req: "turnover": *("`reqdata.turnover`")|top
+      op: load: method: *GET
+    }
+  }
+
+  entity: company_van: {
+    path: "/api/v1/tools/company-van": {
+      op: create: method: *POST
+      op: create: transform: req: "associated_companies": *("`reqdata.associated_company`")|top
+      op: create: transform: req: "company_profits": *("`reqdata.company_profit`")|top
+      op: create: transform: req: "income_tax_rate": *("`reqdata.income_tax_rate`")|top
+      op: create: transform: req: "months_available": *("`reqdata.months_available`")|top
+      op: create: transform: req: "price_paid": *("`reqdata.price_paid`")|top
+      op: create: transform: req: "private_fuel": *("`reqdata.private_fuel`")|top
+      op: create: transform: req: "tax_year": *("`reqdata.tax_year`")|top
+      op: create: transform: req: "zero_emission": *("`reqdata.zero_emission`")|top
+      op: load: method: *GET
+    }
+  }
+
+  entity: corporation_tax: {
+    path: "/api/v1/tools/corporation-tax": {
+      op: create: method: *POST
+      op: load: method: *GET
+    }
+  }
+
+  entity: deadline: {
+    path: "/api/v1/tools/deadlines": {
+      op: create: method: *POST
+      op: create: transform: req: "period_end": *("`reqdata.period_end`")|top
+      op: create: transform: req: "period_start": *("`reqdata.period_start`")|top
+      op: load: method: *GET
+    }
+  }
+
+  entity: director_pension: {
+    path: "/api/v1/tools/director-pension": {
+      op: create: method: *POST
+      op: create: transform: req: "associated_companies": *("`reqdata.associated_company`")|top
+      op: create: transform: req: "company_profit": *("`reqdata.company_profit`")|top
+      op: create: transform: req: "contribution": *("`reqdata.contribution`")|top
+      op: create: transform: req: "director_only_employee": *("`reqdata.director_only_employee`")|top
+      op: create: transform: req: "dividends": *("`reqdata.dividend`")|top
+      op: create: transform: req: "money_purchase_allowance": *("`reqdata.money_purchase_allowance`")|top
+      op: create: transform: req: "other_income": *("`reqdata.other_income`")|top
+      op: create: transform: req: "other_pension_contributions": *("`reqdata.other_pension_contribution`")|top
+      op: create: transform: req: "salary": *("`reqdata.salary`")|top
+      op: create: transform: req: "scottish_taxpayer": *("`reqdata.scottish_taxpayer`")|top
+      op: create: transform: req: "tax_year": *("`reqdata.tax_year`")|top
+      op: load: method: *GET
+    }
+  }
+
+  entity: directors_loan: {
+    path: "/api/v1/tools/directors-loan": {
+      op: create: method: *POST
+      op: create: transform: req: "benefit_closing_balance": *("`reqdata.benefit_closing_balance`")|top
+      op: create: transform: req: "benefit_interest_paid": *("`reqdata.benefit_interest_paid`")|top
+      op: create: transform: req: "benefit_maximum_balance": *("`reqdata.benefit_maximum_balance`")|top
+      op: create: transform: req: "benefit_opening_balance": *("`reqdata.benefit_opening_balance`")|top
+      op: create: transform: req: "benefit_tax_year": *("`reqdata.benefit_tax_year`")|top
+      op: create: transform: req: "benefit_whole_months": *("`reqdata.benefit_whole_month`")|top
+      op: create: transform: req: "loan_made_on": *("`reqdata.loan_made_on`")|top
+      op: create: transform: req: "marginal_income_tax_rate": *("`reqdata.marginal_income_tax_rate`")|top
+      op: create: transform: req: "outstanding": *("`reqdata.outstanding`")|top
+      op: create: transform: req: "period_end": *("`reqdata.period_end`")|top
+      op: create: transform: req: "repaid_within_9_months": *("`reqdata.repaid_within_9_month`")|top
+      op: load: method: *GET
+    }
+  }
+
+  entity: dividend_reserve: {
+    path: "/api/v1/tools/dividend-reserves": {
+      op: create: method: *POST
+      op: create: transform: req: "dividends_already_paid": *("`reqdata.dividends_already_paid`")|top
+      op: create: transform: req: "profit_after_tax": *("`reqdata.profit_after_tax`")|top
+      op: create: transform: req: "proposed_dividend": *("`reqdata.proposed_dividend`")|top
+      op: create: transform: req: "retained_profits_brought_forward": *("`reqdata.retained_profits_brought_forward`")|top
+      op: load: method: *GET
+    }
+  }
+
+  entity: home_office: {
+    path: "/api/v1/tools/home-office": {
+      op: create: method: *POST
+      op: create: transform: req: "actual_additional_costs": *("`reqdata.actual_additional_cost`")|top
+      op: create: transform: req: "frequency": *("`reqdata.frequency`")|top
+      op: create: transform: req: "periods": *("`reqdata.period`")|top
+      op: create: transform: req: "tax_year": *("`reqdata.tax_year`")|top
+      op: load: method: *GET
+    }
+  }
+
+  entity: late_penalty: {
+    path: "/api/v1/tools/late-penalty": {
+      op: create: method: *POST
+      op: create: transform: req: "filed_on": *("`reqdata.filed_on`")|top
+      op: create: transform: req: "late_previous_two": *("`reqdata.late_previous_two`")|top
+      op: create: transform: req: "paid_on": *("`reqdata.paid_on`")|top
+      op: create: transform: req: "period_end": *("`reqdata.period_end`")|top
+      op: create: transform: req: "period_of_account_end": *("`reqdata.period_of_account_end`")|top
+      op: create: transform: req: "tax_due": *("`reqdata.tax_due`")|top
+      op: load: method: *GET
+    }
+  }
+
+  entity: long_period: {
+    path: "/api/v1/tools/long-period": {
+      op: create: method: *POST
+      op: create: transform: req: "first_accounts": *("`reqdata.first_account`")|top
+      op: create: transform: req: "period_end": *("`reqdata.period_end`")|top
+      op: create: transform: req: "period_start": *("`reqdata.period_start`")|top
+      op: create: transform: req: "profit": *("`reqdata.profit`")|top
+      op: load: method: *GET
+    }
+  }
+
+  entity: mileage_allowance: {
+    path: "/api/v1/tools/mileage-allowance": {
+      op: create: method: *POST
+      op: create: transform: req: "business_miles": *("`reqdata.business_mile`")|top
+      op: create: transform: req: "employer_payment": *("`reqdata.employer_payment`")|top
+      op: create: transform: req: "tax_year": *("`reqdata.tax_year`")|top
+      op: create: transform: req: "vehicle": *("`reqdata.vehicle`")|top
+      op: load: method: *GET
+    }
+  }
+
+  entity: salary_dividend: {
+    path: "/api/v1/tools/salary-dividends": {
+      op: create: method: *POST
+      op: create: transform: req: "associated_companies": *("`reqdata.associated_company`")|top
+      op: create: transform: req: "company_profit": *("`reqdata.company_profit`")|top
+      op: create: transform: req: "director_only_employee": *("`reqdata.director_only_employee`")|top
+      op: create: transform: req: "other_income": *("`reqdata.other_income`")|top
+      op: create: transform: req: "salary": *("`reqdata.salary`")|top
+      op: create: transform: req: "scottish_taxpayer": *("`reqdata.scottish_taxpayer`")|top
+      op: create: transform: req: "tax_year": *("`reqdata.tax_year`")|top
+      op: load: method: *GET
+    }
+  }
+
+  entity: sole_trader_vs_limited: {
+    path: "/api/v1/tools/sole-trader-vs-limited": {
+      op: create: method: *POST
+      op: create: transform: req: "director_only_employee": *("`reqdata.director_only_employee`")|top
+      op: create: transform: req: "other_income": *("`reqdata.other_income`")|top
+      op: create: transform: req: "profit": *("`reqdata.profit`")|top
+      op: create: transform: req: "scottish_taxpayer": *("`reqdata.scottish_taxpayer`")|top
+      op: create: transform: req: "tax_year": *("`reqdata.tax_year`")|top
+      op: load: method: *GET
+    }
+  }
+
+  entity: tool: {
+    path: "/api/v1/tools": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: trivial_benefit: {
+    path: "/api/v1/tools/trivial-benefits": {
+      op: create: method: *POST
+      op: create: transform: req: "benefit_cost": *("`reqdata.benefit_cost`")|top
+      op: create: transform: req: "cash_or_cash_voucher": *("`reqdata.cash_or_cash_voucher`")|top
+      op: create: transform: req: "close_company_director": *("`reqdata.close_company_director`")|top
+      op: create: transform: req: "in_contract": *("`reqdata.in_contract`")|top
+      op: create: transform: req: "qualifying_benefits_so_far": *("`reqdata.qualifying_benefits_so_far`")|top
+      op: create: transform: req: "reward_for_work": *("`reqdata.reward_for_work`")|top
+      op: create: transform: req: "tax_year": *("`reqdata.tax_year`")|top
+      op: load: method: *GET
+    }
+  }
+
+}

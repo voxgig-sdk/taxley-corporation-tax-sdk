@@ -1,0 +1,36 @@
+# BasicCompanyVanFlow
+
+main: kit: flow: BasicCompanyVanFlow:
+{
+  entity: "company_van",
+  kind: "basic",
+  name: "BasicCompanyVanFlow",
+  step: [
+    {
+      i: {
+        ref: "company_van_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "company_van_ref01",
+        srcdatavar: "company_van_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-company_van_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicCompanyVanFlow"
+}

@@ -1,0 +1,85 @@
+{
+  "existing": {
+    "late_penalty": {
+      "LATE_PENALTY00": {
+        "calculated_by": "s82",
+        "disclaimer": "s83",
+        "filed_on": "s84",
+        "input": {},
+        "late_previous_two": true,
+        "page_url": "s87",
+        "paid_on": "s88",
+        "period_end": "s89",
+        "period_of_account_end": "s8a",
+        "result": {},
+        "share_url": "s8c",
+        "tax_due": 141,
+        "tool": "s8e",
+        "id": "LATE_PENALTY00"
+      },
+      "LATE_PENALTY01": {
+        "calculated_by": "s104",
+        "disclaimer": "s105",
+        "filed_on": "s106",
+        "input": {},
+        "late_previous_two": true,
+        "page_url": "s109",
+        "paid_on": "s10a",
+        "period_end": "s10b",
+        "period_of_account_end": "s10c",
+        "result": {},
+        "share_url": "s10e",
+        "tax_due": 271,
+        "tool": "s110",
+        "id": "LATE_PENALTY01"
+      },
+      "LATE_PENALTY02": {
+        "calculated_by": "s186",
+        "disclaimer": "s187",
+        "filed_on": "s188",
+        "input": {},
+        "late_previous_two": true,
+        "page_url": "s18b",
+        "paid_on": "s18c",
+        "period_end": "s18d",
+        "period_of_account_end": "s18e",
+        "result": {},
+        "share_url": "s190",
+        "tax_due": 401,
+        "tool": "s192",
+        "id": "LATE_PENALTY02"
+      }
+    }
+  },
+  "new": {
+    "late_penalty": {
+      "late_penalty_ref01": {
+        "calculated_by": "s208",
+        "disclaimer": "s209",
+        "filed_on": "s20a",
+        "input": {},
+        "late_previous_two": true,
+        "page_url": "s20d",
+        "paid_on": "s20e",
+        "period_end": "s20f",
+        "period_of_account_end": "s210",
+        "result": {},
+        "share_url": "s212",
+        "tax_due": 531,
+        "tool": "s214"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/late-penalty": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/late-penalty": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

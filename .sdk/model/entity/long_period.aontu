@@ -1,0 +1,215 @@
+# Entity: long_period
+
+main: kit: entity: long_period: {
+
+  alias: field: {}
+
+  fields: {
+    calculated_by: {
+      h: "Calculated By"
+      n: "calculated_by"
+      r: true
+      t: "`$STRING`"
+    }
+    disclaimer: {
+      h: "Disclaimer"
+      n: "disclaimer"
+      r: true
+      t: "`$STRING`"
+    }
+    first_accounts: {
+      h: "First Accounts"
+      n: "first_accounts"
+      r: false
+      sh: "Optional: true if these are the company's first accounts (sets the Companies House deadline)."
+      t: "`$BOOLEAN`"
+    }
+    input: {
+      h: "Input"
+      n: "input"
+      r: true
+      sh: "The input as the tool read it (dates YYYY-MM-DD, money in pounds)."
+      t: "`$OBJECT`"
+    }
+    page_url: {
+      fo: "uri"
+      h: "Page Url"
+      n: "page_url"
+      r: true
+      t: "`$STRING`"
+    }
+    period_end: {
+      fo: "date"
+      h: "Period End"
+      n: "period_end"
+      r: true
+      sh: "Last day of the accounts, YYYY-MM-DD."
+      t: "`$STRING`"
+    }
+    period_start: {
+      fo: "date"
+      h: "Period Start"
+      n: "period_start"
+      r: true
+      sh: "First day of the accounts (period of account), YYYY-MM-DD."
+      t: "`$STRING`"
+    }
+    profit: {
+      h: "Profit"
+      n: "profit"
+      r: false
+      sh: "Optional: trading profit for the whole period in pounds, to split by days."
+      t: "`$NUMBER`"
+    }
+    result: {
+      h: "Result"
+      n: "result"
+      r: true
+      t: "`$OBJECT`"
+    }
+    share_url: {
+      fo: "uri"
+      h: "Share Url"
+      n: "share_url"
+      r: true
+      sh: "A link to this result on taxley.co.uk."
+      t: "`$STRING`"
+    }
+    tool: {
+      h: "Tool"
+      n: "tool"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "long_period"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "first_accounts"
+            "period_end"
+            "period_start"
+            "profit"
+          ]
+          co: {
+            id: "POST /api/v1/tools/long-period"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/v1/tools/long-period"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "long-period"
+            }
+          ]
+          t: {
+            req: {
+              first_accounts: "`reqdata.first_account`"
+              period_end: "`reqdata.period_end`"
+              period_start: "`reqdata.period_start`"
+              profit: "`reqdata.profit`"
+            }
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/tools/long-period"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "first_account"
+                or: "first_accounts"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+              {
+                ex: "2026-03-31"
+                k: "query"
+                n: "period_end"
+                or: "period_end"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                ex: "2025-01-01"
+                k: "query"
+                n: "period_start"
+                or: "period_start"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "profit"
+                or: "profit"
+                r: false
+                t: "`$NUMBER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/tools/long-period"
+          q: {
+            exist: [
+              "period_end"
+              "period_start"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "long-period"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

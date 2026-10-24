@@ -1,0 +1,49 @@
+# Entity: tool
+
+main: kit: entity: tool: {
+
+  alias: field: {}
+
+  name: "tool"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/tools"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/api/v1/tools"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

@@ -1,0 +1,36 @@
+# BasicChargeableGainFlow
+
+main: kit: flow: BasicChargeableGainFlow:
+{
+  entity: "chargeable_gain",
+  kind: "basic",
+  name: "BasicChargeableGainFlow",
+  step: [
+    {
+      i: {
+        ref: "chargeable_gain_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "chargeable_gain_ref01",
+        srcdatavar: "chargeable_gain_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-chargeable_gain_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicChargeableGainFlow"
+}

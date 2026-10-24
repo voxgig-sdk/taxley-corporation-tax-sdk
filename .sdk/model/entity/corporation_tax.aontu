@@ -1,0 +1,245 @@
+# Entity: corporation_tax
+
+main: kit: entity: corporation_tax: {
+
+  alias: field: {}
+
+  fields: {
+    associated_companies: {
+      h: "Associated Companies"
+      n: "associated_companies"
+      r: false
+      sh: "How many other companies are associated with this one (under common control) in the period."
+      t: "`$INTEGER`"
+    }
+    calculated_by: {
+      h: "Calculated By"
+      n: "calculated_by"
+      r: true
+      t: "`$STRING`"
+    }
+    close_investment_holding: {
+      h: "Close Investment Holding"
+      n: "close_investment_holding"
+      r: false
+      sh: "True if the company is a close investment-holding company in the period (CTA 2010 s.18N): a close company is one unless, throughout the period, it exists wholly or mainly to trade commercially, to let land to people not connected with it,…"
+      t: "`$BOOLEAN`"
+    }
+    disclaimer: {
+      h: "Disclaimer"
+      n: "disclaimer"
+      r: true
+      t: "`$STRING`"
+    }
+    exempt_distributions: {
+      h: "Exempt Distributions"
+      n: "exempt_distributions"
+      r: false
+      sh: "Exempt dividends received from companies outside the company's 51% group (and not from a trading company owned by a consortium it belongs to) (CTA 2010 s.18L), in pounds, used only to decide the rate."
+      t: "`$NUMBER`"
+    }
+    input: {
+      h: "Input"
+      n: "input"
+      r: true
+      sh: "The input as the tool read it (dates YYYY-MM-DD, money in pounds)."
+      t: "`$OBJECT`"
+    }
+    page_url: {
+      fo: "uri"
+      h: "Page Url"
+      n: "page_url"
+      r: true
+      t: "`$STRING`"
+    }
+    period_end: {
+      fo: "date"
+      h: "Period End"
+      n: "period_end"
+      r: true
+      sh: "Last day of the accounting period, YYYY-MM-DD."
+      t: "`$STRING`"
+    }
+    period_start: {
+      fo: "date"
+      h: "Period Start"
+      n: "period_start"
+      r: true
+      sh: "First day of the accounting period, YYYY-MM-DD (for example 2025-04-01)."
+      t: "`$STRING`"
+    }
+    result: {
+      h: "Result"
+      n: "result"
+      r: true
+      t: "`$OBJECT`"
+    }
+    share_url: {
+      fo: "uri"
+      h: "Share Url"
+      n: "share_url"
+      r: true
+      sh: "A link to this result on taxley.co.uk."
+      t: "`$STRING`"
+    }
+    taxable_profits: {
+      h: "Taxable Profits"
+      n: "taxable_profits"
+      r: true
+      sh: "Taxable total profits for the period in pounds, after tax adjustments and reliefs (CT600 box 315)."
+      t: "`$NUMBER`"
+    }
+    tool: {
+      h: "Tool"
+      n: "tool"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "corporation_tax"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "associated_companies"
+            "close_investment_holding"
+            "exempt_distributions"
+            "period_end"
+            "period_start"
+            "taxable_profits"
+          ]
+          co: {
+            id: "POST /api/v1/tools/corporation-tax"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/v1/tools/corporation-tax"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "corporation-tax"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/tools/corporation-tax"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 0
+                k: "query"
+                n: "associated_company"
+                or: "associated_companies"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: false
+                k: "query"
+                n: "close_investment_holding"
+                or: "close_investment_holding"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+              {
+                ex: 0
+                k: "query"
+                n: "exempt_distribution"
+                or: "exempt_distributions"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                ex: "2026-03-31"
+                k: "query"
+                n: "period_end"
+                or: "period_end"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                ex: "2025-04-01"
+                k: "query"
+                n: "period_start"
+                or: "period_start"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                ex: 100000
+                k: "query"
+                n: "taxable_profit"
+                or: "taxable_profits"
+                r: true
+                t: "`$NUMBER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/tools/corporation-tax"
+          q: {
+            exist: [
+              "period_end"
+              "period_start"
+              "taxable_profit"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "corporation-tax"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

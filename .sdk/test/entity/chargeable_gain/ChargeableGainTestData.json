@@ -1,0 +1,101 @@
+{
+  "existing": {
+    "chargeable_gain": {
+      "CHARGEABLE_GAIN00": {
+        "acquisition_cost": 170,
+        "acquisition_costs": 171,
+        "acquisition_date": "sac",
+        "asset_type": "sad",
+        "calculated_by": "sae",
+        "disclaimer": "saf",
+        "disposal_costs": 176,
+        "disposal_date": "sb1",
+        "enhancement_cost": 178,
+        "enhancement_date": "sb3",
+        "input": {},
+        "page_url": "sb5",
+        "proceeds": 182,
+        "result": {},
+        "sba_claimed": 184,
+        "share_url": "sb9",
+        "tool": "sba",
+        "id": "CHARGEABLE_GAIN00"
+      },
+      "CHARGEABLE_GAIN01": {
+        "acquisition_cost": 340,
+        "acquisition_costs": 341,
+        "acquisition_date": "s156",
+        "asset_type": "s157",
+        "calculated_by": "s158",
+        "disclaimer": "s159",
+        "disposal_costs": 346,
+        "disposal_date": "s15b",
+        "enhancement_cost": 348,
+        "enhancement_date": "s15d",
+        "input": {},
+        "page_url": "s15f",
+        "proceeds": 352,
+        "result": {},
+        "sba_claimed": 354,
+        "share_url": "s163",
+        "tool": "s164",
+        "id": "CHARGEABLE_GAIN01"
+      },
+      "CHARGEABLE_GAIN02": {
+        "acquisition_cost": 510,
+        "acquisition_costs": 511,
+        "acquisition_date": "s200",
+        "asset_type": "s201",
+        "calculated_by": "s202",
+        "disclaimer": "s203",
+        "disposal_costs": 516,
+        "disposal_date": "s205",
+        "enhancement_cost": 518,
+        "enhancement_date": "s207",
+        "input": {},
+        "page_url": "s209",
+        "proceeds": 522,
+        "result": {},
+        "sba_claimed": 524,
+        "share_url": "s20d",
+        "tool": "s20e",
+        "id": "CHARGEABLE_GAIN02"
+      }
+    }
+  },
+  "new": {
+    "chargeable_gain": {
+      "chargeable_gain_ref01": {
+        "acquisition_cost": 680,
+        "acquisition_costs": 681,
+        "acquisition_date": "s2aa",
+        "asset_type": "s2ab",
+        "calculated_by": "s2ac",
+        "disclaimer": "s2ad",
+        "disposal_costs": 686,
+        "disposal_date": "s2af",
+        "enhancement_cost": 688,
+        "enhancement_date": "s2b1",
+        "input": {},
+        "page_url": "s2b3",
+        "proceeds": 692,
+        "result": {},
+        "sba_claimed": 694,
+        "share_url": "s2b7",
+        "tool": "s2b8"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/chargeable-gains": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/chargeable-gains": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

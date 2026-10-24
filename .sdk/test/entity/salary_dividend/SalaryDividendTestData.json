@@ -1,0 +1,89 @@
+{
+  "existing": {
+    "salary_dividend": {
+      "SALARY_DIVIDEND00": {
+        "associated_companies": 140,
+        "calculated_by": "s8d",
+        "company_profit": 142,
+        "director_only_employee": false,
+        "disclaimer": "s90",
+        "input": {},
+        "other_income": 146,
+        "page_url": "s93",
+        "result": {},
+        "salary": 149,
+        "scottish_taxpayer": true,
+        "share_url": "s97",
+        "tax_year": "s98",
+        "tool": "s99",
+        "id": "SALARY_DIVIDEND00"
+      },
+      "SALARY_DIVIDEND01": {
+        "associated_companies": 280,
+        "calculated_by": "s119",
+        "company_profit": 282,
+        "director_only_employee": false,
+        "disclaimer": "s11c",
+        "input": {},
+        "other_income": 286,
+        "page_url": "s11f",
+        "result": {},
+        "salary": 289,
+        "scottish_taxpayer": true,
+        "share_url": "s123",
+        "tax_year": "s124",
+        "tool": "s125",
+        "id": "SALARY_DIVIDEND01"
+      },
+      "SALARY_DIVIDEND02": {
+        "associated_companies": 420,
+        "calculated_by": "s1a5",
+        "company_profit": 422,
+        "director_only_employee": false,
+        "disclaimer": "s1a8",
+        "input": {},
+        "other_income": 426,
+        "page_url": "s1ab",
+        "result": {},
+        "salary": 429,
+        "scottish_taxpayer": true,
+        "share_url": "s1af",
+        "tax_year": "s1b0",
+        "tool": "s1b1",
+        "id": "SALARY_DIVIDEND02"
+      }
+    }
+  },
+  "new": {
+    "salary_dividend": {
+      "salary_dividend_ref01": {
+        "associated_companies": 560,
+        "calculated_by": "s231",
+        "company_profit": 562,
+        "director_only_employee": false,
+        "disclaimer": "s234",
+        "input": {},
+        "other_income": 566,
+        "page_url": "s237",
+        "result": {},
+        "salary": 569,
+        "scottish_taxpayer": true,
+        "share_url": "s23b",
+        "tax_year": "s23c",
+        "tool": "s23d"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/salary-dividends": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/salary-dividends": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

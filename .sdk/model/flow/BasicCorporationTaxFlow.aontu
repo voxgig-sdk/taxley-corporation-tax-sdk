@@ -1,0 +1,36 @@
+# BasicCorporationTaxFlow
+
+main: kit: flow: BasicCorporationTaxFlow:
+{
+  entity: "corporation_tax",
+  kind: "basic",
+  name: "BasicCorporationTaxFlow",
+  step: [
+    {
+      i: {
+        ref: "corporation_tax_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "corporation_tax_ref01",
+        srcdatavar: "corporation_tax_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-corporation_tax_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicCorporationTaxFlow"
+}

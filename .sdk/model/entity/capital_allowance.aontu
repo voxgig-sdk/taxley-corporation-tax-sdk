@@ -1,0 +1,393 @@
+# Entity: capital_allowance
+
+main: kit: entity: capital_allowance: {
+
+  alias: field: {}
+
+  fields: {
+    aia_shared: {
+      h: "Aia Shared"
+      n: "aia_shared"
+      r: false
+      sh: "Optional."
+      t: "`$NUMBER`"
+    }
+    calculated_by: {
+      h: "Calculated By"
+      n: "calculated_by"
+      r: true
+      t: "`$STRING`"
+    }
+    disclaimer: {
+      h: "Disclaimer"
+      n: "disclaimer"
+      r: true
+      t: "`$STRING`"
+    }
+    full_expensed_disposals: {
+      h: "Full Expensed Disposals"
+      n: "full_expensed_disposals"
+      r: false
+      sh: "Sale proceeds of assets that had full expensing on their whole cost, sold this period."
+      t: "`$NUMBER`"
+    }
+    input: {
+      h: "Input"
+      n: "input"
+      r: true
+      sh: "The input as the tool read it (dates YYYY-MM-DD, money in pounds)."
+      t: "`$OBJECT`"
+    }
+    main_pool_brought_forward: {
+      h: "Main Pool Brought Forward"
+      n: "main_pool_brought_forward"
+      r: false
+      sh: "Main pool balance carried forward from the previous accounting period (0 if none)."
+      t: "`$NUMBER`"
+    }
+    main_pool_disposals: {
+      h: "Main Pool Disposals"
+      n: "main_pool_disposals"
+      r: false
+      sh: "Sale proceeds of main pool assets sold this period that did NOT have full expensing (for example, assets that had the annual investment allowance or were pooled)."
+      t: "`$NUMBER`"
+    }
+    new_main_plant: {
+      h: "New Main Plant"
+      n: "new_main_plant"
+      r: false
+      sh: "Cost of new and unused plant, machinery, equipment and vans (not cars)."
+      t: "`$NUMBER`"
+    }
+    new_special_rate: {
+      h: "New Special Rate"
+      n: "new_special_rate"
+      r: false
+      sh: "Cost of new and unused integral features (electrical, lighting, heating, water, lifts, air conditioning), long-life assets, thermal insulation and solar panels."
+      t: "`$NUMBER`"
+    }
+    other_cars_high_co2: {
+      h: "Other Cars High Co2"
+      n: "other_cars_high_co2"
+      r: false
+      sh: "Cost of cars with CO2 emissions over 50 g/km."
+      t: "`$NUMBER`"
+    }
+    other_cars_low_co2: {
+      h: "Other Cars Low Co2"
+      n: "other_cars_low_co2"
+      r: false
+      sh: "Cost of cars (other than new zero-emission cars) with CO2 emissions of 50 g/km or less."
+      t: "`$NUMBER`"
+    }
+    page_url: {
+      fo: "uri"
+      h: "Page Url"
+      n: "page_url"
+      r: true
+      t: "`$STRING`"
+    }
+    period_end: {
+      fo: "date"
+      h: "Period End"
+      n: "period_end"
+      r: true
+      sh: "Last day of the accounting period, as YYYY-MM-DD."
+      t: "`$STRING`"
+    }
+    period_start: {
+      fo: "date"
+      h: "Period Start"
+      n: "period_start"
+      r: true
+      sh: "First day of the Corporation Tax accounting period, as YYYY-MM-DD."
+      t: "`$STRING`"
+    }
+    result: {
+      h: "Result"
+      n: "result"
+      r: true
+      t: "`$OBJECT`"
+    }
+    share_url: {
+      fo: "uri"
+      h: "Share Url"
+      n: "share_url"
+      r: true
+      sh: "A link to this result on taxley.co.uk."
+      t: "`$STRING`"
+    }
+    special_pool_brought_forward: {
+      h: "Special Pool Brought Forward"
+      n: "special_pool_brought_forward"
+      r: false
+      sh: "Special rate pool balance carried forward from the previous accounting period (0 if none)."
+      t: "`$NUMBER`"
+    }
+    spend_date: {
+      fo: "date"
+      h: "Spend Date"
+      n: "spend_date"
+      r: false
+      sh: "Optional."
+      t: "`$STRING`"
+    }
+    tool: {
+      h: "Tool"
+      n: "tool"
+      r: true
+      t: "`$STRING`"
+    }
+    used_main_plant: {
+      h: "Used Main Plant"
+      n: "used_main_plant"
+      r: false
+      sh: "Cost of second-hand main-rate plant, machinery, equipment and vans (not cars)."
+      t: "`$NUMBER`"
+    }
+    used_special_rate: {
+      h: "Used Special Rate"
+      n: "used_special_rate"
+      r: false
+      sh: "Cost of second-hand integral features, long-life assets, thermal insulation and solar panels."
+      t: "`$NUMBER`"
+    }
+    zero_emission_cars: {
+      h: "Zero Emission Cars"
+      n: "zero_emission_cars"
+      r: false
+      sh: "Cost of new and unused cars with 0 g/km CO2 (fully electric)."
+      t: "`$NUMBER`"
+    }
+  }
+
+  name: "capital_allowance"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "aia_shared"
+            "full_expensed_disposals"
+            "main_pool_brought_forward"
+            "main_pool_disposals"
+            "new_main_plant"
+            "new_special_rate"
+            "other_cars_high_co2"
+            "other_cars_low_co2"
+            "period_end"
+            "period_start"
+            "special_pool_brought_forward"
+            "spend_date"
+            "used_main_plant"
+            "used_special_rate"
+            "zero_emission_cars"
+          ]
+          co: {
+            id: "POST /api/v1/tools/capital-allowances"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/v1/tools/capital-allowances"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "capital-allowances"
+            }
+          ]
+          t: {
+            req: {
+              aia_shared: "`reqdata.aia_shared`"
+              full_expensed_disposals: "`reqdata.full_expensed_disposal`"
+              main_pool_brought_forward: "`reqdata.main_pool_brought_forward`"
+              main_pool_disposals: "`reqdata.main_pool_disposal`"
+              new_main_plant: "`reqdata.new_main_plant`"
+              new_special_rate: "`reqdata.new_special_rate`"
+              other_cars_high_co2: "`reqdata.other_cars_high_co2`"
+              other_cars_low_co2: "`reqdata.other_cars_low_co2`"
+              period_end: "`reqdata.period_end`"
+              period_start: "`reqdata.period_start`"
+              special_pool_brought_forward: "`reqdata.special_pool_brought_forward`"
+              spend_date: "`reqdata.spend_date`"
+              used_main_plant: "`reqdata.used_main_plant`"
+              used_special_rate: "`reqdata.used_special_rate`"
+              zero_emission_cars: "`reqdata.zero_emission_car`"
+            }
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/tools/capital-allowances"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "aia_shared"
+                or: "aia_shared"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "full_expensed_disposal"
+                or: "full_expensed_disposals"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "main_pool_brought_forward"
+                or: "main_pool_brought_forward"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "main_pool_disposal"
+                or: "main_pool_disposals"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                ex: 40000
+                k: "query"
+                n: "new_main_plant"
+                or: "new_main_plant"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "new_special_rate"
+                or: "new_special_rate"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "other_cars_high_co2"
+                or: "other_cars_high_co2"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "other_cars_low_co2"
+                or: "other_cars_low_co2"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                ex: "2027-03-31"
+                k: "query"
+                n: "period_end"
+                or: "period_end"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                ex: "2026-04-01"
+                k: "query"
+                n: "period_start"
+                or: "period_start"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "special_pool_brought_forward"
+                or: "special_pool_brought_forward"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "spend_date"
+                or: "spend_date"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "used_main_plant"
+                or: "used_main_plant"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "used_special_rate"
+                or: "used_special_rate"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "zero_emission_car"
+                or: "zero_emission_cars"
+                r: false
+                t: "`$NUMBER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/tools/capital-allowances"
+          q: {
+            exist: [
+              "period_end"
+              "period_start"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "capital-allowances"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

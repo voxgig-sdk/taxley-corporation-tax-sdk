@@ -1,0 +1,217 @@
+# Entity: mileage_allowance
+
+main: kit: entity: mileage_allowance: {
+
+  alias: field: {}
+
+  fields: {
+    business_miles: {
+      h: "Business Miles"
+      n: "business_miles"
+      r: true
+      sh: "Total qualifying business miles in this vehicle category during the tax year."
+      t: "`$INTEGER`"
+    }
+    calculated_by: {
+      h: "Calculated By"
+      n: "calculated_by"
+      r: true
+      t: "`$STRING`"
+    }
+    disclaimer: {
+      h: "Disclaimer"
+      n: "disclaimer"
+      r: true
+      t: "`$STRING`"
+    }
+    employer_payment: {
+      h: "Employer Payment"
+      n: "employer_payment"
+      r: true
+      sh: "Total mileage allowance paid by the company for those miles, in pounds."
+      t: "`$NUMBER`"
+    }
+    input: {
+      h: "Input"
+      n: "input"
+      r: true
+      sh: "The input as the tool read it (dates YYYY-MM-DD, money in pounds)."
+      t: "`$OBJECT`"
+    }
+    page_url: {
+      fo: "uri"
+      h: "Page Url"
+      n: "page_url"
+      r: true
+      t: "`$STRING`"
+    }
+    result: {
+      h: "Result"
+      n: "result"
+      r: true
+      t: "`$OBJECT`"
+    }
+    share_url: {
+      fo: "uri"
+      h: "Share Url"
+      n: "share_url"
+      r: true
+      sh: "A link to this result on taxley.co.uk."
+      t: "`$STRING`"
+    }
+    tax_year: {
+      h: "Tax Year"
+      n: "tax_year"
+      r: true
+      sh: "UK tax year: 2025-26, 2026-27 or 2027-28."
+      t: "`$STRING`"
+    }
+    tool: {
+      h: "Tool"
+      n: "tool"
+      r: true
+      t: "`$STRING`"
+    }
+    vehicle: {
+      h: "Vehicle"
+      n: "vehicle"
+      r: true
+      sh: "The employee-owned vehicle used for business travel: car_van, motorcycle or bicycle."
+      t: "`$STRING`"
+    }
+  }
+
+  name: "mileage_allowance"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "business_miles"
+            "employer_payment"
+            "tax_year"
+            "vehicle"
+          ]
+          co: {
+            id: "POST /api/v1/tools/mileage-allowance"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/v1/tools/mileage-allowance"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "mileage-allowance"
+            }
+          ]
+          t: {
+            req: {
+              business_miles: "`reqdata.business_mile`"
+              employer_payment: "`reqdata.employer_payment`"
+              tax_year: "`reqdata.tax_year`"
+              vehicle: "`reqdata.vehicle`"
+            }
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/tools/mileage-allowance"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 12000
+                k: "query"
+                n: "business_mile"
+                or: "business_miles"
+                r: true
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 4200
+                k: "query"
+                n: "employer_payment"
+                or: "employer_payment"
+                r: true
+                t: "`$NUMBER`"
+              }
+              {
+                ex: "2025-26"
+                k: "query"
+                n: "tax_year"
+                or: "tax_year"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                ex: "car_van"
+                k: "query"
+                n: "vehicle"
+                or: "vehicle"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/tools/mileage-allowance"
+          q: {
+            exist: [
+              "business_mile"
+              "employer_payment"
+              "tax_year"
+              "vehicle"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "mileage-allowance"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

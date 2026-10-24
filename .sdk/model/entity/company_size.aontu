@@ -1,0 +1,317 @@
+# Entity: company_size
+
+main: kit: entity: company_size: {
+
+  alias: field: {}
+
+  fields: {
+    balance_sheet_total: {
+      h: "Balance Sheet Total"
+      n: "balance_sheet_total"
+      r: true
+      sh: "Balance sheet total: gross assets (fixed plus current assets, before liabilities) at the year end, in pounds."
+      t: "`$NUMBER`"
+    }
+    calculated_by: {
+      h: "Calculated By"
+      n: "calculated_by"
+      r: true
+      t: "`$STRING`"
+    }
+    disclaimer: {
+      h: "Disclaimer"
+      n: "disclaimer"
+      r: true
+      t: "`$STRING`"
+    }
+    employees: {
+      h: "Employees"
+      n: "employees"
+      r: true
+      sh: "Average number of employees in the year (monthly headcounts added up, divided by the number of months)."
+      t: "`$NUMBER`"
+    }
+    first_year: {
+      h: "First Year"
+      n: "first_year"
+      r: false
+      sh: "True if this is the company's first financial year (then this year alone decides its size)."
+      t: "`$BOOLEAN`"
+    }
+    input: {
+      h: "Input"
+      n: "input"
+      r: true
+      sh: "The input as the tool read it (dates YYYY-MM-DD, money in pounds)."
+      t: "`$OBJECT`"
+    }
+    page_url: {
+      fo: "uri"
+      h: "Page Url"
+      n: "page_url"
+      r: true
+      t: "`$STRING`"
+    }
+    period_end: {
+      fo: "date"
+      h: "Period End"
+      n: "period_end"
+      r: true
+      sh: "Last day of the financial year, YYYY-MM-DD."
+      t: "`$STRING`"
+    }
+    period_start: {
+      fo: "date"
+      h: "Period Start"
+      n: "period_start"
+      r: true
+      sh: "First day of the financial year (accounts period), YYYY-MM-DD."
+      t: "`$STRING`"
+    }
+    prev_balance_sheet_total: {
+      h: "Prev Balance Sheet Total"
+      n: "prev_balance_sheet_total"
+      r: false
+      sh: "Optional: last year's balance sheet total (gross assets), in pounds."
+      t: "`$NUMBER`"
+    }
+    prev_employees: {
+      h: "Prev Employees"
+      n: "prev_employees"
+      r: false
+      sh: "Optional: last year's average number of employees."
+      t: "`$NUMBER`"
+    }
+    prev_size: {
+      h: "Prev Size"
+      n: "prev_size"
+      r: false
+      sh: "Optional: what the company qualified as last year — micro, small (not micro) or medium_or_large (not small)."
+      t: "`$STRING`"
+    }
+    prev_turnover: {
+      h: "Prev Turnover"
+      n: "prev_turnover"
+      r: false
+      sh: "Optional: last financial year's turnover, in pounds (assumed a 12-month year)."
+      t: "`$NUMBER`"
+    }
+    result: {
+      h: "Result"
+      n: "result"
+      r: true
+      t: "`$OBJECT`"
+    }
+    share_url: {
+      fo: "uri"
+      h: "Share Url"
+      n: "share_url"
+      r: true
+      sh: "A link to this result on taxley.co.uk."
+      t: "`$STRING`"
+    }
+    tool: {
+      h: "Tool"
+      n: "tool"
+      r: true
+      t: "`$STRING`"
+    }
+    turnover: {
+      h: "Turnover"
+      n: "turnover"
+      r: true
+      sh: "Turnover for the financial year, in pounds."
+      t: "`$NUMBER`"
+    }
+  }
+
+  name: "company_size"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "balance_sheet_total"
+            "employees"
+            "first_year"
+            "period_end"
+            "period_start"
+            "prev_balance_sheet_total"
+            "prev_employees"
+            "prev_size"
+            "prev_turnover"
+            "turnover"
+          ]
+          co: {
+            id: "POST /api/v1/tools/company-size"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/v1/tools/company-size"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "company-size"
+            }
+          ]
+          t: {
+            req: {
+              balance_sheet_total: "`reqdata.balance_sheet_total`"
+              employees: "`reqdata.employee`"
+              first_year: "`reqdata.first_year`"
+              period_end: "`reqdata.period_end`"
+              period_start: "`reqdata.period_start`"
+              prev_balance_sheet_total: "`reqdata.prev_balance_sheet_total`"
+              prev_employees: "`reqdata.prev_employee`"
+              prev_size: "`reqdata.prev_size`"
+              prev_turnover: "`reqdata.prev_turnover`"
+              turnover: "`reqdata.turnover`"
+            }
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/tools/company-size"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 420000
+                k: "query"
+                n: "balance_sheet_total"
+                or: "balance_sheet_total"
+                r: true
+                t: "`$NUMBER`"
+              }
+              {
+                ex: 6
+                k: "query"
+                n: "employee"
+                or: "employees"
+                r: true
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "first_year"
+                or: "first_year"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+              {
+                ex: "2026-04-30"
+                k: "query"
+                n: "period_end"
+                or: "period_end"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                ex: "2025-05-01"
+                k: "query"
+                n: "period_start"
+                or: "period_start"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "prev_balance_sheet_total"
+                or: "prev_balance_sheet_total"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "prev_employee"
+                or: "prev_employees"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "prev_size"
+                or: "prev_size"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "prev_turnover"
+                or: "prev_turnover"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                ex: 850000
+                k: "query"
+                n: "turnover"
+                or: "turnover"
+                r: true
+                t: "`$NUMBER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/tools/company-size"
+          q: {
+            exist: [
+              "balance_sheet_total"
+              "employee"
+              "period_end"
+              "period_start"
+              "turnover"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "company-size"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

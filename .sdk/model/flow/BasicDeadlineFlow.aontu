@@ -1,0 +1,36 @@
+# BasicDeadlineFlow
+
+main: kit: flow: BasicDeadlineFlow:
+{
+  entity: "deadline",
+  kind: "basic",
+  name: "BasicDeadlineFlow",
+  step: [
+    {
+      i: {
+        ref: "deadline_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "deadline_ref01",
+        srcdatavar: "deadline_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-deadline_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicDeadlineFlow"
+}

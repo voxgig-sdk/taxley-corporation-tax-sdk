@@ -1,0 +1,251 @@
+# Entity: late_penalty
+
+main: kit: entity: late_penalty: {
+
+  alias: field: {}
+
+  fields: {
+    calculated_by: {
+      h: "Calculated By"
+      n: "calculated_by"
+      r: true
+      t: "`$STRING`"
+    }
+    disclaimer: {
+      h: "Disclaimer"
+      n: "disclaimer"
+      r: true
+      t: "`$STRING`"
+    }
+    filed_on: {
+      fo: "date"
+      h: "Filed On"
+      n: "filed_on"
+      r: true
+      sh: "The date the CT600 was, or will be, filed with HMRC."
+      t: "`$STRING`"
+    }
+    input: {
+      h: "Input"
+      n: "input"
+      r: true
+      sh: "The input as the tool read it (dates YYYY-MM-DD, money in pounds)."
+      t: "`$OBJECT`"
+    }
+    late_previous_two: {
+      h: "Late Previous Two"
+      n: "late_previous_two"
+      r: false
+      sh: "True if the company was liable to a late filing penalty for each of its two previous accounting periods (consecutive, and within Corporation Tax throughout)."
+      t: "`$BOOLEAN`"
+    }
+    page_url: {
+      fo: "uri"
+      h: "Page Url"
+      n: "page_url"
+      r: true
+      t: "`$STRING`"
+    }
+    paid_on: {
+      fo: "date"
+      h: "Paid On"
+      n: "paid_on"
+      r: false
+      sh: "The date the Corporation Tax was, or will be, paid in full."
+      t: "`$STRING`"
+    }
+    period_end: {
+      fo: "date"
+      h: "Period End"
+      n: "period_end"
+      r: true
+      sh: "Last day of the Corporation Tax accounting period the CT600 covers (YYYY-MM-DD), on or after 2015-04-01."
+      t: "`$STRING`"
+    }
+    period_of_account_end: {
+      fo: "date"
+      h: "Period Of Account End"
+      n: "period_of_account_end"
+      r: false
+      sh: "Only if the company's accounts cover more than 12 months (up to 18): the last day of that period of account, no more than 6 months after period_end."
+      t: "`$STRING`"
+    }
+    result: {
+      h: "Result"
+      n: "result"
+      r: true
+      t: "`$OBJECT`"
+    }
+    share_url: {
+      fo: "uri"
+      h: "Share Url"
+      n: "share_url"
+      r: true
+      sh: "A link to this result on taxley.co.uk."
+      t: "`$STRING`"
+    }
+    tax_due: {
+      h: "Tax Due"
+      n: "tax_due"
+      r: false
+      sh: "Corporation Tax payable for the accounting period, in pounds."
+      t: "`$NUMBER`"
+    }
+    tool: {
+      h: "Tool"
+      n: "tool"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "late_penalty"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "filed_on"
+            "late_previous_two"
+            "paid_on"
+            "period_end"
+            "period_of_account_end"
+            "tax_due"
+          ]
+          co: {
+            id: "POST /api/v1/tools/late-penalty"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/v1/tools/late-penalty"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "late-penalty"
+            }
+          ]
+          t: {
+            req: {
+              filed_on: "`reqdata.filed_on`"
+              late_previous_two: "`reqdata.late_previous_two`"
+              paid_on: "`reqdata.paid_on`"
+              period_end: "`reqdata.period_end`"
+              period_of_account_end: "`reqdata.period_of_account_end`"
+              tax_due: "`reqdata.tax_due`"
+            }
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/tools/late-penalty"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: "2026-08-15"
+                k: "query"
+                n: "filed_on"
+                or: "filed_on"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                ex: false
+                k: "query"
+                n: "late_previous_two"
+                or: "late_previous_two"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+              {
+                k: "query"
+                n: "paid_on"
+                or: "paid_on"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: "2025-04-30"
+                k: "query"
+                n: "period_end"
+                or: "period_end"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "period_of_account_end"
+                or: "period_of_account_end"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: 0
+                k: "query"
+                n: "tax_due"
+                or: "tax_due"
+                r: false
+                t: "`$NUMBER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/tools/late-penalty"
+          q: {
+            exist: [
+              "filed_on"
+              "period_end"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "late-penalty"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

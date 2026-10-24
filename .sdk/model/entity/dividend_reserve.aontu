@@ -1,0 +1,217 @@
+# Entity: dividend_reserve
+
+main: kit: entity: dividend_reserve: {
+
+  alias: field: {}
+
+  fields: {
+    calculated_by: {
+      h: "Calculated By"
+      n: "calculated_by"
+      r: true
+      t: "`$STRING`"
+    }
+    disclaimer: {
+      h: "Disclaimer"
+      n: "disclaimer"
+      r: true
+      t: "`$STRING`"
+    }
+    dividends_already_paid: {
+      h: "Dividends Already Paid"
+      n: "dividends_already_paid"
+      r: true
+      sh: "Dividends already paid or declared from these profits, in pounds."
+      t: "`$NUMBER`"
+    }
+    input: {
+      h: "Input"
+      n: "input"
+      r: true
+      sh: "The input as the tool read it (dates YYYY-MM-DD, money in pounds)."
+      t: "`$OBJECT`"
+    }
+    page_url: {
+      fo: "uri"
+      h: "Page Url"
+      n: "page_url"
+      r: true
+      t: "`$STRING`"
+    }
+    profit_after_tax: {
+      h: "Profit After Tax"
+      n: "profit_after_tax"
+      r: true
+      sh: "This period’s realised profit after Corporation Tax, in pounds."
+      t: "`$NUMBER`"
+    }
+    proposed_dividend: {
+      h: "Proposed Dividend"
+      n: "proposed_dividend"
+      r: true
+      sh: "Dividend now proposed, in pounds."
+      t: "`$NUMBER`"
+    }
+    result: {
+      h: "Result"
+      n: "result"
+      r: true
+      t: "`$OBJECT`"
+    }
+    retained_profits_brought_forward: {
+      h: "Retained Profits Brought Forward"
+      n: "retained_profits_brought_forward"
+      r: true
+      sh: "Accumulated retained profits or losses brought forward, in pounds."
+      t: "`$NUMBER`"
+    }
+    share_url: {
+      fo: "uri"
+      h: "Share Url"
+      n: "share_url"
+      r: true
+      sh: "A link to this result on taxley.co.uk."
+      t: "`$STRING`"
+    }
+    tool: {
+      h: "Tool"
+      n: "tool"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "dividend_reserve"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "dividends_already_paid"
+            "profit_after_tax"
+            "proposed_dividend"
+            "retained_profits_brought_forward"
+          ]
+          co: {
+            id: "POST /api/v1/tools/dividend-reserves"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/v1/tools/dividend-reserves"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "dividend-reserves"
+            }
+          ]
+          t: {
+            req: {
+              dividends_already_paid: "`reqdata.dividends_already_paid`"
+              profit_after_tax: "`reqdata.profit_after_tax`"
+              proposed_dividend: "`reqdata.proposed_dividend`"
+              retained_profits_brought_forward: "`reqdata.retained_profits_brought_forward`"
+            }
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/tools/dividend-reserves"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 5000
+                k: "query"
+                n: "dividends_already_paid"
+                or: "dividends_already_paid"
+                r: true
+                t: "`$NUMBER`"
+              }
+              {
+                ex: 18000
+                k: "query"
+                n: "profit_after_tax"
+                or: "profit_after_tax"
+                r: true
+                t: "`$NUMBER`"
+              }
+              {
+                ex: 20000
+                k: "query"
+                n: "proposed_dividend"
+                or: "proposed_dividend"
+                r: true
+                t: "`$NUMBER`"
+              }
+              {
+                ex: 12000
+                k: "query"
+                n: "retained_profits_brought_forward"
+                or: "retained_profits_brought_forward"
+                r: true
+                t: "`$NUMBER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/tools/dividend-reserves"
+          q: {
+            exist: [
+              "dividends_already_paid"
+              "profit_after_tax"
+              "proposed_dividend"
+              "retained_profits_brought_forward"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "dividend-reserves"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

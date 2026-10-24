@@ -1,0 +1,36 @@
+# BasicDirectorPensionFlow
+
+main: kit: flow: BasicDirectorPensionFlow:
+{
+  entity: "director_pension",
+  kind: "basic",
+  name: "BasicDirectorPensionFlow",
+  step: [
+    {
+      i: {
+        ref: "director_pension_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "director_pension_ref01",
+        srcdatavar: "director_pension_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-director_pension_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicDirectorPensionFlow"
+}

@@ -1,0 +1,215 @@
+# Entity: home_office
+
+main: kit: entity: home_office: {
+
+  alias: field: {}
+
+  fields: {
+    actual_additional_costs: {
+      h: "Actual Additional Costs"
+      n: "actual_additional_costs"
+      r: false
+      sh: "Optional total reasonable additional household costs caused by working at home, in pounds, supported by records."
+      t: "`$NUMBER`"
+    }
+    calculated_by: {
+      h: "Calculated By"
+      n: "calculated_by"
+      r: true
+      t: "`$STRING`"
+    }
+    disclaimer: {
+      h: "Disclaimer"
+      n: "disclaimer"
+      r: true
+      t: "`$STRING`"
+    }
+    frequency: {
+      h: "Frequency"
+      n: "frequency"
+      r: true
+      sh: "Whether to use HMRC’s £6 weekly rate or £26 monthly rate."
+      t: "`$STRING`"
+    }
+    input: {
+      h: "Input"
+      n: "input"
+      r: true
+      sh: "The input as the tool read it (dates YYYY-MM-DD, money in pounds)."
+      t: "`$OBJECT`"
+    }
+    page_url: {
+      fo: "uri"
+      h: "Page Url"
+      n: "page_url"
+      r: true
+      t: "`$STRING`"
+    }
+    periods: {
+      h: "Periods"
+      n: "periods"
+      r: true
+      sh: "Number of weeks or months of regular homeworking in the tax year; no more than 52 weeks or 12 months."
+      t: "`$INTEGER`"
+    }
+    result: {
+      h: "Result"
+      n: "result"
+      r: true
+      t: "`$OBJECT`"
+    }
+    share_url: {
+      fo: "uri"
+      h: "Share Url"
+      n: "share_url"
+      r: true
+      sh: "A link to this result on taxley.co.uk."
+      t: "`$STRING`"
+    }
+    tax_year: {
+      h: "Tax Year"
+      n: "tax_year"
+      r: true
+      sh: "UK tax year: 2025-26, 2026-27 or 2027-28."
+      t: "`$STRING`"
+    }
+    tool: {
+      h: "Tool"
+      n: "tool"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "home_office"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "actual_additional_costs"
+            "frequency"
+            "periods"
+            "tax_year"
+          ]
+          co: {
+            id: "POST /api/v1/tools/home-office"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/v1/tools/home-office"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "home-office"
+            }
+          ]
+          t: {
+            req: {
+              actual_additional_costs: "`reqdata.actual_additional_cost`"
+              frequency: "`reqdata.frequency`"
+              periods: "`reqdata.period`"
+              tax_year: "`reqdata.tax_year`"
+            }
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/tools/home-office"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "actual_additional_cost"
+                or: "actual_additional_costs"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                ex: "weekly"
+                k: "query"
+                n: "frequency"
+                or: "frequency"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                ex: 12
+                k: "query"
+                n: "period"
+                or: "periods"
+                r: true
+                t: "`$INTEGER`"
+              }
+              {
+                ex: "2025-26"
+                k: "query"
+                n: "tax_year"
+                or: "tax_year"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/tools/home-office"
+          q: {
+            exist: [
+              "frequency"
+              "period"
+              "tax_year"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "home-office"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

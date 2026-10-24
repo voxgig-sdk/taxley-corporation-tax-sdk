@@ -1,0 +1,105 @@
+{
+  "existing": {
+    "director_pension": {
+      "DIRECTOR_PENSION00": {
+        "associated_companies": 180,
+        "calculated_by": "sb5",
+        "company_profit": 182,
+        "contribution": 183,
+        "director_only_employee": true,
+        "disclaimer": "sb9",
+        "dividends": 186,
+        "input": {},
+        "money_purchase_allowance": true,
+        "other_income": 189,
+        "other_pension_contributions": 190,
+        "page_url": "sbf",
+        "result": {},
+        "salary": 193,
+        "scottish_taxpayer": true,
+        "share_url": "sc3",
+        "tax_year": "sc4",
+        "tool": "sc5",
+        "id": "DIRECTOR_PENSION00"
+      },
+      "DIRECTOR_PENSION01": {
+        "associated_companies": 360,
+        "calculated_by": "s169",
+        "company_profit": 362,
+        "contribution": 363,
+        "director_only_employee": true,
+        "disclaimer": "s16d",
+        "dividends": 366,
+        "input": {},
+        "money_purchase_allowance": true,
+        "other_income": 369,
+        "other_pension_contributions": 370,
+        "page_url": "s173",
+        "result": {},
+        "salary": 373,
+        "scottish_taxpayer": true,
+        "share_url": "s177",
+        "tax_year": "s178",
+        "tool": "s179",
+        "id": "DIRECTOR_PENSION01"
+      },
+      "DIRECTOR_PENSION02": {
+        "associated_companies": 540,
+        "calculated_by": "s21d",
+        "company_profit": 542,
+        "contribution": 543,
+        "director_only_employee": true,
+        "disclaimer": "s221",
+        "dividends": 546,
+        "input": {},
+        "money_purchase_allowance": true,
+        "other_income": 549,
+        "other_pension_contributions": 550,
+        "page_url": "s227",
+        "result": {},
+        "salary": 553,
+        "scottish_taxpayer": true,
+        "share_url": "s22b",
+        "tax_year": "s22c",
+        "tool": "s22d",
+        "id": "DIRECTOR_PENSION02"
+      }
+    }
+  },
+  "new": {
+    "director_pension": {
+      "director_pension_ref01": {
+        "associated_companies": 720,
+        "calculated_by": "s2d1",
+        "company_profit": 722,
+        "contribution": 723,
+        "director_only_employee": true,
+        "disclaimer": "s2d5",
+        "dividends": 726,
+        "input": {},
+        "money_purchase_allowance": true,
+        "other_income": 729,
+        "other_pension_contributions": 730,
+        "page_url": "s2db",
+        "result": {},
+        "salary": 733,
+        "scottish_taxpayer": true,
+        "share_url": "s2df",
+        "tax_year": "s2e0",
+        "tool": "s2e1"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/director-pension": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/director-pension": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

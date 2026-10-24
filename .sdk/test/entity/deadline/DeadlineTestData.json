@@ -1,0 +1,69 @@
+{
+  "existing": {
+    "deadline": {
+      "DEADLINE00": {
+        "calculated_by": "s5a",
+        "disclaimer": "s5b",
+        "input": {},
+        "page_url": "s5d",
+        "period_end": "s5e",
+        "period_start": "s5f",
+        "result": {},
+        "share_url": "s61",
+        "tool": "s62",
+        "id": "DEADLINE00"
+      },
+      "DEADLINE01": {
+        "calculated_by": "sb4",
+        "disclaimer": "sb5",
+        "input": {},
+        "page_url": "sb7",
+        "period_end": "sb8",
+        "period_start": "sb9",
+        "result": {},
+        "share_url": "sbb",
+        "tool": "sbc",
+        "id": "DEADLINE01"
+      },
+      "DEADLINE02": {
+        "calculated_by": "s10e",
+        "disclaimer": "s10f",
+        "input": {},
+        "page_url": "s111",
+        "period_end": "s112",
+        "period_start": "s113",
+        "result": {},
+        "share_url": "s115",
+        "tool": "s116",
+        "id": "DEADLINE02"
+      }
+    }
+  },
+  "new": {
+    "deadline": {
+      "deadline_ref01": {
+        "calculated_by": "s168",
+        "disclaimer": "s169",
+        "input": {},
+        "page_url": "s16b",
+        "period_end": "s16c",
+        "period_start": "s16d",
+        "result": {},
+        "share_url": "s16f",
+        "tool": "s170"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/deadlines": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/deadlines": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

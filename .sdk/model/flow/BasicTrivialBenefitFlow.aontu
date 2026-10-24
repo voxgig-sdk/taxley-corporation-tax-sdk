@@ -1,0 +1,36 @@
+# BasicTrivialBenefitFlow
+
+main: kit: flow: BasicTrivialBenefitFlow:
+{
+  entity: "trivial_benefit",
+  kind: "basic",
+  name: "BasicTrivialBenefitFlow",
+  step: [
+    {
+      i: {
+        ref: "trivial_benefit_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "trivial_benefit_ref01",
+        srcdatavar: "trivial_benefit_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-trivial_benefit_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicTrivialBenefitFlow"
+}

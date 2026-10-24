@@ -1,0 +1,36 @@
+# BasicLatePenaltyFlow
+
+main: kit: flow: BasicLatePenaltyFlow:
+{
+  entity: "late_penalty",
+  kind: "basic",
+  name: "BasicLatePenaltyFlow",
+  step: [
+    {
+      i: {
+        ref: "late_penalty_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "late_penalty_ref01",
+        srcdatavar: "late_penalty_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-late_penalty_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicLatePenaltyFlow"
+}

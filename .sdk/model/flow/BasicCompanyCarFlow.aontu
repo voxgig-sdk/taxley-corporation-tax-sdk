@@ -1,0 +1,36 @@
+# BasicCompanyCarFlow
+
+main: kit: flow: BasicCompanyCarFlow:
+{
+  entity: "company_car",
+  kind: "basic",
+  name: "BasicCompanyCarFlow",
+  step: [
+    {
+      i: {
+        ref: "company_car_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "company_car_ref01",
+        srcdatavar: "company_car_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-company_car_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicCompanyCarFlow"
+}

@@ -1,0 +1,36 @@
+# BasicCapitalAllowanceFlow
+
+main: kit: flow: BasicCapitalAllowanceFlow:
+{
+  entity: "capital_allowance",
+  kind: "basic",
+  name: "BasicCapitalAllowanceFlow",
+  step: [
+    {
+      i: {
+        ref: "capital_allowance_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "capital_allowance_ref01",
+        srcdatavar: "capital_allowance_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-capital_allowance_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicCapitalAllowanceFlow"
+}

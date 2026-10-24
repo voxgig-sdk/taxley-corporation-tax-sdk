@@ -1,0 +1,89 @@
+{
+  "existing": {
+    "trivial_benefit": {
+      "TRIVIAL_BENEFIT00": {
+        "benefit_cost": 140,
+        "calculated_by": "s8d",
+        "cash_or_cash_voucher": true,
+        "close_company_director": false,
+        "disclaimer": "s90",
+        "in_contract": false,
+        "input": {},
+        "page_url": "s93",
+        "qualifying_benefits_so_far": 148,
+        "result": {},
+        "reward_for_work": true,
+        "share_url": "s97",
+        "tax_year": "s98",
+        "tool": "s99",
+        "id": "TRIVIAL_BENEFIT00"
+      },
+      "TRIVIAL_BENEFIT01": {
+        "benefit_cost": 280,
+        "calculated_by": "s119",
+        "cash_or_cash_voucher": true,
+        "close_company_director": false,
+        "disclaimer": "s11c",
+        "in_contract": false,
+        "input": {},
+        "page_url": "s11f",
+        "qualifying_benefits_so_far": 288,
+        "result": {},
+        "reward_for_work": true,
+        "share_url": "s123",
+        "tax_year": "s124",
+        "tool": "s125",
+        "id": "TRIVIAL_BENEFIT01"
+      },
+      "TRIVIAL_BENEFIT02": {
+        "benefit_cost": 420,
+        "calculated_by": "s1a5",
+        "cash_or_cash_voucher": true,
+        "close_company_director": false,
+        "disclaimer": "s1a8",
+        "in_contract": false,
+        "input": {},
+        "page_url": "s1ab",
+        "qualifying_benefits_so_far": 428,
+        "result": {},
+        "reward_for_work": true,
+        "share_url": "s1af",
+        "tax_year": "s1b0",
+        "tool": "s1b1",
+        "id": "TRIVIAL_BENEFIT02"
+      }
+    }
+  },
+  "new": {
+    "trivial_benefit": {
+      "trivial_benefit_ref01": {
+        "benefit_cost": 560,
+        "calculated_by": "s231",
+        "cash_or_cash_voucher": true,
+        "close_company_director": false,
+        "disclaimer": "s234",
+        "in_contract": false,
+        "input": {},
+        "page_url": "s237",
+        "qualifying_benefits_so_far": 568,
+        "result": {},
+        "reward_for_work": true,
+        "share_url": "s23b",
+        "tax_year": "s23c",
+        "tool": "s23d"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/trivial-benefits": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/trivial-benefits": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

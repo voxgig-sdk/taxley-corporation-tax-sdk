@@ -1,0 +1,105 @@
+{
+  "existing": {
+    "directors_loan": {
+      "DIRECTORS_LOAN00": {
+        "benefit_closing_balance": 180,
+        "benefit_interest_paid": 181,
+        "benefit_maximum_balance": 182,
+        "benefit_opening_balance": 183,
+        "benefit_tax_year": "sb8",
+        "benefit_whole_months": 185,
+        "calculated_by": "sba",
+        "disclaimer": "sbb",
+        "input": {},
+        "loan_made_on": "sbd",
+        "marginal_income_tax_rate": 190,
+        "outstanding": 191,
+        "page_url": "sc0",
+        "period_end": "sc1",
+        "repaid_within_9_months": 194,
+        "result": {},
+        "share_url": "sc4",
+        "tool": "sc5",
+        "id": "DIRECTORS_LOAN00"
+      },
+      "DIRECTORS_LOAN01": {
+        "benefit_closing_balance": 360,
+        "benefit_interest_paid": 361,
+        "benefit_maximum_balance": 362,
+        "benefit_opening_balance": 363,
+        "benefit_tax_year": "s16c",
+        "benefit_whole_months": 365,
+        "calculated_by": "s16e",
+        "disclaimer": "s16f",
+        "input": {},
+        "loan_made_on": "s171",
+        "marginal_income_tax_rate": 370,
+        "outstanding": 371,
+        "page_url": "s174",
+        "period_end": "s175",
+        "repaid_within_9_months": 374,
+        "result": {},
+        "share_url": "s178",
+        "tool": "s179",
+        "id": "DIRECTORS_LOAN01"
+      },
+      "DIRECTORS_LOAN02": {
+        "benefit_closing_balance": 540,
+        "benefit_interest_paid": 541,
+        "benefit_maximum_balance": 542,
+        "benefit_opening_balance": 543,
+        "benefit_tax_year": "s220",
+        "benefit_whole_months": 545,
+        "calculated_by": "s222",
+        "disclaimer": "s223",
+        "input": {},
+        "loan_made_on": "s225",
+        "marginal_income_tax_rate": 550,
+        "outstanding": 551,
+        "page_url": "s228",
+        "period_end": "s229",
+        "repaid_within_9_months": 554,
+        "result": {},
+        "share_url": "s22c",
+        "tool": "s22d",
+        "id": "DIRECTORS_LOAN02"
+      }
+    }
+  },
+  "new": {
+    "directors_loan": {
+      "directors_loan_ref01": {
+        "benefit_closing_balance": 720,
+        "benefit_interest_paid": 721,
+        "benefit_maximum_balance": 722,
+        "benefit_opening_balance": 723,
+        "benefit_tax_year": "s2d4",
+        "benefit_whole_months": 725,
+        "calculated_by": "s2d6",
+        "disclaimer": "s2d7",
+        "input": {},
+        "loan_made_on": "s2d9",
+        "marginal_income_tax_rate": 730,
+        "outstanding": 731,
+        "page_url": "s2dc",
+        "period_end": "s2dd",
+        "repaid_within_9_months": 734,
+        "result": {},
+        "share_url": "s2e0",
+        "tool": "s2e1"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/directors-loan": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/directors-loan": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

@@ -1,0 +1,628 @@
+-- Typed models for the TaxleyCorporationTax SDK (LuaLS annotations).
+--
+-- GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+-- params (op.<name>.points[].g.params[]). Field/param types come from the
+-- canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
+-- @voxgig/apidef VALID_CANON). Annotations only — no runtime effect. Do not
+-- edit by hand.
+
+---@class CapitalAllowance
+---@field aia_shared? number
+---@field calculated_by string
+---@field disclaimer string
+---@field full_expensed_disposals? number
+---@field input table
+---@field main_pool_brought_forward? number
+---@field main_pool_disposals? number
+---@field new_main_plant? number
+---@field new_special_rate? number
+---@field other_cars_high_co2? number
+---@field other_cars_low_co2? number
+---@field page_url string
+---@field period_end string
+---@field period_start string
+---@field result table
+---@field share_url string
+---@field special_pool_brought_forward? number
+---@field spend_date? string
+---@field tool string
+---@field used_main_plant? number
+---@field used_special_rate? number
+---@field zero_emission_cars? number
+
+---@class CapitalAllowanceLoadMatch
+---@field aia_shared? number
+---@field full_expensed_disposal? number
+---@field main_pool_brought_forward? number
+---@field main_pool_disposal? number
+---@field new_main_plant? number
+---@field new_special_rate? number
+---@field other_cars_high_co2? number
+---@field other_cars_low_co2? number
+---@field period_end string
+---@field period_start string
+---@field special_pool_brought_forward? number
+---@field spend_date? string
+---@field used_main_plant? number
+---@field used_special_rate? number
+---@field zero_emission_car? number
+
+---@class CapitalAllowanceCreateData
+---@field aia_shared? number
+---@field full_expensed_disposals? number
+---@field main_pool_brought_forward? number
+---@field main_pool_disposals? number
+---@field new_main_plant? number
+---@field new_special_rate? number
+---@field other_cars_high_co2? number
+---@field other_cars_low_co2? number
+---@field period_end string
+---@field period_start string
+---@field special_pool_brought_forward? number
+---@field spend_date? string
+---@field used_main_plant? number
+---@field used_special_rate? number
+---@field zero_emission_cars? number
+
+---@class ChargeableGain
+---@field acquisition_cost number
+---@field acquisition_costs? number
+---@field acquisition_date string
+---@field asset_type string
+---@field calculated_by string
+---@field disclaimer string
+---@field disposal_costs? number
+---@field disposal_date string
+---@field enhancement_cost? number
+---@field enhancement_date? string
+---@field input table
+---@field page_url string
+---@field proceeds number
+---@field result table
+---@field sba_claimed? number
+---@field share_url string
+---@field tool string
+
+---@class ChargeableGainLoadMatch
+---@field acquisition_cost? number
+---@field acquisition_date string
+---@field asset_type string
+---@field disposal_cost? number
+---@field disposal_date string
+---@field enhancement_cost? number
+---@field enhancement_date? string
+---@field proceed number
+---@field sba_claimed? number
+
+---@class ChargeableGainCreateData
+---@field acquisition_cost number
+---@field acquisition_costs? number
+---@field acquisition_date string
+---@field asset_type string
+---@field disposal_costs? number
+---@field disposal_date string
+---@field enhancement_cost? number
+---@field enhancement_date? string
+---@field proceeds number
+---@field sba_claimed? number
+
+---@class CompanyCar
+---@field acquisition? string
+---@field annual_lease_cost? number
+---@field associated_companies? number
+---@field calculated_by string
+---@field capital_contribution? number
+---@field co2_gkm? number
+---@field company_profits? number
+---@field disclaimer string
+---@field electric_range_miles? number
+---@field fuel_type string
+---@field income_tax_rate string
+---@field input table
+---@field lease_started? string
+---@field list_price number
+---@field months_available? number
+---@field new_car? boolean
+---@field page_url string
+---@field phev_easement? boolean
+---@field price_paid? number
+---@field private_fuel? boolean
+---@field result table
+---@field share_url string
+---@field tax_year string
+---@field tool string
+
+---@class CompanyCarLoadMatch
+---@field acquisition? string
+---@field annual_lease_cost? number
+---@field associated_company? number
+---@field capital_contribution? number
+---@field co2_gkm? number
+---@field company_profit? number
+---@field electric_range_mile? number
+---@field fuel_type string
+---@field income_tax_rate string
+---@field lease_started? string
+---@field list_price number
+---@field months_available? number
+---@field new_car? boolean
+---@field phev_easement? boolean
+---@field price_paid? number
+---@field private_fuel? boolean
+---@field tax_year string
+
+---@class CompanyCarCreateData
+---@field acquisition? string
+---@field annual_lease_cost? number
+---@field associated_companies? number
+---@field capital_contribution? number
+---@field co2_gkm? number
+---@field company_profits? number
+---@field electric_range_miles? number
+---@field fuel_type string
+---@field income_tax_rate string
+---@field lease_started? string
+---@field list_price number
+---@field months_available? number
+---@field new_car? boolean
+---@field phev_easement? boolean
+---@field price_paid? number
+---@field private_fuel? boolean
+---@field tax_year string
+
+---@class CompanySize
+---@field balance_sheet_total number
+---@field calculated_by string
+---@field disclaimer string
+---@field employees number
+---@field first_year? boolean
+---@field input table
+---@field page_url string
+---@field period_end string
+---@field period_start string
+---@field prev_balance_sheet_total? number
+---@field prev_employees? number
+---@field prev_size? string
+---@field prev_turnover? number
+---@field result table
+---@field share_url string
+---@field tool string
+---@field turnover number
+
+---@class CompanySizeLoadMatch
+---@field balance_sheet_total number
+---@field employee number
+---@field first_year? boolean
+---@field period_end string
+---@field period_start string
+---@field prev_balance_sheet_total? number
+---@field prev_employee? number
+---@field prev_size? string
+---@field prev_turnover? number
+---@field turnover number
+
+---@class CompanySizeCreateData
+---@field balance_sheet_total number
+---@field employees number
+---@field first_year? boolean
+---@field period_end string
+---@field period_start string
+---@field prev_balance_sheet_total? number
+---@field prev_employees? number
+---@field prev_size? string
+---@field prev_turnover? number
+---@field turnover number
+
+---@class CompanyVan
+---@field associated_companies? number
+---@field calculated_by string
+---@field company_profits? number
+---@field disclaimer string
+---@field income_tax_rate string
+---@field input table
+---@field months_available? number
+---@field page_url string
+---@field price_paid? number
+---@field private_fuel? boolean
+---@field result table
+---@field share_url string
+---@field tax_year string
+---@field tool string
+---@field zero_emission? boolean
+
+---@class CompanyVanLoadMatch
+---@field associated_company? number
+---@field company_profit? number
+---@field income_tax_rate string
+---@field months_available? number
+---@field price_paid? number
+---@field private_fuel? boolean
+---@field tax_year string
+---@field zero_emission? boolean
+
+---@class CompanyVanCreateData
+---@field associated_companies? number
+---@field company_profits? number
+---@field income_tax_rate string
+---@field months_available? number
+---@field price_paid? number
+---@field private_fuel? boolean
+---@field tax_year string
+---@field zero_emission? boolean
+
+---@class CorporationTax
+---@field associated_companies? number
+---@field calculated_by string
+---@field close_investment_holding? boolean
+---@field disclaimer string
+---@field exempt_distributions? number
+---@field input table
+---@field page_url string
+---@field period_end string
+---@field period_start string
+---@field result table
+---@field share_url string
+---@field taxable_profits number
+---@field tool string
+
+---@class CorporationTaxLoadMatch
+---@field associated_company? number
+---@field close_investment_holding? boolean
+---@field exempt_distribution? number
+---@field period_end string
+---@field period_start string
+---@field taxable_profit number
+
+---@class CorporationTaxCreateData
+---@field associated_companies? number
+---@field close_investment_holding? boolean
+---@field exempt_distributions? number
+---@field period_end string
+---@field period_start string
+---@field taxable_profits number
+
+---@class Deadline
+---@field calculated_by string
+---@field disclaimer string
+---@field input table
+---@field page_url string
+---@field period_end string
+---@field period_start? string
+---@field result table
+---@field share_url string
+---@field tool string
+
+---@class DeadlineLoadMatch
+---@field period_end string
+---@field period_start? string
+
+---@class DeadlineCreateData
+---@field period_end string
+---@field period_start? string
+
+---@class DirectorPension
+---@field associated_companies? number
+---@field calculated_by string
+---@field company_profit number
+---@field contribution number
+---@field director_only_employee? boolean
+---@field disclaimer string
+---@field dividends? number
+---@field input table
+---@field money_purchase_allowance? boolean
+---@field other_income? number
+---@field other_pension_contributions? number
+---@field page_url string
+---@field result table
+---@field salary? number
+---@field scottish_taxpayer? boolean
+---@field share_url string
+---@field tax_year? string
+---@field tool string
+
+---@class DirectorPensionLoadMatch
+---@field associated_company? number
+---@field company_profit number
+---@field contribution number
+---@field director_only_employee? boolean
+---@field dividend? number
+---@field money_purchase_allowance? boolean
+---@field other_income? number
+---@field other_pension_contribution? number
+---@field salary? number
+---@field scottish_taxpayer? boolean
+---@field tax_year? string
+
+---@class DirectorPensionCreateData
+---@field associated_companies? number
+---@field company_profit number
+---@field contribution number
+---@field director_only_employee? boolean
+---@field dividends? number
+---@field money_purchase_allowance? boolean
+---@field other_income? number
+---@field other_pension_contributions? number
+---@field salary? number
+---@field scottish_taxpayer? boolean
+---@field tax_year? string
+
+---@class DirectorsLoan
+---@field benefit_closing_balance? number
+---@field benefit_interest_paid? number
+---@field benefit_maximum_balance? number
+---@field benefit_opening_balance? number
+---@field benefit_tax_year? string
+---@field benefit_whole_months? number
+---@field calculated_by string
+---@field disclaimer string
+---@field input table
+---@field loan_made_on? string
+---@field marginal_income_tax_rate? number
+---@field outstanding number
+---@field page_url string
+---@field period_end string
+---@field repaid_within_9_months? number
+---@field result table
+---@field share_url string
+---@field tool string
+
+---@class DirectorsLoanLoadMatch
+---@field benefit_closing_balance? number
+---@field benefit_interest_paid? number
+---@field benefit_maximum_balance? number
+---@field benefit_opening_balance? number
+---@field benefit_tax_year? string
+---@field benefit_whole_month? number
+---@field loan_made_on? string
+---@field marginal_income_tax_rate? number
+---@field outstanding number
+---@field period_end string
+---@field repaid_within_9_month? number
+
+---@class DirectorsLoanCreateData
+---@field benefit_closing_balance? number
+---@field benefit_interest_paid? number
+---@field benefit_maximum_balance? number
+---@field benefit_opening_balance? number
+---@field benefit_tax_year? string
+---@field benefit_whole_months? number
+---@field loan_made_on? string
+---@field marginal_income_tax_rate? number
+---@field outstanding number
+---@field period_end string
+---@field repaid_within_9_months? number
+
+---@class DividendReserve
+---@field calculated_by string
+---@field disclaimer string
+---@field dividends_already_paid number
+---@field input table
+---@field page_url string
+---@field profit_after_tax number
+---@field proposed_dividend number
+---@field result table
+---@field retained_profits_brought_forward number
+---@field share_url string
+---@field tool string
+
+---@class DividendReserveLoadMatch
+---@field dividends_already_paid number
+---@field profit_after_tax number
+---@field proposed_dividend number
+---@field retained_profits_brought_forward number
+
+---@class DividendReserveCreateData
+---@field dividends_already_paid number
+---@field profit_after_tax number
+---@field proposed_dividend number
+---@field retained_profits_brought_forward number
+
+---@class HomeOffice
+---@field actual_additional_costs? number
+---@field calculated_by string
+---@field disclaimer string
+---@field frequency string
+---@field input table
+---@field page_url string
+---@field periods number
+---@field result table
+---@field share_url string
+---@field tax_year string
+---@field tool string
+
+---@class HomeOfficeLoadMatch
+---@field actual_additional_cost? number
+---@field frequency string
+---@field period number
+---@field tax_year string
+
+---@class HomeOfficeCreateData
+---@field actual_additional_costs? number
+---@field frequency string
+---@field periods number
+---@field tax_year string
+
+---@class LatePenalty
+---@field calculated_by string
+---@field disclaimer string
+---@field filed_on string
+---@field input table
+---@field late_previous_two? boolean
+---@field page_url string
+---@field paid_on? string
+---@field period_end string
+---@field period_of_account_end? string
+---@field result table
+---@field share_url string
+---@field tax_due? number
+---@field tool string
+
+---@class LatePenaltyLoadMatch
+---@field filed_on string
+---@field late_previous_two? boolean
+---@field paid_on? string
+---@field period_end string
+---@field period_of_account_end? string
+---@field tax_due? number
+
+---@class LatePenaltyCreateData
+---@field filed_on string
+---@field late_previous_two? boolean
+---@field paid_on? string
+---@field period_end string
+---@field period_of_account_end? string
+---@field tax_due? number
+
+---@class LongPeriod
+---@field calculated_by string
+---@field disclaimer string
+---@field first_accounts? boolean
+---@field input table
+---@field page_url string
+---@field period_end string
+---@field period_start string
+---@field profit? number
+---@field result table
+---@field share_url string
+---@field tool string
+
+---@class LongPeriodLoadMatch
+---@field first_account? boolean
+---@field period_end string
+---@field period_start string
+---@field profit? number
+
+---@class LongPeriodCreateData
+---@field first_accounts? boolean
+---@field period_end string
+---@field period_start string
+---@field profit? number
+
+---@class MileageAllowance
+---@field business_miles number
+---@field calculated_by string
+---@field disclaimer string
+---@field employer_payment number
+---@field input table
+---@field page_url string
+---@field result table
+---@field share_url string
+---@field tax_year string
+---@field tool string
+---@field vehicle string
+
+---@class MileageAllowanceLoadMatch
+---@field business_mile number
+---@field employer_payment number
+---@field tax_year string
+---@field vehicle string
+
+---@class MileageAllowanceCreateData
+---@field business_miles number
+---@field employer_payment number
+---@field tax_year string
+---@field vehicle string
+
+---@class SalaryDividend
+---@field associated_companies? number
+---@field calculated_by string
+---@field company_profit number
+---@field director_only_employee? boolean
+---@field disclaimer string
+---@field input table
+---@field other_income? number
+---@field page_url string
+---@field result table
+---@field salary? number
+---@field scottish_taxpayer? boolean
+---@field share_url string
+---@field tax_year? string
+---@field tool string
+
+---@class SalaryDividendLoadMatch
+---@field associated_company? number
+---@field company_profit number
+---@field director_only_employee? boolean
+---@field other_income? number
+---@field salary? number
+---@field scottish_taxpayer? boolean
+---@field tax_year? string
+
+---@class SalaryDividendCreateData
+---@field associated_companies? number
+---@field company_profit number
+---@field director_only_employee? boolean
+---@field other_income? number
+---@field salary? number
+---@field scottish_taxpayer? boolean
+---@field tax_year? string
+
+---@class SoleTraderVsLimited
+---@field calculated_by string
+---@field director_only_employee? boolean
+---@field disclaimer string
+---@field input table
+---@field other_income? number
+---@field page_url string
+---@field profit number
+---@field result table
+---@field scottish_taxpayer? boolean
+---@field share_url string
+---@field tax_year? string
+---@field tool string
+
+---@class SoleTraderVsLimitedLoadMatch
+---@field director_only_employee? boolean
+---@field other_income? number
+---@field profit number
+---@field scottish_taxpayer? boolean
+---@field tax_year? string
+
+---@class SoleTraderVsLimitedCreateData
+---@field director_only_employee? boolean
+---@field other_income? number
+---@field profit number
+---@field scottish_taxpayer? boolean
+---@field tax_year? string
+
+---@class Tool
+
+---@class ToolLoadMatch
+
+---@class TrivialBenefit
+---@field benefit_cost number
+---@field calculated_by string
+---@field cash_or_cash_voucher boolean
+---@field close_company_director boolean
+---@field disclaimer string
+---@field in_contract boolean
+---@field input table
+---@field page_url string
+---@field qualifying_benefits_so_far number
+---@field result table
+---@field reward_for_work boolean
+---@field share_url string
+---@field tax_year string
+---@field tool string
+
+---@class TrivialBenefitLoadMatch
+---@field benefit_cost number
+---@field cash_or_cash_voucher boolean
+---@field close_company_director boolean
+---@field in_contract boolean
+---@field qualifying_benefits_so_far number
+---@field reward_for_work boolean
+---@field tax_year string
+
+---@class TrivialBenefitCreateData
+---@field benefit_cost number
+---@field cash_or_cash_voucher boolean
+---@field close_company_director boolean
+---@field in_contract boolean
+---@field qualifying_benefits_so_far number
+---@field reward_for_work boolean
+---@field tax_year string
+
+local M = {}
+
+return M

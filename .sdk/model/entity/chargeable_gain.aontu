@@ -1,0 +1,318 @@
+# Entity: chargeable_gain
+
+main: kit: entity: chargeable_gain: {
+
+  alias: field: {}
+
+  fields: {
+    acquisition_cost: {
+      h: "Acquisition Cost"
+      n: "acquisition_cost"
+      r: true
+      sh: "What the company paid for the asset, in pounds."
+      t: "`$NUMBER`"
+    }
+    acquisition_costs: {
+      h: "Acquisition Costs"
+      n: "acquisition_costs"
+      r: false
+      sh: "Optional."
+      t: "`$NUMBER`"
+    }
+    acquisition_date: {
+      fo: "date"
+      h: "Acquisition Date"
+      n: "acquisition_date"
+      r: true
+      sh: "When the company bought the asset (exchange of contracts), as YYYY-MM-DD."
+      t: "`$STRING`"
+    }
+    asset_type: {
+      h: "Asset Type"
+      n: "asset_type"
+      r: true
+      sh: "\"land_buildings\": UK land or buildings (the company's whole interest; a freehold or a lease with more than 50 years left)."
+      t: "`$STRING`"
+    }
+    calculated_by: {
+      h: "Calculated By"
+      n: "calculated_by"
+      r: true
+      t: "`$STRING`"
+    }
+    disclaimer: {
+      h: "Disclaimer"
+      n: "disclaimer"
+      r: true
+      t: "`$STRING`"
+    }
+    disposal_costs: {
+      h: "Disposal Costs"
+      n: "disposal_costs"
+      r: false
+      sh: "Optional."
+      t: "`$NUMBER`"
+    }
+    disposal_date: {
+      fo: "date"
+      h: "Disposal Date"
+      n: "disposal_date"
+      r: true
+      sh: "When the company sold the asset (exchange of contracts), as YYYY-MM-DD."
+      t: "`$STRING`"
+    }
+    enhancement_cost: {
+      h: "Enhancement Cost"
+      n: "enhancement_cost"
+      r: false
+      sh: "Optional, land and buildings only."
+      t: "`$NUMBER`"
+    }
+    enhancement_date: {
+      fo: "date"
+      h: "Enhancement Date"
+      n: "enhancement_date"
+      r: false
+      sh: "Optional, land and buildings only."
+      t: "`$STRING`"
+    }
+    input: {
+      h: "Input"
+      n: "input"
+      r: true
+      sh: "The input as the tool read it (dates YYYY-MM-DD, money in pounds)."
+      t: "`$OBJECT`"
+    }
+    page_url: {
+      fo: "uri"
+      h: "Page Url"
+      n: "page_url"
+      r: true
+      t: "`$STRING`"
+    }
+    proceeds: {
+      h: "Proceeds"
+      n: "proceeds"
+      r: true
+      sh: "What the company sold the asset for, in pounds."
+      t: "`$NUMBER`"
+    }
+    result: {
+      h: "Result"
+      n: "result"
+      r: true
+      t: "`$OBJECT`"
+    }
+    sba_claimed: {
+      h: "Sba Claimed"
+      n: "sba_claimed"
+      r: false
+      sh: "Optional, land and buildings only."
+      t: "`$NUMBER`"
+    }
+    share_url: {
+      fo: "uri"
+      h: "Share Url"
+      n: "share_url"
+      r: true
+      sh: "A link to this result on taxley.co.uk."
+      t: "`$STRING`"
+    }
+    tool: {
+      h: "Tool"
+      n: "tool"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "chargeable_gain"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "acquisition_cost"
+            "acquisition_costs"
+            "acquisition_date"
+            "asset_type"
+            "disposal_costs"
+            "disposal_date"
+            "enhancement_cost"
+            "enhancement_date"
+            "proceeds"
+            "sba_claimed"
+          ]
+          co: {
+            id: "POST /api/v1/tools/chargeable-gains"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/v1/tools/chargeable-gains"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "chargeable-gains"
+            }
+          ]
+          t: {
+            req: {
+              acquisition_cost: "`reqdata.acquisition_cost`"
+              acquisition_costs: "`reqdata.acquisition_cost`"
+              acquisition_date: "`reqdata.acquisition_date`"
+              asset_type: "`reqdata.asset_type`"
+              disposal_costs: "`reqdata.disposal_cost`"
+              disposal_date: "`reqdata.disposal_date`"
+              enhancement_cost: "`reqdata.enhancement_cost`"
+              enhancement_date: "`reqdata.enhancement_date`"
+              proceeds: "`reqdata.proceed`"
+              sba_claimed: "`reqdata.sba_claimed`"
+            }
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/tools/chargeable-gains"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 250000
+                k: "query"
+                n: "acquisition_cost"
+                or: "acquisition_cost"
+                r: true
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "acquisition_cost"
+                or: "acquisition_costs"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                ex: "2008-06-01"
+                k: "query"
+                n: "acquisition_date"
+                or: "acquisition_date"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                ex: "land_buildings"
+                k: "query"
+                n: "asset_type"
+                or: "asset_type"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "disposal_cost"
+                or: "disposal_costs"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                ex: "2026-06-30"
+                k: "query"
+                n: "disposal_date"
+                or: "disposal_date"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "enhancement_cost"
+                or: "enhancement_cost"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "enhancement_date"
+                or: "enhancement_date"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: 420000
+                k: "query"
+                n: "proceed"
+                or: "proceeds"
+                r: true
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "sba_claimed"
+                or: "sba_claimed"
+                r: false
+                t: "`$NUMBER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/tools/chargeable-gains"
+          q: {
+            exist: [
+              "acquisition_cost"
+              "acquisition_date"
+              "asset_type"
+              "disposal_date"
+              "proceed"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "chargeable-gains"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -1,0 +1,81 @@
+{
+  "existing": {
+    "sole_trader_vs_limited": {
+      "SOLE_TRADER_VS_LIMITED00": {
+        "calculated_by": "s78",
+        "director_only_employee": false,
+        "disclaimer": "s7a",
+        "input": {},
+        "other_income": 124,
+        "page_url": "s7d",
+        "profit": 126,
+        "result": {},
+        "scottish_taxpayer": true,
+        "share_url": "s81",
+        "tax_year": "s82",
+        "tool": "s83",
+        "id": "SOLE_TRADER_VS_LIMITED00"
+      },
+      "SOLE_TRADER_VS_LIMITED01": {
+        "calculated_by": "sf0",
+        "director_only_employee": false,
+        "disclaimer": "sf2",
+        "input": {},
+        "other_income": 244,
+        "page_url": "sf5",
+        "profit": 246,
+        "result": {},
+        "scottish_taxpayer": true,
+        "share_url": "sf9",
+        "tax_year": "sfa",
+        "tool": "sfb",
+        "id": "SOLE_TRADER_VS_LIMITED01"
+      },
+      "SOLE_TRADER_VS_LIMITED02": {
+        "calculated_by": "s168",
+        "director_only_employee": false,
+        "disclaimer": "s16a",
+        "input": {},
+        "other_income": 364,
+        "page_url": "s16d",
+        "profit": 366,
+        "result": {},
+        "scottish_taxpayer": true,
+        "share_url": "s171",
+        "tax_year": "s172",
+        "tool": "s173",
+        "id": "SOLE_TRADER_VS_LIMITED02"
+      }
+    }
+  },
+  "new": {
+    "sole_trader_vs_limited": {
+      "sole_trader_vs_limited_ref01": {
+        "calculated_by": "s1e0",
+        "director_only_employee": false,
+        "disclaimer": "s1e2",
+        "input": {},
+        "other_income": 484,
+        "page_url": "s1e5",
+        "profit": 486,
+        "result": {},
+        "scottish_taxpayer": true,
+        "share_url": "s1e9",
+        "tax_year": "s1ea",
+        "tool": "s1eb"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/sole-trader-vs-limited": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/sole-trader-vs-limited": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "existing": {
+    "long_period": {
+      "LONG_PERIOD00": {
+        "calculated_by": "s6e",
+        "disclaimer": "s6f",
+        "first_accounts": true,
+        "input": {},
+        "page_url": "s72",
+        "period_end": "s73",
+        "period_start": "s74",
+        "profit": 117,
+        "result": {},
+        "share_url": "s77",
+        "tool": "s78",
+        "id": "LONG_PERIOD00"
+      },
+      "LONG_PERIOD01": {
+        "calculated_by": "sdc",
+        "disclaimer": "sdd",
+        "first_accounts": true,
+        "input": {},
+        "page_url": "se0",
+        "period_end": "se1",
+        "period_start": "se2",
+        "profit": 227,
+        "result": {},
+        "share_url": "se5",
+        "tool": "se6",
+        "id": "LONG_PERIOD01"
+      },
+      "LONG_PERIOD02": {
+        "calculated_by": "s14a",
+        "disclaimer": "s14b",
+        "first_accounts": true,
+        "input": {},
+        "page_url": "s14e",
+        "period_end": "s14f",
+        "period_start": "s150",
+        "profit": 337,
+        "result": {},
+        "share_url": "s153",
+        "tool": "s154",
+        "id": "LONG_PERIOD02"
+      }
+    }
+  },
+  "new": {
+    "long_period": {
+      "long_period_ref01": {
+        "calculated_by": "s1b8",
+        "disclaimer": "s1b9",
+        "first_accounts": true,
+        "input": {},
+        "page_url": "s1bc",
+        "period_end": "s1bd",
+        "period_start": "s1be",
+        "profit": 447,
+        "result": {},
+        "share_url": "s1c1",
+        "tool": "s1c2"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/tools/long-period": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/tools/long-period": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

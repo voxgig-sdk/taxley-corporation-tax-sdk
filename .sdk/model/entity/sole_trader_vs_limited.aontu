@@ -1,0 +1,230 @@
+# Entity: sole_trader_vs_limited
+
+main: kit: entity: sole_trader_vs_limited: {
+
+  alias: field: {}
+
+  fields: {
+    calculated_by: {
+      h: "Calculated By"
+      n: "calculated_by"
+      r: true
+      t: "`$STRING`"
+    }
+    director_only_employee: {
+      h: "Director Only Employee"
+      n: "director_only_employee"
+      r: false
+      sh: "true if the director is the company's only employee paid over £5,000 a year (the usual one-person company): the company then can't claim the Employment Allowance."
+      t: "`$BOOLEAN`"
+    }
+    disclaimer: {
+      h: "Disclaimer"
+      n: "disclaimer"
+      r: true
+      t: "`$STRING`"
+    }
+    input: {
+      h: "Input"
+      n: "input"
+      r: true
+      sh: "The input as the tool read it (dates YYYY-MM-DD, money in pounds)."
+      t: "`$OBJECT`"
+    }
+    other_income: {
+      h: "Other Income"
+      n: "other_income"
+      r: false
+      sh: "The owner's other taxable income for the tax year, such as a job, a pension or rental profit, in pounds."
+      t: "`$NUMBER`"
+    }
+    page_url: {
+      fo: "uri"
+      h: "Page Url"
+      n: "page_url"
+      r: true
+      t: "`$STRING`"
+    }
+    profit: {
+      h: "Profit"
+      n: "profit"
+      r: true
+      sh: "The business's profit for the year, after expenses and before any tax or pay to the owner, in pounds."
+      t: "`$NUMBER`"
+    }
+    result: {
+      h: "Result"
+      n: "result"
+      r: true
+      t: "`$OBJECT`"
+    }
+    scottish_taxpayer: {
+      h: "Scottish Taxpayer"
+      n: "scottish_taxpayer"
+      r: false
+      sh: "true if the person pays Scottish Income Tax (their main home is in Scotland): salary, trading profit and other income use the Scottish bands."
+      t: "`$BOOLEAN`"
+    }
+    share_url: {
+      fo: "uri"
+      h: "Share Url"
+      n: "share_url"
+      r: true
+      sh: "A link to this result on taxley.co.uk."
+      t: "`$STRING`"
+    }
+    tax_year: {
+      h: "Tax Year"
+      n: "tax_year"
+      r: false
+      sh: "UK tax year, \"2025-26\" or \"2026-27\" (6 April to 5 April)."
+      t: "`$STRING`"
+    }
+    tool: {
+      h: "Tool"
+      n: "tool"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "sole_trader_vs_limited"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "director_only_employee"
+            "other_income"
+            "profit"
+            "scottish_taxpayer"
+            "tax_year"
+          ]
+          co: {
+            id: "POST /api/v1/tools/sole-trader-vs-limited"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/v1/tools/sole-trader-vs-limited"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "sole-trader-vs-limited"
+            }
+          ]
+          t: {
+            req: {
+              director_only_employee: "`reqdata.director_only_employee`"
+              other_income: "`reqdata.other_income`"
+              profit: "`reqdata.profit`"
+              scottish_taxpayer: "`reqdata.scottish_taxpayer`"
+              tax_year: "`reqdata.tax_year`"
+            }
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/tools/sole-trader-vs-limited"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: true
+                k: "query"
+                n: "director_only_employee"
+                or: "director_only_employee"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+              {
+                k: "query"
+                n: "other_income"
+                or: "other_income"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                ex: 50000
+                k: "query"
+                n: "profit"
+                or: "profit"
+                r: true
+                t: "`$NUMBER`"
+              }
+              {
+                ex: false
+                k: "query"
+                n: "scottish_taxpayer"
+                or: "scottish_taxpayer"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+              {
+                ex: "2026-27"
+                k: "query"
+                n: "tax_year"
+                or: "tax_year"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/tools/sole-trader-vs-limited"
+          q: {
+            exist: [
+              "profit"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "sole-trader-vs-limited"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

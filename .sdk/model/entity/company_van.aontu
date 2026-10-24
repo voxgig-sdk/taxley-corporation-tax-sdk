@@ -1,0 +1,277 @@
+# Entity: company_van
+
+main: kit: entity: company_van: {
+
+  alias: field: {}
+
+  fields: {
+    associated_companies: {
+      h: "Associated Companies"
+      n: "associated_companies"
+      r: false
+      sh: "Optional, with company_profits."
+      t: "`$INTEGER`"
+    }
+    calculated_by: {
+      h: "Calculated By"
+      n: "calculated_by"
+      r: true
+      t: "`$STRING`"
+    }
+    company_profits: {
+      h: "Company Profits"
+      n: "company_profits"
+      r: false
+      sh: "Optional."
+      t: "`$NUMBER`"
+    }
+    disclaimer: {
+      h: "Disclaimer"
+      n: "disclaimer"
+      r: true
+      t: "`$STRING`"
+    }
+    income_tax_rate: {
+      h: "Income Tax Rate"
+      n: "income_tax_rate"
+      r: true
+      sh: "The director's or employee's top rate of Income Tax: \"basic\" (20%), \"higher\" (40%) or \"additional\" (45%)."
+      t: "`$STRING`"
+    }
+    input: {
+      h: "Input"
+      n: "input"
+      r: true
+      sh: "The input as the tool read it (dates YYYY-MM-DD, money in pounds)."
+      t: "`$OBJECT`"
+    }
+    months_available: {
+      h: "Months Available"
+      n: "months_available"
+      r: false
+      sh: "Optional."
+      t: "`$INTEGER`"
+    }
+    page_url: {
+      fo: "uri"
+      h: "Page Url"
+      n: "page_url"
+      r: true
+      t: "`$STRING`"
+    }
+    price_paid: {
+      h: "Price Paid"
+      n: "price_paid"
+      r: false
+      sh: "Optional."
+      t: "`$NUMBER`"
+    }
+    private_fuel: {
+      h: "Private Fuel"
+      n: "private_fuel"
+      r: false
+      sh: "Optional."
+      t: "`$BOOLEAN`"
+    }
+    result: {
+      h: "Result"
+      n: "result"
+      r: true
+      t: "`$OBJECT`"
+    }
+    share_url: {
+      fo: "uri"
+      h: "Share Url"
+      n: "share_url"
+      r: true
+      sh: "A link to this result on taxley.co.uk."
+      t: "`$STRING`"
+    }
+    tax_year: {
+      h: "Tax Year"
+      n: "tax_year"
+      r: true
+      sh: "UK tax year: \"2025-26\" (6 April 2025 to 5 April 2026) or \"2026-27\" (6 April 2026 to 5 April 2027)."
+      t: "`$STRING`"
+    }
+    tool: {
+      h: "Tool"
+      n: "tool"
+      r: true
+      t: "`$STRING`"
+    }
+    zero_emission: {
+      h: "Zero Emission"
+      n: "zero_emission"
+      r: false
+      sh: "Optional."
+      t: "`$BOOLEAN`"
+    }
+  }
+
+  name: "company_van"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "associated_companies"
+            "company_profits"
+            "income_tax_rate"
+            "months_available"
+            "price_paid"
+            "private_fuel"
+            "tax_year"
+            "zero_emission"
+          ]
+          co: {
+            id: "POST /api/v1/tools/company-van"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/v1/tools/company-van"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "company-van"
+            }
+          ]
+          t: {
+            req: {
+              associated_companies: "`reqdata.associated_company`"
+              company_profits: "`reqdata.company_profit`"
+              income_tax_rate: "`reqdata.income_tax_rate`"
+              months_available: "`reqdata.months_available`"
+              price_paid: "`reqdata.price_paid`"
+              private_fuel: "`reqdata.private_fuel`"
+              tax_year: "`reqdata.tax_year`"
+              zero_emission: "`reqdata.zero_emission`"
+            }
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/tools/company-van"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "associated_company"
+                or: "associated_companies"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "company_profit"
+                or: "company_profits"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                ex: "basic"
+                k: "query"
+                n: "income_tax_rate"
+                or: "income_tax_rate"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "months_available"
+                or: "months_available"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "price_paid"
+                or: "price_paid"
+                r: false
+                t: "`$NUMBER`"
+              }
+              {
+                k: "query"
+                n: "private_fuel"
+                or: "private_fuel"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+              {
+                ex: "2025-26"
+                k: "query"
+                n: "tax_year"
+                or: "tax_year"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "zero_emission"
+                or: "zero_emission"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/tools/company-van"
+          q: {
+            exist: [
+              "income_tax_rate"
+              "tax_year"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "company-van"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

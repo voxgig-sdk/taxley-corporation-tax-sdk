@@ -1,0 +1,36 @@
+# BasicHomeOfficeFlow
+
+main: kit: flow: BasicHomeOfficeFlow:
+{
+  entity: "home_office",
+  kind: "basic",
+  name: "BasicHomeOfficeFlow",
+  step: [
+    {
+      i: {
+        ref: "home_office_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "home_office_ref01",
+        srcdatavar: "home_office_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-home_office_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicHomeOfficeFlow"
+}

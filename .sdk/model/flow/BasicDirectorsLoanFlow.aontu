@@ -1,0 +1,36 @@
+# BasicDirectorsLoanFlow
+
+main: kit: flow: BasicDirectorsLoanFlow:
+{
+  entity: "directors_loan",
+  kind: "basic",
+  name: "BasicDirectorsLoanFlow",
+  step: [
+    {
+      i: {
+        ref: "directors_loan_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "directors_loan_ref01",
+        srcdatavar: "directors_loan_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-directors_loan_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicDirectorsLoanFlow"
+}

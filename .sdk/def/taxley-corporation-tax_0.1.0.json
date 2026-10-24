@@ -1,0 +1,3948 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Taxley free UK Corporation Tax tools",
+    "version": "1.0.0",
+    "description": "Free calculators for UK limited companies: the same results as the tool pages on taxley.co.uk. No key needed; please link to the share_url when you use a result. General guidance from Taxley's free calculator, based on the rules published on GOV.UK. It is not tax advice; check your own figures before you file or pay.",
+    "contact": {
+      "name": "Taxley",
+      "url": "https://taxley.co.uk/developers"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://taxley.co.uk"
+    }
+  ],
+  "externalDocs": {
+    "description": "Taxley tools for developers and AI assistants",
+    "url": "https://taxley.co.uk/developers"
+  },
+  "paths": {
+    "/api/v1/tools": {
+      "get": {
+        "operationId": "listTools",
+        "summary": "List the free tools",
+        "responses": {
+          "200": {
+            "description": "The tools, with their input schemas and example inputs.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tools/corporation-tax": {
+      "summary": "Corporation Tax calculator",
+      "description": "Estimates the Corporation Tax a UK limited company pays on its taxable profits for one accounting period of up to 12 months. Applies the small profits rate, the main rate and marginal relief, with associated companies, short periods and periods that straddle 1 April.",
+      "get": {
+        "operationId": "ukCorporationTaxEstimate",
+        "summary": "Corporation Tax calculator (query string)",
+        "description": "Estimates the Corporation Tax a UK limited company pays on its taxable profits for one accounting period of up to 12 months. Applies the small profits rate, the main rate and marginal relief, with associated companies, short periods and periods that straddle 1 April.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "period_start",
+            "in": "query",
+            "required": true,
+            "description": "First day of the accounting period, YYYY-MM-DD (for example 2025-04-01).",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2025-04-01"
+          },
+          {
+            "name": "period_end",
+            "in": "query",
+            "required": true,
+            "description": "Last day of the accounting period, YYYY-MM-DD. No more than 12 months after the start.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2026-03-31"
+          },
+          {
+            "name": "taxable_profits",
+            "in": "query",
+            "required": true,
+            "description": "Taxable total profits for the period in pounds, after tax adjustments and reliefs (CT600 box 315).",
+            "schema": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100000000000
+            },
+            "example": 100000
+          },
+          {
+            "name": "associated_companies",
+            "in": "query",
+            "required": false,
+            "description": "How many other companies are associated with this one (under common control) in the period. Leave at 0 for a standalone company.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100,
+              "default": 0
+            }
+          },
+          {
+            "name": "exempt_distributions",
+            "in": "query",
+            "required": false,
+            "description": "Exempt dividends received from companies outside the company's 51% group (and not from a trading company owned by a consortium it belongs to) (CTA 2010 s.18L), in pounds, used only to decide the rate. They are not taxed.",
+            "schema": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100000000000,
+              "default": 0
+            }
+          },
+          {
+            "name": "close_investment_holding",
+            "in": "query",
+            "required": false,
+            "description": "True if the company is a close investment-holding company in the period (CTA 2010 s.18N): a close company is one unless, throughout the period, it exists wholly or mainly to trade commercially, to let land to people not connected with it, or to hold, lend to, administer or serve companies under its (or its parent's) control that do (or that hold such companies). It pays the main rate on all its profits, with no small profits rate or marginal relief. Leave false for most companies.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "ukCorporationTaxEstimatePost",
+        "summary": "Corporation Tax calculator (JSON body)",
+        "description": "Estimates the Corporation Tax a UK limited company pays on its taxable profits for one accounting period of up to 12 months. Applies the small profits rate, the main rate and marginal relief, with associated companies, short periods and periods that straddle 1 April.",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "period_start": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "First day of the accounting period, YYYY-MM-DD (for example 2025-04-01)."
+                  },
+                  "period_end": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Last day of the accounting period, YYYY-MM-DD. No more than 12 months after the start."
+                  },
+                  "taxable_profits": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100000000000,
+                    "description": "Taxable total profits for the period in pounds, after tax adjustments and reliefs (CT600 box 315)."
+                  },
+                  "associated_companies": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "default": 0,
+                    "description": "How many other companies are associated with this one (under common control) in the period. Leave at 0 for a standalone company."
+                  },
+                  "exempt_distributions": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100000000000,
+                    "default": 0,
+                    "description": "Exempt dividends received from companies outside the company's 51% group (and not from a trading company owned by a consortium it belongs to) (CTA 2010 s.18L), in pounds, used only to decide the rate. They are not taxed."
+                  },
+                  "close_investment_holding": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "True if the company is a close investment-holding company in the period (CTA 2010 s.18N): a close company is one unless, throughout the period, it exists wholly or mainly to trade commercially, to let land to people not connected with it, or to hold, lend to, administer or serve companies under its (or its parent's) control that do (or that hold such companies). It pays the main rate on all its profits, with no small profits rate or marginal relief. Leave false for most companies."
+                  }
+                },
+                "required": [
+                  "period_start",
+                  "period_end",
+                  "taxable_profits"
+                ]
+              },
+              "example": {
+                "period_start": "2025-04-01",
+                "period_end": "2026-03-31",
+                "taxable_profits": 100000,
+                "associated_companies": 0
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    },
+    "/api/v1/tools/deadlines": {
+      "summary": "Corporation Tax deadline calculator",
+      "description": "Works out a UK private limited company's Corporation Tax payment date, CT600 filing deadline and Companies House accounts deadline from its accounting period. Accounts longer than 12 months are split into two Corporation Tax periods, each with its own payment date.",
+      "get": {
+        "operationId": "corporationTaxDeadlines",
+        "summary": "Corporation Tax deadline calculator (query string)",
+        "description": "Works out a UK private limited company's Corporation Tax payment date, CT600 filing deadline and Companies House accounts deadline from its accounting period. Accounts longer than 12 months are split into two Corporation Tax periods, each with its own payment date.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "period_end",
+            "in": "query",
+            "required": true,
+            "description": "The last day of the accounts period (the company's year end or accounting reference date), as YYYY-MM-DD.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2026-03-31"
+          },
+          {
+            "name": "period_start",
+            "in": "query",
+            "required": false,
+            "description": "Optional. The first day of the accounts period, as YYYY-MM-DD. Give it when the accounts cover more than 12 months (for first accounts, the date of incorporation). Without it the period is taken to be 12 months or less.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "corporationTaxDeadlinesPost",
+        "summary": "Corporation Tax deadline calculator (JSON body)",
+        "description": "Works out a UK private limited company's Corporation Tax payment date, CT600 filing deadline and Companies House accounts deadline from its accounting period. Accounts longer than 12 months are split into two Corporation Tax periods, each with its own payment date.",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "period_end": {
+                    "type": "string",
+                    "format": "date",
+                    "title": "Accounting period end date",
+                    "description": "The last day of the accounts period (the company's year end or accounting reference date), as YYYY-MM-DD."
+                  },
+                  "period_start": {
+                    "type": "string",
+                    "format": "date",
+                    "title": "Accounting period start date",
+                    "description": "Optional. The first day of the accounts period, as YYYY-MM-DD. Give it when the accounts cover more than 12 months (for first accounts, the date of incorporation). Without it the period is taken to be 12 months or less."
+                  }
+                },
+                "required": [
+                  "period_end"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "period_end": "2026-03-31",
+                "period_start": "2025-04-01"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    },
+    "/api/v1/tools/late-penalty": {
+      "summary": "Corporation Tax late filing penalty and interest calculator",
+      "description": "Works out HMRC's penalties for filing a UK company's Company Tax Return (CT600) late — the flat £200/£400 penalties for filing deadlines from 1 April 2026 (£100/£200 before then), and the 10% or 20% tax-geared penalty — plus late payment interest on the Corporation Tax at HMRC's published rates.",
+      "get": {
+        "operationId": "corporationTaxLatePenaltyAndInterest",
+        "summary": "Corporation Tax late filing penalty and interest calculator (query string)",
+        "description": "Works out HMRC's penalties for filing a UK company's Company Tax Return (CT600) late — the flat £200/£400 penalties for filing deadlines from 1 April 2026 (£100/£200 before then), and the 10% or 20% tax-geared penalty — plus late payment interest on the Corporation Tax at HMRC's published rates.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "period_end",
+            "in": "query",
+            "required": true,
+            "description": "Last day of the Corporation Tax accounting period the CT600 covers (YYYY-MM-DD), on or after 2015-04-01.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2025-04-30"
+          },
+          {
+            "name": "period_of_account_end",
+            "in": "query",
+            "required": false,
+            "description": "Only if the company's accounts cover more than 12 months (up to 18): the last day of that period of account, no more than 6 months after period_end. Every CT600 for those accounts is then due 12 months after this date. Leave out otherwise.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "filed_on",
+            "in": "query",
+            "required": true,
+            "description": "The date the CT600 was, or will be, filed with HMRC.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2026-08-15"
+          },
+          {
+            "name": "tax_due",
+            "in": "query",
+            "required": false,
+            "description": "Corporation Tax payable for the accounting period, in pounds. 0 or leave out if there is none (the flat penalties still apply).",
+            "schema": {
+              "type": "number",
+              "minimum": 0,
+              "default": 0
+            }
+          },
+          {
+            "name": "paid_on",
+            "in": "query",
+            "required": false,
+            "description": "The date the Corporation Tax was, or will be, paid in full. Leave out if it has not been paid: the tax then counts as unpaid for the 10%/20% penalty, and interest is worked out up to filed_on (it keeps running after that).",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "late_previous_two",
+            "in": "query",
+            "required": false,
+            "description": "True if the company was liable to a late filing penalty for each of its two previous accounting periods (consecutive, and within Corporation Tax throughout). A third late return in a row costs £1,000 or £2,000 instead of £200 or £400.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "corporationTaxLatePenaltyAndInterestPost",
+        "summary": "Corporation Tax late filing penalty and interest calculator (JSON body)",
+        "description": "Works out HMRC's penalties for filing a UK company's Company Tax Return (CT600) late — the flat £200/£400 penalties for filing deadlines from 1 April 2026 (£100/£200 before then), and the 10% or 20% tax-geared penalty — plus late payment interest on the Corporation Tax at HMRC's published rates.",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "period_end": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Last day of the Corporation Tax accounting period the CT600 covers (YYYY-MM-DD), on or after 2015-04-01."
+                  },
+                  "period_of_account_end": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Only if the company's accounts cover more than 12 months (up to 18): the last day of that period of account, no more than 6 months after period_end. Every CT600 for those accounts is then due 12 months after this date. Leave out otherwise."
+                  },
+                  "filed_on": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The date the CT600 was, or will be, filed with HMRC."
+                  },
+                  "tax_due": {
+                    "type": "number",
+                    "minimum": 0,
+                    "default": 0,
+                    "description": "Corporation Tax payable for the accounting period, in pounds. 0 or leave out if there is none (the flat penalties still apply)."
+                  },
+                  "paid_on": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "The date the Corporation Tax was, or will be, paid in full. Leave out if it has not been paid: the tax then counts as unpaid for the 10%/20% penalty, and interest is worked out up to filed_on (it keeps running after that)."
+                  },
+                  "late_previous_two": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "True if the company was liable to a late filing penalty for each of its two previous accounting periods (consecutive, and within Corporation Tax throughout). A third late return in a row costs £1,000 or £2,000 instead of £200 or £400."
+                  }
+                },
+                "required": [
+                  "period_end",
+                  "filed_on"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "period_end": "2025-04-30",
+                "filed_on": "2026-08-15",
+                "tax_due": 10000,
+                "paid_on": "2026-08-01",
+                "late_previous_two": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    },
+    "/api/v1/tools/directors-loan": {
+      "summary": "Director's loan tax and benefit in kind calculator",
+      "description": "Works out section 455 tax and repayment relief on a director's loan, with an optional beneficial-loan estimate using HMRC's normal averaging method, the director's marginal Income Tax rate and the company's Class 1A National Insurance.",
+      "get": {
+        "operationId": "directorsLoanS455Tax",
+        "summary": "Director's loan tax and benefit in kind calculator (query string)",
+        "description": "Works out section 455 tax and repayment relief on a director's loan, with an optional beneficial-loan estimate using HMRC's normal averaging method, the director's marginal Income Tax rate and the company's Class 1A National Insurance.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "period_end",
+            "in": "query",
+            "required": true,
+            "description": "Last day of the company's Corporation Tax accounting period, YYYY-MM-DD.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2026-03-31"
+          },
+          {
+            "name": "outstanding",
+            "in": "query",
+            "required": true,
+            "description": "Loan balance the director or other participator owed the company at the period end, in pounds.",
+            "schema": {
+              "type": "number",
+              "minimum": 1
+            },
+            "example": 25000
+          },
+          {
+            "name": "repaid_within_9_months",
+            "in": "query",
+            "required": false,
+            "description": "Part of that balance repaid, released or written off after the period end and within 9 months of it (before the s.455 tax is due), in pounds. Default 0.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "loan_made_on",
+            "in": "query",
+            "required": false,
+            "description": "Date the loan was made, YYYY-MM-DD, within the accounting period. It sets the rate: 33.75% for loans made 6 April 2022 to 5 April 2026, 35.75% from 6 April 2026. Required when the 12 months to period_end include a rate change (for example a period ending between 6 April 2026 and 4 April 2027). Otherwise it defaults to the period end.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "benefit_tax_year",
+            "in": "query",
+            "required": false,
+            "description": "Optional UK tax year for the beneficial-loan calculation: 2025-26 or 2026-27. Omit to calculate s.455 only.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "2025-26",
+                "2026-27"
+              ]
+            }
+          },
+          {
+            "name": "benefit_opening_balance",
+            "in": "query",
+            "required": false,
+            "description": "Maximum loan balance on 5 April before the selected tax year, or when the loan began, in pounds. Defaults to outstanding.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "benefit_closing_balance",
+            "in": "query",
+            "required": false,
+            "description": "Maximum loan balance on 5 April at the end of the selected tax year, or when the loan ended, in pounds. Defaults to outstanding.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "benefit_maximum_balance",
+            "in": "query",
+            "required": false,
+            "description": "Highest total beneficial-loan balance at any time in the tax year, in pounds, used for the £10,000 exemption. Defaults to the larger opening or closing balance.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "benefit_whole_months",
+            "in": "query",
+            "required": false,
+            "description": "Whole months the loan was outstanding in the selected tax year, from 1 to 12. Defaults to 12.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 12
+            }
+          },
+          {
+            "name": "benefit_interest_paid",
+            "in": "query",
+            "required": false,
+            "description": "Interest the director was required to pay and actually paid for the selected tax year, in pounds. Defaults to 0.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "marginal_income_tax_rate",
+            "in": "query",
+            "required": false,
+            "description": "Director’s marginal Income Tax rate as a percentage, used only to estimate personal tax on the benefit. Defaults to 20.",
+            "schema": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "directorsLoanS455TaxPost",
+        "summary": "Director's loan tax and benefit in kind calculator (JSON body)",
+        "description": "Works out section 455 tax and repayment relief on a director's loan, with an optional beneficial-loan estimate using HMRC's normal averaging method, the director's marginal Income Tax rate and the company's Class 1A National Insurance.",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "period_end": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Last day of the company's Corporation Tax accounting period, YYYY-MM-DD."
+                  },
+                  "outstanding": {
+                    "type": "number",
+                    "minimum": 1,
+                    "description": "Loan balance the director or other participator owed the company at the period end, in pounds."
+                  },
+                  "repaid_within_9_months": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Part of that balance repaid, released or written off after the period end and within 9 months of it (before the s.455 tax is due), in pounds. Default 0."
+                  },
+                  "loan_made_on": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Date the loan was made, YYYY-MM-DD, within the accounting period. It sets the rate: 33.75% for loans made 6 April 2022 to 5 April 2026, 35.75% from 6 April 2026. Required when the 12 months to period_end include a rate change (for example a period ending between 6 April 2026 and 4 April 2027). Otherwise it defaults to the period end."
+                  },
+                  "benefit_tax_year": {
+                    "type": "string",
+                    "enum": [
+                      "2025-26",
+                      "2026-27"
+                    ],
+                    "description": "Optional UK tax year for the beneficial-loan calculation: 2025-26 or 2026-27. Omit to calculate s.455 only."
+                  },
+                  "benefit_opening_balance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Maximum loan balance on 5 April before the selected tax year, or when the loan began, in pounds. Defaults to outstanding."
+                  },
+                  "benefit_closing_balance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Maximum loan balance on 5 April at the end of the selected tax year, or when the loan ended, in pounds. Defaults to outstanding."
+                  },
+                  "benefit_maximum_balance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Highest total beneficial-loan balance at any time in the tax year, in pounds, used for the £10,000 exemption. Defaults to the larger opening or closing balance."
+                  },
+                  "benefit_whole_months": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 12,
+                    "description": "Whole months the loan was outstanding in the selected tax year, from 1 to 12. Defaults to 12."
+                  },
+                  "benefit_interest_paid": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Interest the director was required to pay and actually paid for the selected tax year, in pounds. Defaults to 0."
+                  },
+                  "marginal_income_tax_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Director’s marginal Income Tax rate as a percentage, used only to estimate personal tax on the benefit. Defaults to 20."
+                  }
+                },
+                "required": [
+                  "period_end",
+                  "outstanding"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "period_end": "2026-03-31",
+                "outstanding": 25000,
+                "repaid_within_9_months": 10000,
+                "benefit_tax_year": "2026-27",
+                "benefit_opening_balance": 25000,
+                "benefit_closing_balance": 15000,
+                "benefit_maximum_balance": 25000,
+                "benefit_whole_months": 12,
+                "benefit_interest_paid": 0,
+                "marginal_income_tax_rate": 20
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    },
+    "/api/v1/tools/capital-allowances": {
+      "summary": "Capital allowances calculator for companies",
+      "description": "Works out a UK limited company's capital allowances for one accounting period: the annual investment allowance, full expensing, the 50% and zero-emission car first-year allowances, and writing-down allowances at 14% (18% before 1 April 2026, a hybrid rate for a period spanning that date) and 6%.",
+      "get": {
+        "operationId": "ukCompanyCapitalAllowances",
+        "summary": "Capital allowances calculator for companies (query string)",
+        "description": "Works out a UK limited company's capital allowances for one accounting period: the annual investment allowance, full expensing, the 50% and zero-emission car first-year allowances, and writing-down allowances at 14% (18% before 1 April 2026, a hybrid rate for a period spanning that date) and 6%.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "period_start",
+            "in": "query",
+            "required": true,
+            "description": "First day of the Corporation Tax accounting period, as YYYY-MM-DD. Must be on or after 2023-04-01.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2026-04-01"
+          },
+          {
+            "name": "period_end",
+            "in": "query",
+            "required": true,
+            "description": "Last day of the accounting period, as YYYY-MM-DD. The period can be up to 12 months long.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2027-03-31"
+          },
+          {
+            "name": "spend_date",
+            "in": "query",
+            "required": false,
+            "description": "Optional. When the purchases were made (YYYY-MM-DD, inside the period). Defaults to the period end. It only changes the answer for zero-emission cars: their 100% first-year allowance is for spending up to 2027-03-31.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "new_main_plant",
+            "in": "query",
+            "required": false,
+            "description": "Cost of new and unused plant, machinery, equipment and vans (not cars). Gets the annual investment allowance, then full expensing (100%) on any amount above it.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            },
+            "example": 40000
+          },
+          {
+            "name": "used_main_plant",
+            "in": "query",
+            "required": false,
+            "description": "Cost of second-hand main-rate plant, machinery, equipment and vans (not cars). Gets the annual investment allowance; any excess goes into the main pool.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "new_special_rate",
+            "in": "query",
+            "required": false,
+            "description": "Cost of new and unused integral features (electrical, lighting, heating, water, lifts, air conditioning), long-life assets, thermal insulation and solar panels. Gets the annual investment allowance, then the 50% first-year allowance on any excess.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "used_special_rate",
+            "in": "query",
+            "required": false,
+            "description": "Cost of second-hand integral features, long-life assets, thermal insulation and solar panels. Gets the annual investment allowance; any excess goes into the special rate pool.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "zero_emission_cars",
+            "in": "query",
+            "required": false,
+            "description": "Cost of new and unused cars with 0 g/km CO2 (fully electric). 100% first-year allowance for spending up to 31 March 2027; after that they go into the main pool. Enter a second-hand electric car under other_cars_low_co2.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "other_cars_low_co2",
+            "in": "query",
+            "required": false,
+            "description": "Cost of cars (other than new zero-emission cars) with CO2 emissions of 50 g/km or less. They go into the main pool. Cars never get the annual investment allowance or full expensing.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "other_cars_high_co2",
+            "in": "query",
+            "required": false,
+            "description": "Cost of cars with CO2 emissions over 50 g/km. They go into the special rate pool (6%).",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "main_pool_brought_forward",
+            "in": "query",
+            "required": false,
+            "description": "Main pool balance carried forward from the previous accounting period (0 if none).",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "special_pool_brought_forward",
+            "in": "query",
+            "required": false,
+            "description": "Special rate pool balance carried forward from the previous accounting period (0 if none).",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "main_pool_disposals",
+            "in": "query",
+            "required": false,
+            "description": "Sale proceeds of main pool assets sold this period that did NOT have full expensing (for example, assets that had the annual investment allowance or were pooled). Enter the lower of the sale price and what the asset cost.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "full_expensed_disposals",
+            "in": "query",
+            "required": false,
+            "description": "Sale proceeds of assets that had full expensing on their whole cost, sold this period. The whole amount is a balancing charge. Enter the lower of the sale price and what the asset cost.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "aia_shared",
+            "in": "query",
+            "required": false,
+            "description": "Optional. Companies in a group or under common control share one £1,000,000 annual investment allowance. Enter the amount given to the other companies for this period; this company gets the rest.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "ukCompanyCapitalAllowancesPost",
+        "summary": "Capital allowances calculator for companies (JSON body)",
+        "description": "Works out a UK limited company's capital allowances for one accounting period: the annual investment allowance, full expensing, the 50% and zero-emission car first-year allowances, and writing-down allowances at 14% (18% before 1 April 2026, a hybrid rate for a period spanning that date) and 6%.",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "period_start": {
+                    "type": "string",
+                    "format": "date",
+                    "title": "Accounting period start date",
+                    "description": "First day of the Corporation Tax accounting period, as YYYY-MM-DD. Must be on or after 2023-04-01."
+                  },
+                  "period_end": {
+                    "type": "string",
+                    "format": "date",
+                    "title": "Accounting period end date",
+                    "description": "Last day of the accounting period, as YYYY-MM-DD. The period can be up to 12 months long."
+                  },
+                  "spend_date": {
+                    "type": "string",
+                    "format": "date",
+                    "title": "Date of the purchases",
+                    "description": "Optional. When the purchases were made (YYYY-MM-DD, inside the period). Defaults to the period end. It only changes the answer for zero-emission cars: their 100% first-year allowance is for spending up to 2027-03-31."
+                  },
+                  "new_main_plant": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "New plant, machinery and vans",
+                    "description": "Cost of new and unused plant, machinery, equipment and vans (not cars). Gets the annual investment allowance, then full expensing (100%) on any amount above it."
+                  },
+                  "used_main_plant": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Second-hand plant, machinery and vans",
+                    "description": "Cost of second-hand main-rate plant, machinery, equipment and vans (not cars). Gets the annual investment allowance; any excess goes into the main pool."
+                  },
+                  "new_special_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "New special rate items",
+                    "description": "Cost of new and unused integral features (electrical, lighting, heating, water, lifts, air conditioning), long-life assets, thermal insulation and solar panels. Gets the annual investment allowance, then the 50% first-year allowance on any excess."
+                  },
+                  "used_special_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Second-hand special rate items",
+                    "description": "Cost of second-hand integral features, long-life assets, thermal insulation and solar panels. Gets the annual investment allowance; any excess goes into the special rate pool."
+                  },
+                  "zero_emission_cars": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "New zero-emission cars",
+                    "description": "Cost of new and unused cars with 0 g/km CO2 (fully electric). 100% first-year allowance for spending up to 31 March 2027; after that they go into the main pool. Enter a second-hand electric car under other_cars_low_co2."
+                  },
+                  "other_cars_low_co2": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Cars with CO2 of 50 g/km or less",
+                    "description": "Cost of cars (other than new zero-emission cars) with CO2 emissions of 50 g/km or less. They go into the main pool. Cars never get the annual investment allowance or full expensing."
+                  },
+                  "other_cars_high_co2": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Cars with CO2 over 50 g/km",
+                    "description": "Cost of cars with CO2 emissions over 50 g/km. They go into the special rate pool (6%)."
+                  },
+                  "main_pool_brought_forward": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Main pool brought forward",
+                    "description": "Main pool balance carried forward from the previous accounting period (0 if none)."
+                  },
+                  "special_pool_brought_forward": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Special rate pool brought forward",
+                    "description": "Special rate pool balance carried forward from the previous accounting period (0 if none)."
+                  },
+                  "main_pool_disposals": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Main pool assets sold",
+                    "description": "Sale proceeds of main pool assets sold this period that did NOT have full expensing (for example, assets that had the annual investment allowance or were pooled). Enter the lower of the sale price and what the asset cost."
+                  },
+                  "full_expensed_disposals": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Full-expensed assets sold",
+                    "description": "Sale proceeds of assets that had full expensing on their whole cost, sold this period. The whole amount is a balancing charge. Enter the lower of the sale price and what the asset cost."
+                  },
+                  "aia_shared": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Annual investment allowance used by related companies",
+                    "description": "Optional. Companies in a group or under common control share one £1,000,000 annual investment allowance. Enter the amount given to the other companies for this period; this company gets the rest."
+                  }
+                },
+                "required": [
+                  "period_start",
+                  "period_end"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "period_start": "2026-04-01",
+                "period_end": "2027-03-31",
+                "new_main_plant": 40000,
+                "used_main_plant": 15000,
+                "main_pool_brought_forward": 60000
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    },
+    "/api/v1/tools/chargeable-gains": {
+      "summary": "Chargeable gains calculator for companies (with indexation)",
+      "description": "Works out a UK limited company's chargeable gain or allowable loss when it sells UK land or buildings, or shares it bought in one purchase, including indexation allowance frozen at December 2017.",
+      "get": {
+        "operationId": "companyChargeableGainWithIndexation",
+        "summary": "Chargeable gains calculator for companies (with indexation) (query string)",
+        "description": "Works out a UK limited company's chargeable gain or allowable loss when it sells UK land or buildings, or shares it bought in one purchase, including indexation allowance frozen at December 2017.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "asset_type",
+            "in": "query",
+            "required": true,
+            "description": "\"land_buildings\": UK land or buildings (the company's whole interest; a freehold or a lease with more than 50 years left). \"shares\": shares in one company that were all bought in a single purchase and all sold together. Other assets and shares bought at different times are not covered.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "land_buildings",
+                "shares"
+              ]
+            },
+            "example": "land_buildings"
+          },
+          {
+            "name": "acquisition_date",
+            "in": "query",
+            "required": true,
+            "description": "When the company bought the asset (exchange of contracts), as YYYY-MM-DD. Must be on or after 1987-01-01.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2008-06-01"
+          },
+          {
+            "name": "acquisition_cost",
+            "in": "query",
+            "required": true,
+            "description": "What the company paid for the asset, in pounds.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            },
+            "example": 250000
+          },
+          {
+            "name": "acquisition_costs",
+            "in": "query",
+            "required": false,
+            "description": "Optional. Costs of buying it: legal fees, Stamp Duty Land Tax, survey and agent fees.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "enhancement_date",
+            "in": "query",
+            "required": false,
+            "description": "Optional, land and buildings only. When the company paid for one improvement (for example an extension), as YYYY-MM-DD. Give it with enhancement_cost.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "enhancement_cost",
+            "in": "query",
+            "required": false,
+            "description": "Optional, land and buildings only. Cost of one capital improvement that is still reflected in the property when it is sold (not repairs or maintenance).",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "sba_claimed",
+            "in": "query",
+            "required": false,
+            "description": "Optional, land and buildings only. Total structures and buildings allowance the company claimed on the building. It is added to the sale price.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "disposal_date",
+            "in": "query",
+            "required": true,
+            "description": "When the company sold the asset (exchange of contracts), as YYYY-MM-DD.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2026-06-30"
+          },
+          {
+            "name": "proceeds",
+            "in": "query",
+            "required": true,
+            "description": "What the company sold the asset for, in pounds.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            },
+            "example": 420000
+          },
+          {
+            "name": "disposal_costs",
+            "in": "query",
+            "required": false,
+            "description": "Optional. Costs of selling it: agent and legal fees.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "companyChargeableGainWithIndexationPost",
+        "summary": "Chargeable gains calculator for companies (with indexation) (JSON body)",
+        "description": "Works out a UK limited company's chargeable gain or allowable loss when it sells UK land or buildings, or shares it bought in one purchase, including indexation allowance frozen at December 2017.",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "asset_type": {
+                    "type": "string",
+                    "enum": [
+                      "land_buildings",
+                      "shares"
+                    ],
+                    "title": "What the company sold",
+                    "description": "\"land_buildings\": UK land or buildings (the company's whole interest; a freehold or a lease with more than 50 years left). \"shares\": shares in one company that were all bought in a single purchase and all sold together. Other assets and shares bought at different times are not covered."
+                  },
+                  "acquisition_date": {
+                    "type": "string",
+                    "format": "date",
+                    "title": "Date bought",
+                    "description": "When the company bought the asset (exchange of contracts), as YYYY-MM-DD. Must be on or after 1987-01-01."
+                  },
+                  "acquisition_cost": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Purchase price",
+                    "description": "What the company paid for the asset, in pounds."
+                  },
+                  "acquisition_costs": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Buying costs",
+                    "description": "Optional. Costs of buying it: legal fees, Stamp Duty Land Tax, survey and agent fees."
+                  },
+                  "enhancement_date": {
+                    "type": "string",
+                    "format": "date",
+                    "title": "Improvement date",
+                    "description": "Optional, land and buildings only. When the company paid for one improvement (for example an extension), as YYYY-MM-DD. Give it with enhancement_cost."
+                  },
+                  "enhancement_cost": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Improvement cost",
+                    "description": "Optional, land and buildings only. Cost of one capital improvement that is still reflected in the property when it is sold (not repairs or maintenance)."
+                  },
+                  "sba_claimed": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Structures and buildings allowance claimed",
+                    "description": "Optional, land and buildings only. Total structures and buildings allowance the company claimed on the building. It is added to the sale price."
+                  },
+                  "disposal_date": {
+                    "type": "string",
+                    "format": "date",
+                    "title": "Date sold",
+                    "description": "When the company sold the asset (exchange of contracts), as YYYY-MM-DD."
+                  },
+                  "proceeds": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Sale price",
+                    "description": "What the company sold the asset for, in pounds."
+                  },
+                  "disposal_costs": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Selling costs",
+                    "description": "Optional. Costs of selling it: agent and legal fees."
+                  }
+                },
+                "required": [
+                  "asset_type",
+                  "acquisition_date",
+                  "acquisition_cost",
+                  "disposal_date",
+                  "proceeds"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "asset_type": "land_buildings",
+                "acquisition_date": "2008-06-01",
+                "acquisition_cost": 250000,
+                "disposal_date": "2026-06-30",
+                "proceeds": 420000
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    },
+    "/api/v1/tools/company-size": {
+      "summary": "Micro-entity and small company size checker",
+      "description": "Checks whether a UK private company is a micro-entity, small, or neither for a financial year under the Companies Act 2006, using the limits raised for years starting on or after 6 April 2025, the 2-of-3 test, turnover pro-rating for short or long years, and the two-consecutive-years rule.",
+      "get": {
+        "operationId": "ukCompanySizeMicroSmallCheck",
+        "summary": "Micro-entity and small company size checker (query string)",
+        "description": "Checks whether a UK private company is a micro-entity, small, or neither for a financial year under the Companies Act 2006, using the limits raised for years starting on or after 6 April 2025, the 2-of-3 test, turnover pro-rating for short or long years, and the two-consecutive-years rule.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "period_start",
+            "in": "query",
+            "required": true,
+            "description": "First day of the financial year (accounts period), YYYY-MM-DD. The limits depend on this date.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2025-05-01"
+          },
+          {
+            "name": "period_end",
+            "in": "query",
+            "required": true,
+            "description": "Last day of the financial year, YYYY-MM-DD. At most 18 months after the start.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2026-04-30"
+          },
+          {
+            "name": "turnover",
+            "in": "query",
+            "required": true,
+            "description": "Turnover for the financial year, in pounds.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            },
+            "example": 850000
+          },
+          {
+            "name": "balance_sheet_total",
+            "in": "query",
+            "required": true,
+            "description": "Balance sheet total: gross assets (fixed plus current assets, before liabilities) at the year end, in pounds.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            },
+            "example": 420000
+          },
+          {
+            "name": "employees",
+            "in": "query",
+            "required": true,
+            "description": "Average number of employees in the year (monthly headcounts added up, divided by the number of months).",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            },
+            "example": 6
+          },
+          {
+            "name": "first_year",
+            "in": "query",
+            "required": false,
+            "description": "True if this is the company's first financial year (then this year alone decides its size).",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "prev_turnover",
+            "in": "query",
+            "required": false,
+            "description": "Optional: last financial year's turnover, in pounds (assumed a 12-month year).",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "prev_balance_sheet_total",
+            "in": "query",
+            "required": false,
+            "description": "Optional: last year's balance sheet total (gross assets), in pounds.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "prev_employees",
+            "in": "query",
+            "required": false,
+            "description": "Optional: last year's average number of employees.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "prev_size",
+            "in": "query",
+            "required": false,
+            "description": "Optional: what the company qualified as last year — micro, small (not micro) or medium_or_large (not small). Used by the two-year rule when this year's result differs from last year's figures.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "micro",
+                "small",
+                "medium_or_large"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "ukCompanySizeMicroSmallCheckPost",
+        "summary": "Micro-entity and small company size checker (JSON body)",
+        "description": "Checks whether a UK private company is a micro-entity, small, or neither for a financial year under the Companies Act 2006, using the limits raised for years starting on or after 6 April 2025, the 2-of-3 test, turnover pro-rating for short or long years, and the two-consecutive-years rule.",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "period_start": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "First day of the financial year (accounts period), YYYY-MM-DD. The limits depend on this date."
+                  },
+                  "period_end": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Last day of the financial year, YYYY-MM-DD. At most 18 months after the start."
+                  },
+                  "turnover": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Turnover for the financial year, in pounds."
+                  },
+                  "balance_sheet_total": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Balance sheet total: gross assets (fixed plus current assets, before liabilities) at the year end, in pounds."
+                  },
+                  "employees": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Average number of employees in the year (monthly headcounts added up, divided by the number of months)."
+                  },
+                  "first_year": {
+                    "type": "boolean",
+                    "description": "True if this is the company's first financial year (then this year alone decides its size)."
+                  },
+                  "prev_turnover": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Optional: last financial year's turnover, in pounds (assumed a 12-month year)."
+                  },
+                  "prev_balance_sheet_total": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Optional: last year's balance sheet total (gross assets), in pounds."
+                  },
+                  "prev_employees": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Optional: last year's average number of employees."
+                  },
+                  "prev_size": {
+                    "type": "string",
+                    "enum": [
+                      "micro",
+                      "small",
+                      "medium_or_large"
+                    ],
+                    "description": "Optional: what the company qualified as last year — micro, small (not micro) or medium_or_large (not small). Used by the two-year rule when this year's result differs from last year's figures."
+                  }
+                },
+                "required": [
+                  "period_start",
+                  "period_end",
+                  "turnover",
+                  "balance_sheet_total",
+                  "employees"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "period_start": "2025-05-01",
+                "period_end": "2026-04-30",
+                "turnover": 850000,
+                "balance_sheet_total": 420000,
+                "employees": 6,
+                "first_year": false,
+                "prev_turnover": 780000,
+                "prev_balance_sheet_total": 390000,
+                "prev_employees": 5
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    },
+    "/api/v1/tools/long-period": {
+      "summary": "Long accounting period calculator: two CT600s",
+      "description": "Splits UK company accounts covering more than 12 months (up to 18) into the two Corporation Tax accounting periods, with each period's dates, days, payment deadline and share of the profit by days, plus the CT600 filing deadline for both returns and the Companies House accounts deadline.",
+      "get": {
+        "operationId": "longAccountingPeriodSplit",
+        "summary": "Long accounting period calculator: two CT600s (query string)",
+        "description": "Splits UK company accounts covering more than 12 months (up to 18) into the two Corporation Tax accounting periods, with each period's dates, days, payment deadline and share of the profit by days, plus the CT600 filing deadline for both returns and the Companies House accounts deadline.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "period_start",
+            "in": "query",
+            "required": true,
+            "description": "First day of the accounts (period of account), YYYY-MM-DD. For first accounts, the date of incorporation.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2025-01-01"
+          },
+          {
+            "name": "period_end",
+            "in": "query",
+            "required": true,
+            "description": "Last day of the accounts, YYYY-MM-DD. The period must be longer than 12 months and no longer than 18 months.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "example": "2026-03-31"
+          },
+          {
+            "name": "profit",
+            "in": "query",
+            "required": false,
+            "description": "Optional: trading profit for the whole period in pounds, to split by days. A loss is a negative number.",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "first_accounts",
+            "in": "query",
+            "required": false,
+            "description": "Optional: true if these are the company's first accounts (sets the Companies House deadline). Omit if unsure to get both dates.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "longAccountingPeriodSplitPost",
+        "summary": "Long accounting period calculator: two CT600s (JSON body)",
+        "description": "Splits UK company accounts covering more than 12 months (up to 18) into the two Corporation Tax accounting periods, with each period's dates, days, payment deadline and share of the profit by days, plus the CT600 filing deadline for both returns and the Companies House accounts deadline.",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "period_start": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "First day of the accounts (period of account), YYYY-MM-DD. For first accounts, the date of incorporation."
+                  },
+                  "period_end": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Last day of the accounts, YYYY-MM-DD. The period must be longer than 12 months and no longer than 18 months."
+                  },
+                  "profit": {
+                    "type": "number",
+                    "description": "Optional: trading profit for the whole period in pounds, to split by days. A loss is a negative number."
+                  },
+                  "first_accounts": {
+                    "type": "boolean",
+                    "description": "Optional: true if these are the company's first accounts (sets the Companies House deadline). Omit if unsure to get both dates."
+                  }
+                },
+                "required": [
+                  "period_start",
+                  "period_end"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "period_start": "2025-01-01",
+                "period_end": "2026-03-31",
+                "profit": 150000,
+                "first_accounts": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    },
+    "/api/v1/tools/company-car": {
+      "summary": "Company car tax calculator",
+      "description": "Works out the benefit in kind on a UK company car for 2025/26 or 2026/27: the appropriate percentage, the car and fuel benefit, the director's Income Tax and the company's 15% Class 1A National Insurance.",
+      "get": {
+        "operationId": "ukCompanyCarTaxBik",
+        "summary": "Company car tax calculator (query string)",
+        "description": "Works out the benefit in kind on a UK company car for 2025/26 or 2026/27: the appropriate percentage, the car and fuel benefit, the director's Income Tax and the company's 15% Class 1A National Insurance.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "tax_year",
+            "in": "query",
+            "required": true,
+            "description": "UK tax year: \"2025-26\" (6 April 2025 to 5 April 2026) or \"2026-27\" (6 April 2026 to 5 April 2027).",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "2025-26",
+                "2026-27"
+              ]
+            },
+            "example": "2025-26"
+          },
+          {
+            "name": "list_price",
+            "in": "query",
+            "required": true,
+            "description": "The car's list price when new, including VAT, delivery and any optional extras (the P11D price), in pounds. Not the price the company paid.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            },
+            "example": 40000
+          },
+          {
+            "name": "capital_contribution",
+            "in": "query",
+            "required": false,
+            "description": "Optional. What the director paid towards the cost of the car or its extras, in pounds. Up to £5,000 is deducted from the list price. Default 0.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "fuel_type",
+            "in": "query",
+            "required": true,
+            "description": "\"electric\" (fully electric or any car with 0 g/km CO2), \"petrol\" (petrol, or ANY hybrid, petrol or diesel, including plug-in hybrids: hybrids never pay the diesel supplement), \"diesel_rde2\" (a diesel-only car certified to Euro 6d, also called RDE2: no supplement), or \"diesel\" (any other diesel-only car: a 4% supplement, up to 37%).",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "electric",
+                "petrol",
+                "diesel_rde2",
+                "diesel"
+              ]
+            },
+            "example": "electric"
+          },
+          {
+            "name": "co2_gkm",
+            "in": "query",
+            "required": false,
+            "description": "The car's approved CO2 emissions in g/km, from the V5C or certificate of conformity (WLTP for cars first registered from 6 April 2020, NEDC before; both give the same percentage in 2025/26 and 2026/27). Required unless fuel_type is \"electric\".",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 999
+            }
+          },
+          {
+            "name": "electric_range_miles",
+            "in": "query",
+            "required": false,
+            "description": "For a plug-in hybrid only: the zero-emission (electric) range in miles from the certificate of conformity, rounded up. Required for a car with CO2 of 1 to 50 g/km, or when phev_easement is true; ignored otherwise.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2000
+            }
+          },
+          {
+            "name": "phev_easement",
+            "in": "query",
+            "required": false,
+            "description": "Optional. True for a plug-in hybrid first registered on or after 1 January 2025 under Euro 6e-bis or a later emissions standard (not Euro 6d-ISC-FCM or Euro 6e) whose CO2 is 51 g/km or more. Its CO2 is then treated as 1 g/km, so it is taxed by electric range. Default false.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "months_available",
+            "in": "query",
+            "required": false,
+            "description": "Optional. Months in the tax year the car is available for the director's private use, 1 to 12. Default 12. The benefit is reduced in proportion.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 12
+            }
+          },
+          {
+            "name": "private_fuel",
+            "in": "query",
+            "required": false,
+            "description": "Optional. True if the company pays for fuel for private journeys and the director does not repay all of it. Adds the car fuel benefit (not for electric cars). Default false.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "income_tax_rate",
+            "in": "query",
+            "required": true,
+            "description": "The director's top rate of Income Tax including the benefit: \"basic\" (20%), \"higher\" (40%) or \"additional\" (45%). Rates for England, Wales and Northern Ireland.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "basic",
+                "higher",
+                "additional"
+              ]
+            },
+            "example": "basic"
+          },
+          {
+            "name": "acquisition",
+            "in": "query",
+            "required": false,
+            "description": "Optional. \"buy\" if the company buys the car (capital allowances), \"lease\" if it leases it (the rental is deductible). Default \"buy\".",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "buy",
+                "lease"
+              ]
+            }
+          },
+          {
+            "name": "price_paid",
+            "in": "query",
+            "required": false,
+            "description": "Optional, for \"buy\". What the company paid for the car, in pounds, for its capital allowances. Default: the list price.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "new_car",
+            "in": "query",
+            "required": false,
+            "description": "Optional, for \"buy\". True if the car is new and unused. Only a new and unused zero-emission car gets the 100% first-year allowance. Default false.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "annual_lease_cost",
+            "in": "query",
+            "required": false,
+            "description": "For \"lease\": the lease rentals the company pays in its year, in pounds, excluding VAT it can reclaim. Required for \"lease\".",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "lease_started",
+            "in": "query",
+            "required": false,
+            "description": "Optional, for \"lease\": the date the hire period began, YYYY-MM-DD. It sets the CO2 threshold for the 15% restriction: 50 g/km from 1 April 2021, 110 g/km from 1 April 2018, 130 g/km from 1 April 2013, 160 g/km from 1 April 2009. Default: on or after 1 April 2021.",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "company_profits",
+            "in": "query",
+            "required": false,
+            "description": "Optional. The company's taxable profits for its year before the car's allowances or lease rentals and the Class 1A, in pounds. With it, the Corporation Tax saved is worked out exactly (19%, marginal relief or 25%); without it, as a range at 19% and 25%.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "associated_companies",
+            "in": "query",
+            "required": false,
+            "description": "Optional, with company_profits. The number of other companies under common control; it divides the £50,000 and £250,000 limits. Default 0.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "ukCompanyCarTaxBikPost",
+        "summary": "Company car tax calculator (JSON body)",
+        "description": "Works out the benefit in kind on a UK company car for 2025/26 or 2026/27: the appropriate percentage, the car and fuel benefit, the director's Income Tax and the company's 15% Class 1A National Insurance.",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tax_year": {
+                    "type": "string",
+                    "enum": [
+                      "2025-26",
+                      "2026-27"
+                    ],
+                    "title": "Tax year",
+                    "description": "UK tax year: \"2025-26\" (6 April 2025 to 5 April 2026) or \"2026-27\" (6 April 2026 to 5 April 2027)."
+                  },
+                  "list_price": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "List price (P11D value)",
+                    "description": "The car's list price when new, including VAT, delivery and any optional extras (the P11D price), in pounds. Not the price the company paid."
+                  },
+                  "capital_contribution": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Capital contribution",
+                    "description": "Optional. What the director paid towards the cost of the car or its extras, in pounds. Up to £5,000 is deducted from the list price. Default 0."
+                  },
+                  "fuel_type": {
+                    "type": "string",
+                    "enum": [
+                      "electric",
+                      "petrol",
+                      "diesel_rde2",
+                      "diesel"
+                    ],
+                    "title": "Fuel type",
+                    "description": "\"electric\" (fully electric or any car with 0 g/km CO2), \"petrol\" (petrol, or ANY hybrid, petrol or diesel, including plug-in hybrids: hybrids never pay the diesel supplement), \"diesel_rde2\" (a diesel-only car certified to Euro 6d, also called RDE2: no supplement), or \"diesel\" (any other diesel-only car: a 4% supplement, up to 37%)."
+                  },
+                  "co2_gkm": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 999,
+                    "title": "CO2 emissions (g/km)",
+                    "description": "The car's approved CO2 emissions in g/km, from the V5C or certificate of conformity (WLTP for cars first registered from 6 April 2020, NEDC before; both give the same percentage in 2025/26 and 2026/27). Required unless fuel_type is \"electric\"."
+                  },
+                  "electric_range_miles": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2000,
+                    "title": "Electric range (miles)",
+                    "description": "For a plug-in hybrid only: the zero-emission (electric) range in miles from the certificate of conformity, rounded up. Required for a car with CO2 of 1 to 50 g/km, or when phev_easement is true; ignored otherwise."
+                  },
+                  "phev_easement": {
+                    "type": "boolean",
+                    "title": "Plug-in hybrid under the 2025 easement",
+                    "description": "Optional. True for a plug-in hybrid first registered on or after 1 January 2025 under Euro 6e-bis or a later emissions standard (not Euro 6d-ISC-FCM or Euro 6e) whose CO2 is 51 g/km or more. Its CO2 is then treated as 1 g/km, so it is taxed by electric range. Default false."
+                  },
+                  "months_available": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 12,
+                    "title": "Months available",
+                    "description": "Optional. Months in the tax year the car is available for the director's private use, 1 to 12. Default 12. The benefit is reduced in proportion."
+                  },
+                  "private_fuel": {
+                    "type": "boolean",
+                    "title": "Company pays for private fuel",
+                    "description": "Optional. True if the company pays for fuel for private journeys and the director does not repay all of it. Adds the car fuel benefit (not for electric cars). Default false."
+                  },
+                  "income_tax_rate": {
+                    "type": "string",
+                    "enum": [
+                      "basic",
+                      "higher",
+                      "additional"
+                    ],
+                    "title": "Director's Income Tax rate",
+                    "description": "The director's top rate of Income Tax including the benefit: \"basic\" (20%), \"higher\" (40%) or \"additional\" (45%). Rates for England, Wales and Northern Ireland."
+                  },
+                  "acquisition": {
+                    "type": "string",
+                    "enum": [
+                      "buy",
+                      "lease"
+                    ],
+                    "title": "Bought or leased",
+                    "description": "Optional. \"buy\" if the company buys the car (capital allowances), \"lease\" if it leases it (the rental is deductible). Default \"buy\"."
+                  },
+                  "price_paid": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Price the company paid",
+                    "description": "Optional, for \"buy\". What the company paid for the car, in pounds, for its capital allowances. Default: the list price."
+                  },
+                  "new_car": {
+                    "type": "boolean",
+                    "title": "New and unused",
+                    "description": "Optional, for \"buy\". True if the car is new and unused. Only a new and unused zero-emission car gets the 100% first-year allowance. Default false."
+                  },
+                  "annual_lease_cost": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Yearly lease rental",
+                    "description": "For \"lease\": the lease rentals the company pays in its year, in pounds, excluding VAT it can reclaim. Required for \"lease\"."
+                  },
+                  "lease_started": {
+                    "type": "string",
+                    "format": "date",
+                    "title": "Date the lease began",
+                    "description": "Optional, for \"lease\": the date the hire period began, YYYY-MM-DD. It sets the CO2 threshold for the 15% restriction: 50 g/km from 1 April 2021, 110 g/km from 1 April 2018, 130 g/km from 1 April 2013, 160 g/km from 1 April 2009. Default: on or after 1 April 2021."
+                  },
+                  "company_profits": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Company's taxable profits",
+                    "description": "Optional. The company's taxable profits for its year before the car's allowances or lease rentals and the Class 1A, in pounds. With it, the Corporation Tax saved is worked out exactly (19%, marginal relief or 25%); without it, as a range at 19% and 25%."
+                  },
+                  "associated_companies": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "title": "Associated companies",
+                    "description": "Optional, with company_profits. The number of other companies under common control; it divides the £50,000 and £250,000 limits. Default 0."
+                  }
+                },
+                "required": [
+                  "tax_year",
+                  "list_price",
+                  "fuel_type",
+                  "income_tax_rate"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "tax_year": "2026-27",
+                "list_price": 40000,
+                "fuel_type": "electric",
+                "income_tax_rate": "higher",
+                "acquisition": "buy",
+                "new_car": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    },
+    "/api/v1/tools/company-van": {
+      "summary": "Company van tax calculator",
+      "description": "Works out the benefit in kind on a UK company van for 2025/26 or 2026/27: the flat van benefit (nil for a zero-emission van), the van fuel benefit, the driver's Income Tax and the company's 15% Class 1A National Insurance, with the Corporation Tax the company saves on the van.",
+      "get": {
+        "operationId": "ukCompanyVanBenefitTax",
+        "summary": "Company van tax calculator (query string)",
+        "description": "Works out the benefit in kind on a UK company van for 2025/26 or 2026/27: the flat van benefit (nil for a zero-emission van), the van fuel benefit, the driver's Income Tax and the company's 15% Class 1A National Insurance, with the Corporation Tax the company saves on the van.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "tax_year",
+            "in": "query",
+            "required": true,
+            "description": "UK tax year: \"2025-26\" (6 April 2025 to 5 April 2026) or \"2026-27\" (6 April 2026 to 5 April 2027).",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "2025-26",
+                "2026-27"
+              ]
+            },
+            "example": "2025-26"
+          },
+          {
+            "name": "zero_emission",
+            "in": "query",
+            "required": false,
+            "description": "Optional. True for a van that cannot emit CO2 when driven (fully electric). Its van benefit is nil. Default false.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "private_fuel",
+            "in": "query",
+            "required": false,
+            "description": "Optional. True if the company pays for fuel for private journeys and the driver does not repay all of it. Adds the van fuel benefit (not for electricity). Default false.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "months_available",
+            "in": "query",
+            "required": false,
+            "description": "Optional. Months in the tax year the van is available for private use, 1 to 12. Default 12.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 12
+            }
+          },
+          {
+            "name": "income_tax_rate",
+            "in": "query",
+            "required": true,
+            "description": "The director's or employee's top rate of Income Tax: \"basic\" (20%), \"higher\" (40%) or \"additional\" (45%). Rates for England, Wales and Northern Ireland.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "basic",
+                "higher",
+                "additional"
+              ]
+            },
+            "example": "basic"
+          },
+          {
+            "name": "company_profits",
+            "in": "query",
+            "required": false,
+            "description": "Optional. The company's taxable profits for its year before the van and the Class 1A, in pounds. With it, the Corporation Tax saved is worked out exactly (19%, marginal relief or 25%); without it, as a range at 19% and 25%.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "associated_companies",
+            "in": "query",
+            "required": false,
+            "description": "Optional, with company_profits. The number of other companies under common control. Default 0.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "price_paid",
+            "in": "query",
+            "required": false,
+            "description": "Optional. What the company paid for the van this year, in pounds. A van gets the annual investment allowance (100%), so the whole cost is deducted from profits.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "ukCompanyVanBenefitTaxPost",
+        "summary": "Company van tax calculator (JSON body)",
+        "description": "Works out the benefit in kind on a UK company van for 2025/26 or 2026/27: the flat van benefit (nil for a zero-emission van), the van fuel benefit, the driver's Income Tax and the company's 15% Class 1A National Insurance, with the Corporation Tax the company saves on the van.",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tax_year": {
+                    "type": "string",
+                    "enum": [
+                      "2025-26",
+                      "2026-27"
+                    ],
+                    "title": "Tax year",
+                    "description": "UK tax year: \"2025-26\" (6 April 2025 to 5 April 2026) or \"2026-27\" (6 April 2026 to 5 April 2027)."
+                  },
+                  "zero_emission": {
+                    "type": "boolean",
+                    "title": "Zero-emission van",
+                    "description": "Optional. True for a van that cannot emit CO2 when driven (fully electric). Its van benefit is nil. Default false."
+                  },
+                  "private_fuel": {
+                    "type": "boolean",
+                    "title": "Company pays for private fuel",
+                    "description": "Optional. True if the company pays for fuel for private journeys and the driver does not repay all of it. Adds the van fuel benefit (not for electricity). Default false."
+                  },
+                  "months_available": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 12,
+                    "title": "Months available",
+                    "description": "Optional. Months in the tax year the van is available for private use, 1 to 12. Default 12."
+                  },
+                  "income_tax_rate": {
+                    "type": "string",
+                    "enum": [
+                      "basic",
+                      "higher",
+                      "additional"
+                    ],
+                    "title": "Driver's Income Tax rate",
+                    "description": "The director's or employee's top rate of Income Tax: \"basic\" (20%), \"higher\" (40%) or \"additional\" (45%). Rates for England, Wales and Northern Ireland."
+                  },
+                  "company_profits": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Company's taxable profits",
+                    "description": "Optional. The company's taxable profits for its year before the van and the Class 1A, in pounds. With it, the Corporation Tax saved is worked out exactly (19%, marginal relief or 25%); without it, as a range at 19% and 25%."
+                  },
+                  "associated_companies": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "title": "Associated companies",
+                    "description": "Optional, with company_profits. The number of other companies under common control. Default 0."
+                  },
+                  "price_paid": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Price the company paid for the van",
+                    "description": "Optional. What the company paid for the van this year, in pounds. A van gets the annual investment allowance (100%), so the whole cost is deducted from profits."
+                  }
+                },
+                "required": [
+                  "tax_year",
+                  "income_tax_rate"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "tax_year": "2026-27",
+                "private_fuel": true,
+                "income_tax_rate": "basic"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    },
+    "/api/v1/tools/mileage-allowance": {
+      "summary": "Mileage allowance calculator",
+      "description": "Calculates the HMRC approved mileage amount for an employee or director using their own car, van, motorcycle or bicycle for business travel, then shows the tax-free payment, taxable excess or Mileage Allowance Relief shortfall for 2025/26, 2026/27 or 2027/28.",
+      "get": {
+        "operationId": "ukMileageAllowance",
+        "summary": "Mileage allowance calculator (query string)",
+        "description": "Calculates the HMRC approved mileage amount for an employee or director using their own car, van, motorcycle or bicycle for business travel, then shows the tax-free payment, taxable excess or Mileage Allowance Relief shortfall for 2025/26, 2026/27 or 2027/28.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "tax_year",
+            "in": "query",
+            "required": true,
+            "description": "UK tax year: 2025-26, 2026-27 or 2027-28. The car and van rate changes on 6 April 2026.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "2025-26",
+                "2026-27",
+                "2027-28"
+              ]
+            },
+            "example": "2025-26"
+          },
+          {
+            "name": "vehicle",
+            "in": "query",
+            "required": true,
+            "description": "The employee-owned vehicle used for business travel: car_van, motorcycle or bicycle.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "car_van",
+                "motorcycle",
+                "bicycle"
+              ]
+            },
+            "example": "car_van"
+          },
+          {
+            "name": "business_miles",
+            "in": "query",
+            "required": true,
+            "description": "Total qualifying business miles in this vehicle category during the tax year.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "example": 12000
+          },
+          {
+            "name": "employer_payment",
+            "in": "query",
+            "required": true,
+            "description": "Total mileage allowance paid by the company for those miles, in pounds. Enter 0 if nothing was paid.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            },
+            "example": 4200
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "ukMileageAllowancePost",
+        "summary": "Mileage allowance calculator (JSON body)",
+        "description": "Calculates the HMRC approved mileage amount for an employee or director using their own car, van, motorcycle or bicycle for business travel, then shows the tax-free payment, taxable excess or Mileage Allowance Relief shortfall for 2025/26, 2026/27 or 2027/28.",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tax_year": {
+                    "type": "string",
+                    "enum": [
+                      "2025-26",
+                      "2026-27",
+                      "2027-28"
+                    ],
+                    "description": "UK tax year: 2025-26, 2026-27 or 2027-28. The car and van rate changes on 6 April 2026."
+                  },
+                  "vehicle": {
+                    "type": "string",
+                    "enum": [
+                      "car_van",
+                      "motorcycle",
+                      "bicycle"
+                    ],
+                    "description": "The employee-owned vehicle used for business travel: car_van, motorcycle or bicycle."
+                  },
+                  "business_miles": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Total qualifying business miles in this vehicle category during the tax year."
+                  },
+                  "employer_payment": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Total mileage allowance paid by the company for those miles, in pounds. Enter 0 if nothing was paid."
+                  }
+                },
+                "required": [
+                  "tax_year",
+                  "vehicle",
+                  "business_miles",
+                  "employer_payment"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "tax_year": "2026-27",
+                "vehicle": "car_van",
+                "business_miles": 12000,
+                "employer_payment": 4200
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    },
+    "/api/v1/tools/home-office": {
+      "summary": "Use of home as office calculator",
+      "description": "Calculates the £6 weekly or £26 monthly homeworking amount a limited company can pay a director or employee without evidence, and compares it with reasonable additional household costs supported by records.",
+      "get": {
+        "operationId": "limitedCompanyHomeOfficeAllowance",
+        "summary": "Use of home as office calculator (query string)",
+        "description": "Calculates the £6 weekly or £26 monthly homeworking amount a limited company can pay a director or employee without evidence, and compares it with reasonable additional household costs supported by records.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "tax_year",
+            "in": "query",
+            "required": true,
+            "description": "UK tax year: 2025-26, 2026-27 or 2027-28.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "2025-26",
+                "2026-27",
+                "2027-28"
+              ]
+            },
+            "example": "2025-26"
+          },
+          {
+            "name": "frequency",
+            "in": "query",
+            "required": true,
+            "description": "Whether to use HMRC’s £6 weekly rate or £26 monthly rate.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "weekly",
+                "monthly"
+              ]
+            },
+            "example": "weekly"
+          },
+          {
+            "name": "periods",
+            "in": "query",
+            "required": true,
+            "description": "Number of weeks or months of regular homeworking in the tax year; no more than 52 weeks or 12 months.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 52
+            },
+            "example": 12
+          },
+          {
+            "name": "actual_additional_costs",
+            "in": "query",
+            "required": false,
+            "description": "Optional total reasonable additional household costs caused by working at home, in pounds, supported by records.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "limitedCompanyHomeOfficeAllowancePost",
+        "summary": "Use of home as office calculator (JSON body)",
+        "description": "Calculates the £6 weekly or £26 monthly homeworking amount a limited company can pay a director or employee without evidence, and compares it with reasonable additional household costs supported by records.",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tax_year": {
+                    "type": "string",
+                    "enum": [
+                      "2025-26",
+                      "2026-27",
+                      "2027-28"
+                    ],
+                    "description": "UK tax year: 2025-26, 2026-27 or 2027-28."
+                  },
+                  "frequency": {
+                    "type": "string",
+                    "enum": [
+                      "weekly",
+                      "monthly"
+                    ],
+                    "description": "Whether to use HMRC’s £6 weekly rate or £26 monthly rate."
+                  },
+                  "periods": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 52,
+                    "description": "Number of weeks or months of regular homeworking in the tax year; no more than 52 weeks or 12 months."
+                  },
+                  "actual_additional_costs": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Optional total reasonable additional household costs caused by working at home, in pounds, supported by records."
+                  }
+                },
+                "required": [
+                  "tax_year",
+                  "frequency",
+                  "periods"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "tax_year": "2026-27",
+                "frequency": "monthly",
+                "periods": 12,
+                "actual_additional_costs": 480
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    },
+    "/api/v1/tools/trivial-benefits": {
+      "summary": "Trivial benefits for directors checker",
+      "description": "Checks whether one non-cash benefit costing £50 or less including VAT can qualify as a tax-free trivial benefit and, for a director of a close company, applies the £300 annual cap with a reason for every failed condition.",
+      "get": {
+        "operationId": "ukTrivialBenefitsCheck",
+        "summary": "Trivial benefits for directors checker (query string)",
+        "description": "Checks whether one non-cash benefit costing £50 or less including VAT can qualify as a tax-free trivial benefit and, for a director of a close company, applies the £300 annual cap with a reason for every failed condition.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "tax_year",
+            "in": "query",
+            "required": true,
+            "description": "UK tax year: 2025-26, 2026-27 or 2027-28.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "2025-26",
+                "2026-27",
+                "2027-28"
+              ]
+            },
+            "example": "2025-26"
+          },
+          {
+            "name": "benefit_cost",
+            "in": "query",
+            "required": true,
+            "description": "Cost to the company of this individual benefit, in pounds.",
+            "schema": {
+              "type": "number",
+              "minimum": 0.01
+            },
+            "example": 40
+          },
+          {
+            "name": "cash_or_cash_voucher",
+            "in": "query",
+            "required": true,
+            "description": "True if the benefit is cash or a voucher exchangeable for cash.",
+            "schema": {
+              "type": "boolean"
+            },
+            "example": false
+          },
+          {
+            "name": "reward_for_work",
+            "in": "query",
+            "required": true,
+            "description": "True if the benefit rewards the employee’s work or performance.",
+            "schema": {
+              "type": "boolean"
+            },
+            "example": false
+          },
+          {
+            "name": "in_contract",
+            "in": "query",
+            "required": true,
+            "description": "True if the benefit is promised in the employment contract or other contractual terms.",
+            "schema": {
+              "type": "boolean"
+            },
+            "example": false
+          },
+          {
+            "name": "close_company_director",
+            "in": "query",
+            "required": true,
+            "description": "True if the recipient is a director or office holder of a close company.",
+            "schema": {
+              "type": "boolean"
+            },
+            "example": true
+          },
+          {
+            "name": "qualifying_benefits_so_far",
+            "in": "query",
+            "required": true,
+            "description": "For a close-company director, total cost in pounds of earlier qualifying trivial benefits from this employer in the tax year.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            },
+            "example": 240
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "ukTrivialBenefitsCheckPost",
+        "summary": "Trivial benefits for directors checker (JSON body)",
+        "description": "Checks whether one non-cash benefit costing £50 or less including VAT can qualify as a tax-free trivial benefit and, for a director of a close company, applies the £300 annual cap with a reason for every failed condition.",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tax_year": {
+                    "type": "string",
+                    "enum": [
+                      "2025-26",
+                      "2026-27",
+                      "2027-28"
+                    ],
+                    "description": "UK tax year: 2025-26, 2026-27 or 2027-28."
+                  },
+                  "benefit_cost": {
+                    "type": "number",
+                    "minimum": 0.01,
+                    "description": "Cost to the company of this individual benefit, in pounds."
+                  },
+                  "cash_or_cash_voucher": {
+                    "type": "boolean",
+                    "description": "True if the benefit is cash or a voucher exchangeable for cash."
+                  },
+                  "reward_for_work": {
+                    "type": "boolean",
+                    "description": "True if the benefit rewards the employee’s work or performance."
+                  },
+                  "in_contract": {
+                    "type": "boolean",
+                    "description": "True if the benefit is promised in the employment contract or other contractual terms."
+                  },
+                  "close_company_director": {
+                    "type": "boolean",
+                    "description": "True if the recipient is a director or office holder of a close company."
+                  },
+                  "qualifying_benefits_so_far": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "For a close-company director, total cost in pounds of earlier qualifying trivial benefits from this employer in the tax year."
+                  }
+                },
+                "required": [
+                  "tax_year",
+                  "benefit_cost",
+                  "cash_or_cash_voucher",
+                  "reward_for_work",
+                  "in_contract",
+                  "close_company_director",
+                  "qualifying_benefits_so_far"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "tax_year": "2026-27",
+                "benefit_cost": 40,
+                "cash_or_cash_voucher": false,
+                "reward_for_work": false,
+                "in_contract": false,
+                "close_company_director": true,
+                "qualifying_benefits_so_far": 240
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    },
+    "/api/v1/tools/dividend-reserves": {
+      "summary": "Can I pay this dividend? Reserves check",
+      "description": "Checks whether a UK limited company has enough estimated distributable profits for a proposed dividend, using retained profits brought forward, current profit after tax and dividends already paid, and shows any shortfall.",
+      "get": {
+        "operationId": "ukDividendReservesCheck",
+        "summary": "Can I pay this dividend? Reserves check (query string)",
+        "description": "Checks whether a UK limited company has enough estimated distributable profits for a proposed dividend, using retained profits brought forward, current profit after tax and dividends already paid, and shows any shortfall.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "retained_profits_brought_forward",
+            "in": "query",
+            "required": true,
+            "description": "Accumulated retained profits or losses brought forward, in pounds. Enter a loss as a negative number.",
+            "schema": {
+              "type": "number"
+            },
+            "example": 12000
+          },
+          {
+            "name": "profit_after_tax",
+            "in": "query",
+            "required": true,
+            "description": "This period’s realised profit after Corporation Tax, in pounds. Enter a loss as a negative number.",
+            "schema": {
+              "type": "number"
+            },
+            "example": 18000
+          },
+          {
+            "name": "dividends_already_paid",
+            "in": "query",
+            "required": true,
+            "description": "Dividends already paid or declared from these profits, in pounds.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            },
+            "example": 5000
+          },
+          {
+            "name": "proposed_dividend",
+            "in": "query",
+            "required": true,
+            "description": "Dividend now proposed, in pounds.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            },
+            "example": 20000
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "ukDividendReservesCheckPost",
+        "summary": "Can I pay this dividend? Reserves check (JSON body)",
+        "description": "Checks whether a UK limited company has enough estimated distributable profits for a proposed dividend, using retained profits brought forward, current profit after tax and dividends already paid, and shows any shortfall.",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "retained_profits_brought_forward": {
+                    "type": "number",
+                    "description": "Accumulated retained profits or losses brought forward, in pounds. Enter a loss as a negative number."
+                  },
+                  "profit_after_tax": {
+                    "type": "number",
+                    "description": "This period’s realised profit after Corporation Tax, in pounds. Enter a loss as a negative number."
+                  },
+                  "dividends_already_paid": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Dividends already paid or declared from these profits, in pounds."
+                  },
+                  "proposed_dividend": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Dividend now proposed, in pounds."
+                  }
+                },
+                "required": [
+                  "retained_profits_brought_forward",
+                  "profit_after_tax",
+                  "dividends_already_paid",
+                  "proposed_dividend"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "retained_profits_brought_forward": 12000,
+                "profit_after_tax": 18000,
+                "dividends_already_paid": 5000,
+                "proposed_dividend": 20000
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    },
+    "/api/v1/tools/salary-dividends": {
+      "summary": "Salary vs dividends calculator",
+      "description": "Finds the salary and dividend mix that leaves a UK limited company director the most from the year's profit, searching every salary to the penny (a usual salary level is shown when it comes within £1 of the best), and compares it with no salary, £5,000, the lower earnings limit, £12,570 and your...",
+      "get": {
+        "operationId": "directorSalaryVsDividends",
+        "summary": "Salary vs dividends calculator (query string)",
+        "description": "Finds the salary and dividend mix that leaves a UK limited company director the most from the year's profit, searching every salary to the penny (a usual salary level is shown when it comes within £1 of the best), and compares it with no salary, £5,000, the lower earnings limit, £12,570 and your...",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "tax_year",
+            "in": "query",
+            "required": false,
+            "description": "UK tax year, \"2025-26\" or \"2026-27\" (6 April to 5 April). The company's year is taken as 1 April to 31 March alongside it. Default 2026-27.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "2025-26",
+                "2026-27"
+              ],
+              "default": "2026-27"
+            }
+          },
+          {
+            "name": "company_profit",
+            "in": "query",
+            "required": true,
+            "description": "The company's profit for the year before paying the director any salary, after all its other costs, in pounds.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            },
+            "example": 60000
+          },
+          {
+            "name": "other_income",
+            "in": "query",
+            "required": false,
+            "description": "The director's other taxable income for the tax year from outside this company, such as another job, a pension or rental profit, in pounds. Default 0.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "director_only_employee",
+            "in": "query",
+            "required": false,
+            "description": "true if the director is the company's only employee paid over £5,000 a year (the usual one-person company): the company then can't claim the Employment Allowance. false if someone else is also paid over that, so the £10,500 Employment Allowance can cut employer National Insurance. Default true.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "salary",
+            "in": "query",
+            "required": false,
+            "description": "Optional: a salary you want to compare with the standard options, in pounds a year.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "scottish_taxpayer",
+            "in": "query",
+            "required": false,
+            "description": "true if the person pays Scottish Income Tax (their main home is in Scotland): salary, trading profit and other income use the Scottish bands. Dividends are taxed at UK rates either way. Default false (England, Wales and Northern Ireland, which have the same rates for these years).",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "associated_companies",
+            "in": "query",
+            "required": false,
+            "description": "Number of associated companies (companies under common control) that share the £50,000 and £250,000 Corporation Tax limits. Default 0.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "directorSalaryVsDividendsPost",
+        "summary": "Salary vs dividends calculator (JSON body)",
+        "description": "Finds the salary and dividend mix that leaves a UK limited company director the most from the year's profit, searching every salary to the penny (a usual salary level is shown when it comes within £1 of the best), and compares it with no salary, £5,000, the lower earnings limit, £12,570 and your...",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tax_year": {
+                    "type": "string",
+                    "enum": [
+                      "2025-26",
+                      "2026-27"
+                    ],
+                    "default": "2026-27",
+                    "title": "Tax year",
+                    "description": "UK tax year, \"2025-26\" or \"2026-27\" (6 April to 5 April). The company's year is taken as 1 April to 31 March alongside it. Default 2026-27."
+                  },
+                  "company_profit": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Company profit",
+                    "description": "The company's profit for the year before paying the director any salary, after all its other costs, in pounds."
+                  },
+                  "other_income": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Other income",
+                    "description": "The director's other taxable income for the tax year from outside this company, such as another job, a pension or rental profit, in pounds. Default 0."
+                  },
+                  "director_only_employee": {
+                    "type": "boolean",
+                    "default": true,
+                    "title": "Director is the only employee",
+                    "description": "true if the director is the company's only employee paid over £5,000 a year (the usual one-person company): the company then can't claim the Employment Allowance. false if someone else is also paid over that, so the £10,500 Employment Allowance can cut employer National Insurance. Default true."
+                  },
+                  "salary": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Your salary",
+                    "description": "Optional: a salary you want to compare with the standard options, in pounds a year."
+                  },
+                  "scottish_taxpayer": {
+                    "type": "boolean",
+                    "default": false,
+                    "title": "Scottish taxpayer",
+                    "description": "true if the person pays Scottish Income Tax (their main home is in Scotland): salary, trading profit and other income use the Scottish bands. Dividends are taxed at UK rates either way. Default false (England, Wales and Northern Ireland, which have the same rates for these years)."
+                  },
+                  "associated_companies": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "default": 0,
+                    "title": "Associated companies",
+                    "description": "Number of associated companies (companies under common control) that share the £50,000 and £250,000 Corporation Tax limits. Default 0."
+                  }
+                },
+                "required": [
+                  "company_profit"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "tax_year": "2026-27",
+                "company_profit": 60000,
+                "director_only_employee": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    },
+    "/api/v1/tools/sole-trader-vs-limited": {
+      "summary": "Sole trader or limited company calculator",
+      "description": "Compares the tax on the same business profit as a UK sole trader (Income Tax and Class 4 National Insurance) and as a one-owner limited company paying out all its profit (Corporation Tax, National Insurance, Income Tax and dividend tax, with the salary that leaves the owner the most, to within £1...",
+      "get": {
+        "operationId": "soleTraderVsLimitedCompanyTax",
+        "summary": "Sole trader or limited company calculator (query string)",
+        "description": "Compares the tax on the same business profit as a UK sole trader (Income Tax and Class 4 National Insurance) and as a one-owner limited company paying out all its profit (Corporation Tax, National Insurance, Income Tax and dividend tax, with the salary that leaves the owner the most, to within £1...",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "tax_year",
+            "in": "query",
+            "required": false,
+            "description": "UK tax year, \"2025-26\" or \"2026-27\" (6 April to 5 April). The company's year is taken as 1 April to 31 March alongside it. Default 2026-27.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "2025-26",
+                "2026-27"
+              ],
+              "default": "2026-27"
+            }
+          },
+          {
+            "name": "profit",
+            "in": "query",
+            "required": true,
+            "description": "The business's profit for the year, after expenses and before any tax or pay to the owner, in pounds. The same figure is used for both the sole trader and the company.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            },
+            "example": 50000
+          },
+          {
+            "name": "other_income",
+            "in": "query",
+            "required": false,
+            "description": "The owner's other taxable income for the tax year, such as a job, a pension or rental profit, in pounds. Default 0.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "director_only_employee",
+            "in": "query",
+            "required": false,
+            "description": "true if the director is the company's only employee paid over £5,000 a year (the usual one-person company): the company then can't claim the Employment Allowance. false if someone else is also paid over that, so the £10,500 Employment Allowance can cut employer National Insurance. Default true.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "scottish_taxpayer",
+            "in": "query",
+            "required": false,
+            "description": "true if the person pays Scottish Income Tax (their main home is in Scotland): salary, trading profit and other income use the Scottish bands. Dividends are taxed at UK rates either way. Default false (England, Wales and Northern Ireland, which have the same rates for these years).",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "soleTraderVsLimitedCompanyTaxPost",
+        "summary": "Sole trader or limited company calculator (JSON body)",
+        "description": "Compares the tax on the same business profit as a UK sole trader (Income Tax and Class 4 National Insurance) and as a one-owner limited company paying out all its profit (Corporation Tax, National Insurance, Income Tax and dividend tax, with the salary that leaves the owner the most, to within £1...",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tax_year": {
+                    "type": "string",
+                    "enum": [
+                      "2025-26",
+                      "2026-27"
+                    ],
+                    "default": "2026-27",
+                    "title": "Tax year",
+                    "description": "UK tax year, \"2025-26\" or \"2026-27\" (6 April to 5 April). The company's year is taken as 1 April to 31 March alongside it. Default 2026-27."
+                  },
+                  "profit": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Business profit",
+                    "description": "The business's profit for the year, after expenses and before any tax or pay to the owner, in pounds. The same figure is used for both the sole trader and the company."
+                  },
+                  "other_income": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Other income",
+                    "description": "The owner's other taxable income for the tax year, such as a job, a pension or rental profit, in pounds. Default 0."
+                  },
+                  "director_only_employee": {
+                    "type": "boolean",
+                    "default": true,
+                    "title": "Director is the only employee",
+                    "description": "true if the director is the company's only employee paid over £5,000 a year (the usual one-person company): the company then can't claim the Employment Allowance. false if someone else is also paid over that, so the £10,500 Employment Allowance can cut employer National Insurance. Default true."
+                  },
+                  "scottish_taxpayer": {
+                    "type": "boolean",
+                    "default": false,
+                    "title": "Scottish taxpayer",
+                    "description": "true if the person pays Scottish Income Tax (their main home is in Scotland): salary, trading profit and other income use the Scottish bands. Dividends are taxed at UK rates either way. Default false (England, Wales and Northern Ireland, which have the same rates for these years)."
+                  }
+                },
+                "required": [
+                  "profit"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "tax_year": "2026-27",
+                "profit": 50000,
+                "director_only_employee": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    },
+    "/api/v1/tools/director-pension": {
+      "summary": "Limited company pension contribution calculator",
+      "description": "Compares a UK limited company paying an amount into the director's pension as an employer contribution with paying the same company money as extra salary or an extra dividend, for 2025/26 or 2026/27.",
+      "get": {
+        "operationId": "limitedCompanyPensionContribution",
+        "summary": "Limited company pension contribution calculator (query string)",
+        "description": "Compares a UK limited company paying an amount into the director's pension as an employer contribution with paying the same company money as extra salary or an extra dividend, for 2025/26 or 2026/27.",
+        "x-openai-isConsequential": false,
+        "parameters": [
+          {
+            "name": "tax_year",
+            "in": "query",
+            "required": false,
+            "description": "UK tax year, \"2025-26\" or \"2026-27\" (6 April to 5 April). The company's year is taken as 1 April to 31 March alongside it. Default 2026-27.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "2025-26",
+                "2026-27"
+              ],
+              "default": "2026-27"
+            }
+          },
+          {
+            "name": "contribution",
+            "in": "query",
+            "required": true,
+            "description": "The amount the company would pay into the director's pension as an employer contribution, in pounds. The same company money is then compared as extra salary and as an extra dividend.",
+            "schema": {
+              "type": "number",
+              "minimum": 1
+            },
+            "example": 10000
+          },
+          {
+            "name": "company_profit",
+            "in": "query",
+            "required": true,
+            "description": "The company's taxable profit for its year before this contribution, after the director's existing salary and other costs, in pounds. It must be at least the contribution.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            },
+            "example": 60000
+          },
+          {
+            "name": "salary",
+            "in": "query",
+            "required": false,
+            "description": "The salary the director already takes from the company this tax year, in pounds. Default 12,570.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "dividends",
+            "in": "query",
+            "required": false,
+            "description": "Dividends the director already takes this tax year, in pounds. Default 0.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "other_income",
+            "in": "query",
+            "required": false,
+            "description": "The director's other taxable income for the tax year from outside the company, in pounds. Default 0.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "other_pension_contributions",
+            "in": "query",
+            "required": false,
+            "description": "Everything else paid into the director's pensions this tax year (their own contributions, before tax relief, and any other employer's), in pounds. Counted with this contribution against the annual allowance. Default 0.",
+            "schema": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "money_purchase_allowance",
+            "in": "query",
+            "required": false,
+            "description": "true if the director has already flexibly accessed a pension (for example taken cash from drawdown or an uncrystallised lump sum), so the £10,000 money purchase annual allowance applies. Default false.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "director_only_employee",
+            "in": "query",
+            "required": false,
+            "description": "true if the director is the company's only employee paid over £5,000 a year (the usual one-person company): the company then can't claim the Employment Allowance. false if someone else is also paid over that, so the £10,500 Employment Allowance can cut employer National Insurance. Default true.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "scottish_taxpayer",
+            "in": "query",
+            "required": false,
+            "description": "true if the person pays Scottish Income Tax (their main home is in Scotland): salary, trading profit and other income use the Scottish bands. Dividends are taxed at UK rates either way. Default false (England, Wales and Northern Ireland, which have the same rates for these years).",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "associated_companies",
+            "in": "query",
+            "required": false,
+            "description": "Number of associated companies (companies under common control) that share the £50,000 and £250,000 Corporation Tax limits. Default 0.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      },
+      "post": {
+        "operationId": "limitedCompanyPensionContributionPost",
+        "summary": "Limited company pension contribution calculator (JSON body)",
+        "description": "Compares a UK limited company paying an amount into the director's pension as an employer contribution with paying the same company money as extra salary or an extra dividend, for 2025/26 or 2026/27.",
+        "x-openai-isConsequential": false,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tax_year": {
+                    "type": "string",
+                    "enum": [
+                      "2025-26",
+                      "2026-27"
+                    ],
+                    "default": "2026-27",
+                    "title": "Tax year",
+                    "description": "UK tax year, \"2025-26\" or \"2026-27\" (6 April to 5 April). The company's year is taken as 1 April to 31 March alongside it. Default 2026-27."
+                  },
+                  "contribution": {
+                    "type": "number",
+                    "minimum": 1,
+                    "title": "Pension contribution",
+                    "description": "The amount the company would pay into the director's pension as an employer contribution, in pounds. The same company money is then compared as extra salary and as an extra dividend."
+                  },
+                  "company_profit": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Company profit",
+                    "description": "The company's taxable profit for its year before this contribution, after the director's existing salary and other costs, in pounds. It must be at least the contribution."
+                  },
+                  "salary": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Your salary",
+                    "description": "The salary the director already takes from the company this tax year, in pounds. Default 12,570."
+                  },
+                  "dividends": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Your dividends",
+                    "description": "Dividends the director already takes this tax year, in pounds. Default 0."
+                  },
+                  "other_income": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Other income",
+                    "description": "The director's other taxable income for the tax year from outside the company, in pounds. Default 0."
+                  },
+                  "other_pension_contributions": {
+                    "type": "number",
+                    "minimum": 0,
+                    "title": "Other pension contributions",
+                    "description": "Everything else paid into the director's pensions this tax year (their own contributions, before tax relief, and any other employer's), in pounds. Counted with this contribution against the annual allowance. Default 0."
+                  },
+                  "money_purchase_allowance": {
+                    "type": "boolean",
+                    "default": false,
+                    "title": "Pension already flexibly accessed",
+                    "description": "true if the director has already flexibly accessed a pension (for example taken cash from drawdown or an uncrystallised lump sum), so the £10,000 money purchase annual allowance applies. Default false."
+                  },
+                  "director_only_employee": {
+                    "type": "boolean",
+                    "default": true,
+                    "title": "Director is the only employee",
+                    "description": "true if the director is the company's only employee paid over £5,000 a year (the usual one-person company): the company then can't claim the Employment Allowance. false if someone else is also paid over that, so the £10,500 Employment Allowance can cut employer National Insurance. Default true."
+                  },
+                  "scottish_taxpayer": {
+                    "type": "boolean",
+                    "default": false,
+                    "title": "Scottish taxpayer",
+                    "description": "true if the person pays Scottish Income Tax (their main home is in Scotland): salary, trading profit and other income use the Scottish bands. Dividends are taxed at UK rates either way. Default false (England, Wales and Northern Ireland, which have the same rates for these years)."
+                  },
+                  "associated_companies": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "default": 0,
+                    "title": "Associated companies",
+                    "description": "Number of associated companies (companies under common control) that share the £50,000 and £250,000 Corporation Tax limits. Default 0."
+                  }
+                },
+                "required": [
+                  "contribution",
+                  "company_profit"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "tax_year": "2026-27",
+                "contribution": 10000,
+                "company_profit": 60000,
+                "salary": 12570,
+                "dividends": 25000,
+                "director_only_employee": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolRun"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The input was not valid: one plain-English message per field.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests. Wait a minute and try again."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ToolRun": {
+        "type": "object",
+        "required": [
+          "tool",
+          "input",
+          "result",
+          "page_url",
+          "share_url",
+          "calculated_by",
+          "disclaimer"
+        ],
+        "properties": {
+          "tool": {
+            "type": "string"
+          },
+          "input": {
+            "type": "object",
+            "description": "The input as the tool read it (dates YYYY-MM-DD, money in pounds)."
+          },
+          "result": {
+            "type": "object",
+            "properties": {
+              "answer": {
+                "type": "string",
+                "description": "A 40–60 word plain-English answer with the key figures."
+              },
+              "figures": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "type": "object",
+                "description": "Machine-readable result: money in pounds (2 dp), dates YYYY-MM-DD."
+              },
+              "notes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "page_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "share_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "A link to this result on taxley.co.uk."
+          },
+          "calculated_by": {
+            "type": "string"
+          },
+          "disclaimer": {
+            "type": "string"
+          }
+        }
+      },
+      "ValidationError": {
+        "type": "object",
+        "required": [
+          "message",
+          "errors"
+        ],
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,271 @@
+# Entity: trivial_benefit
+
+main: kit: entity: trivial_benefit: {
+
+  alias: field: {}
+
+  fields: {
+    benefit_cost: {
+      h: "Benefit Cost"
+      n: "benefit_cost"
+      r: true
+      sh: "Cost to the company of this individual benefit, in pounds."
+      t: "`$NUMBER`"
+    }
+    calculated_by: {
+      h: "Calculated By"
+      n: "calculated_by"
+      r: true
+      t: "`$STRING`"
+    }
+    cash_or_cash_voucher: {
+      h: "Cash Or Cash Voucher"
+      n: "cash_or_cash_voucher"
+      r: true
+      sh: "True if the benefit is cash or a voucher exchangeable for cash."
+      t: "`$BOOLEAN`"
+    }
+    close_company_director: {
+      h: "Close Company Director"
+      n: "close_company_director"
+      r: true
+      sh: "True if the recipient is a director or office holder of a close company."
+      t: "`$BOOLEAN`"
+    }
+    disclaimer: {
+      h: "Disclaimer"
+      n: "disclaimer"
+      r: true
+      t: "`$STRING`"
+    }
+    in_contract: {
+      h: "In Contract"
+      n: "in_contract"
+      r: true
+      sh: "True if the benefit is promised in the employment contract or other contractual terms."
+      t: "`$BOOLEAN`"
+    }
+    input: {
+      h: "Input"
+      n: "input"
+      r: true
+      sh: "The input as the tool read it (dates YYYY-MM-DD, money in pounds)."
+      t: "`$OBJECT`"
+    }
+    page_url: {
+      fo: "uri"
+      h: "Page Url"
+      n: "page_url"
+      r: true
+      t: "`$STRING`"
+    }
+    qualifying_benefits_so_far: {
+      h: "Qualifying Benefits So Far"
+      n: "qualifying_benefits_so_far"
+      r: true
+      sh: "For a close-company director, total cost in pounds of earlier qualifying trivial benefits from this employer in the tax year."
+      t: "`$NUMBER`"
+    }
+    result: {
+      h: "Result"
+      n: "result"
+      r: true
+      t: "`$OBJECT`"
+    }
+    reward_for_work: {
+      h: "Reward For Work"
+      n: "reward_for_work"
+      r: true
+      sh: "True if the benefit rewards the employee’s work or performance."
+      t: "`$BOOLEAN`"
+    }
+    share_url: {
+      fo: "uri"
+      h: "Share Url"
+      n: "share_url"
+      r: true
+      sh: "A link to this result on taxley.co.uk."
+      t: "`$STRING`"
+    }
+    tax_year: {
+      h: "Tax Year"
+      n: "tax_year"
+      r: true
+      sh: "UK tax year: 2025-26, 2026-27 or 2027-28."
+      t: "`$STRING`"
+    }
+    tool: {
+      h: "Tool"
+      n: "tool"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "trivial_benefit"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "benefit_cost"
+            "cash_or_cash_voucher"
+            "close_company_director"
+            "in_contract"
+            "qualifying_benefits_so_far"
+            "reward_for_work"
+            "tax_year"
+          ]
+          co: {
+            id: "POST /api/v1/tools/trivial-benefits"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/api/v1/tools/trivial-benefits"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "trivial-benefits"
+            }
+          ]
+          t: {
+            req: {
+              benefit_cost: "`reqdata.benefit_cost`"
+              cash_or_cash_voucher: "`reqdata.cash_or_cash_voucher`"
+              close_company_director: "`reqdata.close_company_director`"
+              in_contract: "`reqdata.in_contract`"
+              qualifying_benefits_so_far: "`reqdata.qualifying_benefits_so_far`"
+              reward_for_work: "`reqdata.reward_for_work`"
+              tax_year: "`reqdata.tax_year`"
+            }
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/tools/trivial-benefits"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 40
+                k: "query"
+                n: "benefit_cost"
+                or: "benefit_cost"
+                r: true
+                t: "`$NUMBER`"
+              }
+              {
+                ex: false
+                k: "query"
+                n: "cash_or_cash_voucher"
+                or: "cash_or_cash_voucher"
+                r: true
+                t: "`$BOOLEAN`"
+              }
+              {
+                ex: true
+                k: "query"
+                n: "close_company_director"
+                or: "close_company_director"
+                r: true
+                t: "`$BOOLEAN`"
+              }
+              {
+                ex: false
+                k: "query"
+                n: "in_contract"
+                or: "in_contract"
+                r: true
+                t: "`$BOOLEAN`"
+              }
+              {
+                ex: 240
+                k: "query"
+                n: "qualifying_benefits_so_far"
+                or: "qualifying_benefits_so_far"
+                r: true
+                t: "`$NUMBER`"
+              }
+              {
+                ex: false
+                k: "query"
+                n: "reward_for_work"
+                or: "reward_for_work"
+                r: true
+                t: "`$BOOLEAN`"
+              }
+              {
+                ex: "2025-26"
+                k: "query"
+                n: "tax_year"
+                or: "tax_year"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/tools/trivial-benefits"
+          q: {
+            exist: [
+              "benefit_cost"
+              "cash_or_cash_voucher"
+              "close_company_director"
+              "in_contract"
+              "qualifying_benefits_so_far"
+              "reward_for_work"
+              "tax_year"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "tools"
+            }
+            {
+              lit: "trivial-benefits"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}
